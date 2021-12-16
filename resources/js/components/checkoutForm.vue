@@ -2,7 +2,9 @@
   <div>    
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
-        <h3>{{ data.book_title }}</h3>
+        <!-- <h3>{{ data.book_title }}</h3> -->
+        <h3>aaa</h3>
+
       </div>
     </div>
   </div>
@@ -11,7 +13,7 @@
 <script>
 import { reactive, onMounted } from "vue";
 export default {
-  name: "HelloWorld",
+  name: "checkoutForm",
 
 props: {
     book_data: Object,
@@ -19,7 +21,7 @@ props: {
 
   setup(props) {
     const data = reactive({
-      title: "Book_list",
+      title: "check",
       book_title:""
     })
 
