@@ -1,38 +1,56 @@
 <template>
-  <div>    
+  <div>
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
-        <h3>{{ data.book_title }}</h3>
+        <p>{{data.title}}</p>
+
+        <table class="table table-light table-striped">
+          <thead class="table-dark text-center">
+            <tr>
+              <th>ID</th><th>Name</th>
+            </tr>
+          </thead>
+          <tbody class="text-left">
+            <tr v-for="(item, key) in data.result" v-bind:key="key">
+              <td>{{key}}</td>
+              <td>{{item.title}}</td>
+              <!-- <td>{{item.age}}</td> -->              
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, onMounted } from "vue";
+import { reactive } from "vue";
+import axios from "axios";
+
+
 export default {
   name: "HelloWorld",
 
-props: {
-    book_data: Object,
-  },
-
-  setup(props) {
+  setup() {
     const data = reactive({
-      title: "Book_list",
-      book_title:""
-    })
+      result:"",
+      title: "BOOK_LIST",
+      book_title: ""
+    });
 
-    const getData =()=>{
-    data.book_title = props.book_data.title;
-    console.log(data.book_title)
+    const url = "http://127.0.0.1:8000/api/books";
+    const getAPI = async () => {
+      const result = await axios.get(url);
+      data.result = result.data;
+      console.log("result=" + result.data);
+
+      data.book_title = result.title;
+      console.log("book_title=" + result.data.title);
     };
 
-    onMounted(()=>{
-      getData()
-    })
+    getAPI();
 
-    return {data,getData};
-  },
-}
+    return { data, getAPI };
+  }
+};
 </script>

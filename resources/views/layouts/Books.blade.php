@@ -16,7 +16,7 @@
         </body>
         <nav>   
             <ul class="main-nav">
-                <li><a href="/Book/book">貸出し予約</a></li>
+                <li><a href="/check">貸出し予約</a></li>
                 <li>
                     <form action="/User/personal_booking_list" method="post"><input type="hidden" name="name" value="$name">
                         <a href="/Book/booking_list">過去に借りた本の一覧</a>

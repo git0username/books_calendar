@@ -31,6 +31,8 @@ export const router = createRouter({
             component:checkoutForm,
             props:true        
             },
+
+            //post渡し方
         
     ],
 })
