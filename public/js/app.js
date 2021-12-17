@@ -19621,7 +19621,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       document.getElementById("date").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
-    });
+    }); //doaction=>
+
+    var url = "http://127.0.0.1:8000/api/books";
+    axios.post(url, {});
     return {
       data: data
     };
