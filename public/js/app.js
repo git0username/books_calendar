@@ -19601,9 +19601,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -19612,21 +19615,34 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       title: "貸出し予約フォーム",
-      book_title: ""
+      book_title: "",
+      checkoutDate: "",
+      "return": ""
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      var checkoutDay = dayjs__WEBPACK_IMPORTED_MODULE_1___default()().format("YYYY-MM-DD");
-      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_1___default()(checkoutDay).add(7, "d").format("YYYY-MM-DD");
+      var checkoutDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
+      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(checkoutDay).add(7, "d").format("YYYY-MM-DD");
       document.getElementById("date").setAttribute("min", checkoutDay);
       document.getElementById("date").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
     }); //doaction=>
 
-    var url = "http://127.0.0.1:8000/api/books";
-    axios.post(url, {});
+    var doAction = function doAction() {
+      var url = "http://127.0.0.1:8000/api/books/check"; //このページがAPI入出力の窓口として機能している
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(url, {
+        bookId: data.book_title,
+        checkout: data.checkoutDate,
+        "return": ''
+      }).then(function () {
+        console.log(url);
+      });
+    };
+
     return {
-      data: data
+      data: data,
+      doAction: doAction
     };
   }
 });
@@ -19747,56 +19763,52 @@ var _hoisted_3 = {
     "padding": "30px"
   }
 };
-var _hoisted_4 = {
-  action: "/checkoutForm",
-  method: "post"
-};
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "date"
 }, "本のタイトル：", -1
 /* HOISTED */
 );
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "date"
 }, "貸出しの日付：", -1
-/* HOISTED */
-);
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-  type: "date",
-  id: "date",
-  name: "checkoutDate",
-  max: "2021-12-24"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-  type: "submit",
-  value: "送信"
-}, null, -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form action=\"/checkoutForm\" method=\"post\"> "), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     placeholder: "本のタイトルを入力",
+    name: "book_title",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return _ctx.book_title = $event;
     }),
     "class": "form-control"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.book_title]]), _hoisted_6, _hoisted_7, _hoisted_8, _hoisted_9])])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.book_title]]), _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "date",
+    name: "checkoutDate",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.checkoutDate = $event;
+    }),
+    max: "2021-12-24",
+    "class": "form-control"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.checkoutDate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn- btn-info text-white mt-2",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $setup.doAction && $setup.doAction.apply($setup, arguments);
+    })
+  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"submit\" value=\"送信\" > "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </form> ")])])]);
 }
 
 /***/ }),
