@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BookOnloan;
+use App\Models\Book;
 use SebastianBergmann\Environment\Console;
 
 class BookOnloanController extends Controller
@@ -29,14 +30,29 @@ class BookOnloanController extends Controller
      */
     public function store(Request $request)
     {
+        // $bookId = Book::where('title',$request->book_title)->get()->pluck('id');
+        // dd($bookId[0]);
+
+        $bookId = Book::where('title',$request->book_title)->get();
+        // dd($bookId[0]['id']);
+
+
+        
+        if($bookId[0]['id'] === null){
+            // return view('/check');
+        }else{
         // $this->validate($request, BookOnloan::$rules); need?
+
         $BookOnloan = new BookOnloan;
-        $BookOnloan->bookId = $request->bookId;
+
+        // $BookOnloan->bookId = $request->bookId;
+
+        $BookOnloan->bookId = $bookId[0]['id'];
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
-
         $BookOnloan->save();
-        return redirect('api/books/check');
+        // return redirect('/check');
+        }
 
     }
 
