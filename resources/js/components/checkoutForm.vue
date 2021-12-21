@@ -8,16 +8,16 @@
 
     <div class="form-group" style="padding:30px">
       <div>
-        <!-- <form action="/checkoutForm" method="post"> -->
+        <!-- <form action="/api/check" method="post"> -->
         <label for="date">本のタイトル：</label>
-        <input type="text" placeholder="本のタイトルを入力" name="book_title" v-model="book_title" class="form-control" />
+        <input type="text" placeholder="本のタイトルを入力" name="book_title" v-model="data.book_title" class="form-control" />
         <br />
         <label for="date">貸出し日：</label>
-        <input type="date" name="checkoutDate" v-model="checkoutDate" value="" class="form-control" /><br>
+        <input type="date" name="checkoutDate" v-model="data.checkoutDate"  class="form-control" /><br>
         <label for="date">返却日：</label>
-        <input type="date" id="date" name="returnDate" v-model="returnDate" class="form-control" />
-        <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>        
-      </div>
+        <input type="date" id="date" name="returnDate" v-model="data.returnDate" class="form-control" />
+        <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>          
+      </div>      
     </div>
   </div>
 </template>
@@ -47,9 +47,9 @@ export default {
       });
      
       const doAction = (() =>{
-          const url = "http://127.0.0.1:8000/api/books/check"; //このページがAPI入出力の窓口として機能している
+          const url = "http://127.0.0.1:8000/api/check"; //このページがAPI入出力の窓口として機能している
           axios.post(url,{
-              bookId: data.book_title,
+              book_title: data.book_title,
               checkoutDate: data.checkoutDate,
               returnDate: data.returnDate,
           })
