@@ -9,7 +9,7 @@ class BookOnloan extends Model
 {
     protected $fillable = [
         'bookId',
-        'checkout',
-        'return',
+        'checkoutDate',
+        'returnDate',
     ];
 }

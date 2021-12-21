@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BookOnloan;
+use SebastianBergmann\Environment\Console;
 
 class BookOnloanController extends Controller
 {
@@ -13,7 +15,10 @@ class BookOnloanController extends Controller
      */
     public function index()
     {
-        //
+        $books = BookOnloan::all();
+        echo $books;
+        // eloquantをそのままreturnすると、jsonに変換してくれる。
+        return $books;
     }
 
     /**
@@ -24,7 +29,15 @@ class BookOnloanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $this->validate($request, BookOnloan::$rules); need?
+        $BookOnloan = new BookOnloan;
+        $BookOnloan->bookId = $request->bookId;
+        $BookOnloan->checkoutDate = $request->checkoutDate;
+        $BookOnloan->returnDate = $request->returnDate;
+
+        $BookOnloan->save();
+        return redirect('api/books/check');
+
     }
 
     /**

@@ -30,7 +30,13 @@ export const router = createRouter({
             name: 'check',
             component:checkoutForm,
             props:true        
-            },
+        },
+        {
+            path:'/check',
+            name: 'check',
+            component:checkoutForm,
+            props:true        
+        },
 
             //post渡し方
         

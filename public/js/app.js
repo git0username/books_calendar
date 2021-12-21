@@ -19617,7 +19617,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       title: "貸出し予約フォーム",
       book_title: "",
       checkoutDate: "",
-      "return": ""
+      returnDate: ""
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       var checkoutDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
@@ -19626,17 +19626,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       document.getElementById("date").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
-    }); //doaction=>
+    });
 
     var doAction = function doAction() {
       var url = "http://127.0.0.1:8000/api/books/check"; //このページがAPI入出力の窓口として機能している
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(url, {
         bookId: data.book_title,
-        checkout: data.checkoutDate,
-        "return": ''
+        checkoutDate: data.checkoutDate,
+        returnDate: data.returnDate
       }).then(function () {
-        console.log(url);
+        console.log("data送信先＝" + url);
       });
     };
 
@@ -19776,7 +19776,17 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "date"
-}, "貸出しの日付：", -1
+}, "貸出し日：", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "date"
+}, "返却日：", -1
 /* HOISTED */
 );
 
@@ -19799,16 +19809,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return _ctx.checkoutDate = $event;
     }),
-    max: "2021-12-24",
+    value: "",
     "class": "form-control"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.checkoutDate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.checkoutDate]]), _hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "date",
+    id: "date",
+    name: "returnDate",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.returnDate = $event;
+    }),
+    "class": "form-control"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.returnDate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn- btn-info text-white mt-2",
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $setup.doAction && $setup.doAction.apply($setup, arguments);
     })
-  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"submit\" value=\"送信\" > "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </form> ")])])]);
+  }, "送信")])])]);
 }
 
 /***/ }),
@@ -19867,6 +19887,11 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
     path: '/index',
     name: 'index',
     component: _components_HelloWorld_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    props: true
+  }, {
+    path: '/check',
+    name: 'check',
+    component: _components_checkoutForm__WEBPACK_IMPORTED_MODULE_1__["default"],
     props: true
   }, {
     path: '/check',
