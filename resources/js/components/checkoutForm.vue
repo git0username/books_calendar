@@ -40,11 +40,11 @@ export default {
     });    
 
     const returnDate = () => {
-      const checkoutDay = dayjs().format("YYYY-MM-DD");
+      // const checkoutDay = dayjs().format("YYYY-MM-DD");
       const returnDay = dayjs(data.checkoutDate)
       .add(7, "d")
       .format("YYYY-MM-DD");
-      document.getElementById("date").setAttribute("min", checkoutDay);      
+      // document.getElementById("date").setAttribute("min", checkoutDay);      
       document.getElementById("date1").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(typeof returnDay);

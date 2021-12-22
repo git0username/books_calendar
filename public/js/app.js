@@ -19623,9 +19623,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     });
 
     var returnDate = function returnDate() {
-      var checkoutDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
-      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");
-      document.getElementById("date").setAttribute("min", checkoutDay);
+      // const checkoutDay = dayjs().format("YYYY-MM-DD");
+      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD"); // document.getElementById("date").setAttribute("min", checkoutDay);      
+
       document.getElementById("date1").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
