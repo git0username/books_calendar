@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <h1>Book_list</h1>
+  <div class="container">    
     <router-view></router-view>
     <!-- <p>{{data.message}}</p> -->
   </div>
