@@ -19605,7 +19605,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -19615,7 +19617,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       title: "貸出し予約フォーム",
-      book_title: "",
+      book_title: "こころ",
       checkoutDate: "",
       returnDate: ""
     });
@@ -19627,6 +19629,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
     });
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
 
     var doAction = function doAction() {
       var url = "http://127.0.0.1:8000/api/check"; //このページがAPI入出力の窓口として機能している
@@ -19635,8 +19638,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         book_title: data.book_title,
         checkoutDate: data.checkoutDate,
         returnDate: data.returnDate
-      }).then(function () {
-        console.log("data送信先＝" + url);
+      }).then(function (response) {
+        console.log(response);
+
+        if (confirm("続けて貸出し予約をしますか？")) {
+          data.book_title = '';
+          data.checkoutDate = '';
+          data.returnDate = ''; //「キャンセル」ボタンをクリックした時
+        } else {
+          router.push('/');
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert("ご入力された本はありません。\n再入力してください。");
       });
     };
 
@@ -19827,7 +19841,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[3] || (_cache[3] = function () {
       return $setup.doAction && $setup.doAction.apply($setup, arguments);
     })
-  }, "送信")])])]);
+  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <router-link to=\"index\">AA</router-link>  ")])])]);
 }
 
 /***/ }),

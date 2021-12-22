@@ -30,28 +30,22 @@ class BookOnloanController extends Controller
      */
     public function store(Request $request)
     {
-        // $bookId = Book::where('title',$request->book_title)->get()->pluck('id');
-        // dd($bookId[0]);
-
-        $bookId = Book::where('title',$request->book_title)->get();
-        // dd($bookId[0]['id']);
-
-
-        
-        if($bookId[0]['id'] === null){
-            // return view('/check');
+        $bookId = Book::where('title',$request->book_title)->get()->pluck('id');
+        // echo $bookId;
+        // echo 'aaa';        
+        if($bookId->isEmpty()){
+            return response("no-title",404);
+            // return redirect('/books',303); redirectはphpなのでブラウザ側で分かってくれない。（＝遷移しない）
+            
         }else{
         // $this->validate($request, BookOnloan::$rules); need?
 
         $BookOnloan = new BookOnloan;
-
-        // $BookOnloan->bookId = $request->bookId;
-
-        $BookOnloan->bookId = $bookId[0]['id'];
+        $BookOnloan->bookId = $bookId[0];
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
         $BookOnloan->save();
-        // return redirect('/check');
+        return response("success"); //responseメソッドでresponse内容に"succsess"というメッセージを追記してくれる。        
         }
 
     }

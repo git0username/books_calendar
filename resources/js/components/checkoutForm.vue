@@ -16,7 +16,10 @@
         <input type="date" name="checkoutDate" v-model="data.checkoutDate"  class="form-control" /><br>
         <label for="date">返却日：</label>
         <input type="date" id="date" name="returnDate" v-model="data.returnDate" class="form-control" />
-        <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>          
+        <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button> 
+
+        <!-- <router-link to="index">AA</router-link>  -->
+
       </div>      
     </div>
   </div>
@@ -26,13 +29,15 @@
 import { reactive, onMounted } from "vue";
 import axios from 'axios';
 import dayjs from "dayjs";
+import { useRouter } from 'vue-router'
+
 
 export default {
   name: "checkoutForm",
-  setup() {
+  setup() {    
       const data = reactive({
         title: "貸出し予約フォーム",
-        book_title: "",
+        book_title: "こころ",
         checkoutDate:"",
         returnDate:"",
       });
@@ -45,6 +50,8 @@ export default {
         console.log("日=" + returnDay);
         console.log(typeof returnDay);     
       });
+
+      const router = useRouter()
      
       const doAction = (() =>{
           const url = "http://127.0.0.1:8000/api/check"; //このページがAPI入出力の窓口として機能している
@@ -53,8 +60,20 @@ export default {
               checkoutDate: data.checkoutDate,
               returnDate: data.returnDate,
           })
-          .then(() => {
-            console.log("data送信先＝" + url)
+          .then((response) => {
+            console.log(response);            
+              if(confirm("続けて貸出し予約をしますか？")) {
+                data.book_title = '';
+                data.checkoutDate = '';
+                data.returnDate = '';
+                //「キャンセル」ボタンをクリックした時
+                } else {
+                router.push('/');
+                } 
+        })
+        .catch((error)=>{
+          console.log(error);
+          alert("ご入力された本はありません。\n再入力してください。")
         });       
         
      });
