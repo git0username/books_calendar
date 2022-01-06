@@ -19611,6 +19611,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
 
+ //リダイレクト用
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "checkoutForm",
@@ -19624,8 +19625,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     var returnDate = function returnDate() {
       // const checkoutDay = dayjs().format("YYYY-MM-DD");
-      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD"); // document.getElementById("date").setAttribute("min", checkoutDay);      
-
+      // document.getElementById("date").setAttribute("min", checkoutDay);
+      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");
       document.getElementById("date1").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(_typeof(returnDay));
@@ -19657,11 +19658,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         console.log(error);
         alert("ご入力された本はありません。\n再入力してください。");
       });
-    };
+    }; //ページ読込み時に貸出日のminを今日、返却日のminを明日にする。
 
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      var checkoutDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
+      document.getElementById("date").setAttribute("min", checkoutDay_min);
+      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(checkoutDay_min).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+    });
     return {
       data: data,
-      doAction: doAction
+      doAction: doAction,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted
     };
   }
 });

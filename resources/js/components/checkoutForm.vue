@@ -27,7 +27,7 @@
 import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useRouter } from "vue-router";
+import { useRouter } from "vue-router"; //リダイレクト用
 
 export default {
   name: "checkoutForm",
@@ -41,10 +41,9 @@ export default {
 
     const returnDate = () => {
       // const checkoutDay = dayjs().format("YYYY-MM-DD");
-      const returnDay = dayjs(data.checkoutDate)
-      .add(7, "d")
-      .format("YYYY-MM-DD");
-      // document.getElementById("date").setAttribute("min", checkoutDay);      
+      // document.getElementById("date").setAttribute("min", checkoutDay);
+
+      const returnDay = dayjs(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");         
       document.getElementById("date1").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
       console.log(typeof returnDay);
@@ -81,7 +80,16 @@ export default {
         });
     };
 
-    return { data, doAction };
+
+    //ページ読込み時に貸出日のminを今日、返却日のminを明日にする。
+    onMounted(() => {
+      const checkoutDay_min = dayjs().format("YYYY-MM-DD");
+      document.getElementById("date").setAttribute("min", checkoutDay_min);
+      const returnDay_min = dayjs(checkoutDay_min).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+    });
+
+    return { data, doAction ,onMounted};
   }
 };
 </script>
