@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BookOnloan;
+use App\Models\Booklist;
 use App\Models\Book;
 use SebastianBergmann\Environment\Console;
 
@@ -45,8 +46,20 @@ class BookOnloanController extends Controller
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
         $BookOnloan->save();
-        return response("success"); //responseメソッドでresponse内容に"succsess"というメッセージを追記してくれる。        
+
+        //中間テーブルにpost
+        $Booklist = new Booklist;
+        $Booklist->userId = $request->userId;
+        $Booklist->bookId = $bookId[0];
+        $Booklist->onloanId = BookOnloan::latest()->get()->pluck('id'); //book_onloansテーブルから今入れたやつのprimarykey(id)を持ってくる
+        dd($Booklist);
+        // $Booklist->save();
+        // $a = BookOnloan::first()->id;
+        return response("success"); //responseメソッドでresponse内容に"succsess"というメッセージを追記してくれる。 
         }
+
+        
+
 
     }
 
