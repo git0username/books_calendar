@@ -17,6 +17,7 @@
       <br />
       <label for="date">返却日：</label>
       <input type="date" id="date1" name="returnDate" v-model="data.returnDate" class="form-control" />
+      <input type="hidden" name="userId" value="1"/>
       <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>
       <!-- <router-link to="index">AA</router-link>  -->
     </div>
@@ -36,7 +37,8 @@ export default {
       title: "貸出し予約フォーム",
       book_title: "こころ",
       checkoutDate: "",
-      returnDate: ""
+      returnDate: "",
+      userId:2
     });    
 
     const returnDate = () => {
@@ -56,12 +58,13 @@ export default {
     const router = useRouter();
 
     const doAction = () => {
-      const url = "http://127.0.0.1:8000/api/check"; //このページがAPI入出力の窓口として機能している
+      const url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
       axios
         .post(url, {
           book_title: data.book_title,
           checkoutDate: data.checkoutDate,
-          returnDate: data.returnDate
+          returnDate: data.returnDate,
+          userId: data.userId, 
         })
         .then(response => {
           console.log(response);

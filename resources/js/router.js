@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import checkoutForm from './components/checkoutForm'
+import bookingList from './components/bookingList'
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -26,19 +27,17 @@ export const router = createRouter({
             props:true
         },
         {
-            path:'/check',
-            name: 'check',
+            path:'/checkoutform',
+            name: 'checkoutform',
             component:checkoutForm,
             props:true        
-        },
+        },        
         {
-            path:'/check',
-            name: 'check',
-            component:checkoutForm,
+            path:'/bookingList',
+            name: 'bookingList',
+            component:bookingList,
             props:true        
         },
-
-            //post渡し方
         
     ],
 })

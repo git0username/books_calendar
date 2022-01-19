@@ -31,18 +31,18 @@ class BookOnloanController extends Controller
      */
     public function store(Request $request)
     {
-        $bookId = Book::where('title',$request->book_title)->get()->pluck('id');
-        // echo $bookId;
-        // echo 'aaa';        
-        if($bookId->isEmpty()){
+        $bookId = Book::where('title',$request->book_title)->value('id'); //本のタイトルから本Idの値を取ってくる        
+
+        if(empty($bookId)){
             return response("no-title",404);
             // return redirect('/books',303); redirectはphpなのでブラウザ側で分かってくれない。（＝遷移しない）
             
         }else{
         // $this->validate($request, BookOnloan::$rules); need?
 
+        //BookOnloadsテーブルにpost
         $BookOnloan = new BookOnloan;
-        $BookOnloan->bookId = $bookId[0];
+        $BookOnloan->bookId = $bookId;
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
         $BookOnloan->save();
@@ -50,17 +50,12 @@ class BookOnloanController extends Controller
         //中間テーブルにpost
         $Booklist = new Booklist;
         $Booklist->userId = $request->userId;
-        $Booklist->bookId = $bookId[0];
-        $Booklist->onloanId = BookOnloan::latest()->get()->pluck('id'); //book_onloansテーブルから今入れたやつのprimarykey(id)を持ってくる
-        dd($Booklist);
-        // $Booklist->save();
-        // $a = BookOnloan::first()->id;
+        $Booklist->bookId = $bookId;
+        $Booklist->onloanId = BookOnloan::latest()->value('id'); //book_onloansテーブルから今入れたやつのprimarykey(id)を持ってくる
+        $Booklist->save();
+        
         return response("success"); //responseメソッドでresponse内容に"succsess"というメッセージを追記してくれる。 
         }
-
-        
-
-
     }
 
     /**

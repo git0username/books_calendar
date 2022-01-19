@@ -26,4 +26,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // apiに対応したrestfulにしておく
 Route::apiResource('/books',BookController::class);
 
-Route::apiResource('/check',BookOnloanController::class);
+Route::apiResource('/bookonloan',BookOnloanController::class);

@@ -21,20 +21,15 @@
 
 <body>
     <header>
-        <h1>Books</h1>
+        <h1><a href="/index">Books</a></h1>
         <body>
             @yield('header')
         </body>
         <nav>   
             <ul class="main-nav">
-                <li><a href="/check">貸出し予約</a></li>
-                <li>
-                    <form action="/User/personal_booking_list" method="post"><input type="hidden" name="name" value="$name">
-                        <a href="/Book/booking_list">過去に借りた本の一覧</a>
-                    </form>
-                </li>                
+                <li><a href="/checkoutform">貸出し予約</a></li>
+                <li><a href="/bookingList">過去に借りた本の一覧</a></li>                
                 <li><a href="url()->previous()">前のページに戻る</a></li>
-
             </ul>
         </nav>
     </header>
