@@ -17,10 +17,14 @@ class BookOnloanController extends Controller
      */
     public function index()
     {
-        $books = BookOnloan::all();
-        echo $books;
+        $books = BookOnloan::all();  
+        $book_titles = [];  
+        foreach ($books as $book){
+           $book_title = array_merge($book->toArray(),$book->book->toArray());
+           array_push($book_titles,$book_title);
+        }
         // eloquantをそのままreturnすると、jsonに変換してくれる。
-        return $books;
+        return $book_titles;
     }
 
     /**

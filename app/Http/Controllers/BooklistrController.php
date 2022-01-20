@@ -10,7 +10,7 @@ class BooklistrController extends Controller
     public function index()
     {
         $books = BookOnloan::all();
-        echo $books;
+        
         // eloquantをそのままreturnすると、jsonに変換してくれる。
         return $books;
     }

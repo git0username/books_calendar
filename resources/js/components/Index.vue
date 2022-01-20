@@ -29,7 +29,7 @@ import axios from "axios";
 
 
 export default {
-  name: "HelloWorld",
+  name: "Index",
 
   setup() {
     const data = reactive({

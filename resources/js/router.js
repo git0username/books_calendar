@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import Index from './components/Index.vue'
 import checkoutForm from './components/checkoutForm'
 import bookingList from './components/bookingList'
 
@@ -23,7 +23,7 @@ export const router = createRouter({
         {
             path: '/index',
             name: 'index',
-            component: HelloWorld,
+            component:Index,
             props:true
         },
         {

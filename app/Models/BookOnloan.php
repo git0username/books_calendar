@@ -16,6 +16,6 @@ class BookOnloan extends Model
     //BOOKテーブル（主）と連携する
     public function book()
     {
-        return $this->belongsTo(Book::class,'bookid');
+        return $this->belongsTo(Book::class,'bookId');
     }
 }

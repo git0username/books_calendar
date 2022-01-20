@@ -1,16 +1,18 @@
 <template>
-  <bookingList_ch
-  <!-- v-for="(item, index) in tweeted"
+  <div>
+    <p>{{data.title}}</p>
+    <bookingList_ch
+    v-for="(item, index) in data.table_obj"
     v-bind:key="index" 
     v-bind:item="item"
-    v-bind:index="index" -->
-    />
+    />    
+  </div>
 </template>
 
 <script>
 import { reactive, onMounted } from "vue";
 import axios from "axios";
-import bookingList_ch from "/bookingList_ch.vue";
+import bookingList_ch from "./bookingList_ch.vue";
 
 export default {
   name: "bookingList",
@@ -19,22 +21,21 @@ export default {
   setup() {
     const data = reactive({
       title: "貸出し履歴",
-      response:"",      
+      table_obj:{},      
     });       
 
-    const getAction = () => {
+    const getAction = async () => {
       const url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
-      axios.get(url)
-      .then((response) =>
-        data.response = response.data
-      );       
+      const response = await axios.get(url)
+      console.log(response.data)
+      data.table_obj = response.data 
     };
         
     onMounted(() => {
       getAction();
     });
 
-    return { data, getAction ,onMounted};
+    return { data, getAction};
   }
 };
 </script>
