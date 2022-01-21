@@ -13,5 +13,13 @@ class Book extends Model
         'title',
         'price'
     ];
+
+    //bookonloansテーブル（従）と連携する
+    public function bookonloan()
+    {
+        return $this->hasOne(BookOnloan::class,'bookId');
+    }
+
+    //p283
     
 }

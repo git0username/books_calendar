@@ -1,19 +1,12 @@
 <template>
-  <div>
-    <h3>{{ data.booking }}</h3>
-    <table class="table table-light table-striped">
-          <thead class="table-dark text-center">
-            <tr>
-              <th>ID</th><th>Name</th>
-            </tr>
-          </thead>
-          <tbody class="text-left">
-            <tr>
-              <td>{{item.title}}</td>
-            </tr>
-          </tbody>
-    </table>
-  </div>
+    <tbody class="text-left">
+      <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.title}}</td>
+        <td>{{item.checkoutDate}}</td>
+        <td>{{item.returnDate}}</td>
+      </tr>
+    </tbody>
 </template>
 
 <script>
@@ -23,7 +16,7 @@ export default {
   name: "bookingList_ch",
   props: {
     item: Object,
-    index:Number
+    index: Number
   },
 
   setup(props) {
@@ -40,7 +33,6 @@ export default {
     onMounted(() => {
       getAction();
     });
-
     return { data, getAction };
   }
 };

@@ -18,4 +18,6 @@ class BookOnloan extends Model
     {
         return $this->belongsTo(Book::class,'bookId');
     }
+
+    
 }

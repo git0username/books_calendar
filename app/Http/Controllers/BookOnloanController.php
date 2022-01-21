@@ -18,13 +18,13 @@ class BookOnloanController extends Controller
     public function index()
     {
         $books = BookOnloan::all();  
-        $book_titles = [];  
+        $books_onloans = [];  
         foreach ($books as $book){
-           $book_title = array_merge($book->toArray(),$book->book->toArray());
-           array_push($book_titles,$book_title);
+           $book_onloan = array_merge($book->toArray(),$book->book->toArray());
+           array_push($books_onloans,$book_onloan);
         }
         // eloquantをそのままreturnすると、jsonに変換してくれる。
-        return $book_titles;
+        return $books_onloans;
     }
 
     /**
@@ -35,18 +35,27 @@ class BookOnloanController extends Controller
      */
     public function store(Request $request)
     {
-        $bookId = Book::where('title',$request->book_title)->value('id'); //本のタイトルから本Idの値を取ってくる        
-
+        //①本のタイトルから本Idの値を取ってくる 
+        $bookId = Book::where('title',$request->book_title)->value('id'); 
+        
+        //②入力されたタイトルがあるかないか(idが空かどうか)
         if(empty($bookId)){
+            //空だったら(idが検索できなかったら)returnする
             return response("no-title",404);
-            // return redirect('/books',303); redirectはphpなのでブラウザ側で分かってくれない。（＝遷移しない）
+            // return redirect('/books',303); →redirectはphpなのでブラウザ側で分かってくれない。（＝遷移しない）
             
         }else{
+            //③本の在庫があるか確認する
+            
+
+
+
         // $this->validate($request, BookOnloan::$rules); need?
 
         //BookOnloadsテーブルにpost
         $BookOnloan = new BookOnloan;
         $BookOnloan->bookId = $bookId;
+        $BookOnloan->userId = $request->userId;
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
         $BookOnloan->save();

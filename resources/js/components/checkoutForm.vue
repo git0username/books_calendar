@@ -45,6 +45,9 @@ export default {
       // const checkoutDay = dayjs().format("YYYY-MM-DD");
       // document.getElementById("date").setAttribute("min", checkoutDay);
 
+
+
+      //return日に条件を付ける場合add()の第一引数7日を変更
       const returnDay = dayjs(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");         
       document.getElementById("date1").setAttribute("max", returnDay);
       console.log("日=" + returnDay);
