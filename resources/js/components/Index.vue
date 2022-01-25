@@ -4,18 +4,20 @@
       <div style="width:300px; margin:10px;">
         <p>{{data.title}}</p>
 
-        <table class="table table-light table-striped">
+        <table class="table table-light table-striped" style="table-layout:auto">
           <thead class="table-dark text-center">
             <tr>
-              <th>BookID</th><th>Title</th><th>貸出し可能日</th>
+              <th>BookID</th><th>Title</th><th>全冊数</th><th>貸出中</th><th>userId</th><th>貸出し可能日</th>
             </tr>
           </thead>
           <tbody class="text-left">
             <tr v-for="(item, key) in data.result" v-bind:key="key">
               <td>{{key}}</td>
               <td>{{item.title}}</td>
-              <td>{{item.title}}</td>
-              <!-- <td>{{item.age}}</td> -->              
+              <td>{{item.number}}</td>
+              <td>{{item.number}}</td>
+              <td>{{item.userId}}</td>
+              <td>{{item.title}}</td>                            
             </tr>
           </tbody>
         </table>

@@ -19745,11 +19745,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     var returnDate = function returnDate() {
       // const checkoutDay = dayjs().format("YYYY-MM-DD");
       // document.getElementById("date").setAttribute("min", checkoutDay);
-      //return日に条件を付ける場合add()の第一引数7日を変更
-      var returnDay = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");
-      document.getElementById("date1").setAttribute("max", returnDay);
-      console.log("日=" + returnDay);
-      console.log(_typeof(returnDay));
+      //return日に条件を付ける場合add()の第一引数(7日)を変更
+      var returnDay_max = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD"); //return_min日はcheckout日の翌日から
+
+      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("max", returnDay_max);
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+      console.log("日=" + returnDay_max);
+      console.log(typeof returnDay === "undefined" ? "undefined" : _typeof(returnDay));
     };
 
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(data, function () {
@@ -19847,12 +19850,15 @@ var _hoisted_2 = {
   }
 };
 var _hoisted_3 = {
-  "class": "table table-light table-striped"
+  "class": "table table-light table-striped",
+  style: {
+    "table-layout": "auto"
+  }
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
   "class": "table-dark text-center"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "BookID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Title"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出し可能日")])], -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "BookID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Title"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "全冊数"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出中"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "userId"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出し可能日")])], -1
 /* HOISTED */
 );
 
@@ -19869,9 +19875,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1
     /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.number), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.number), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.userId), 1
+    /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td>{{item.age}}</td> ")]);
+    )]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])])]);

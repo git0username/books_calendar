@@ -45,12 +45,13 @@ export default {
       // const checkoutDay = dayjs().format("YYYY-MM-DD");
       // document.getElementById("date").setAttribute("min", checkoutDay);
 
-
-
-      //return日に条件を付ける場合add()の第一引数7日を変更
-      const returnDay = dayjs(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");         
-      document.getElementById("date1").setAttribute("max", returnDay);
-      console.log("日=" + returnDay);
+      //return日に条件を付ける場合add()の第一引数(7日)を変更
+      const returnDay_max = dayjs(data.checkoutDate).add(7, "d").format("YYYY-MM-DD");
+      //return_min日はcheckout日の翌日から
+      const returnDay_min = dayjs(data.checkoutDate).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("max", returnDay_max);
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+      console.log("日=" + returnDay_max);
       console.log(typeof returnDay);
     };
 
