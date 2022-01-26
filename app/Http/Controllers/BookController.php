@@ -15,9 +15,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        // //
-        // //booksテーブルの中身を変数に定義(コレクションのインスタンスとして取得される)
-        // $books = Book::all(); 
+        
+        //booksテーブルの中身を変数に定義(コレクションのインスタンスとして取得される)
+        $books = Book::all();
+
+        // 
         // $fromtoday = Bookonloan::where('returnDate','>=',date("Y-m-d"))->orderBy('bookId','asc')->orderBy('returnDate','asc')->get(); 
         
         // $bookid_arr= $fromtoday->pluck('bookId')->toArray();
@@ -50,10 +52,20 @@ class BookController extends Controller
         // }
         // //
 
+        $returnDate_min_arr = BOOK::minReturnday();
+        dd( $returnDate_min_arr );
+
         $books_onloans = [];  //結合した内容を格納するための空配列を用意
         foreach ($books as $book){
+            //dd($book);
+
             //一つの配列としてmerge(booksテーブルの中身(eloquantコレクション)をtoArrayで配列化、bookonloansテーブルも同様に配列化) コレクションの形のままarray_mergeは使えないので一旦toArrayで配列化 注意:同じ項目は上書きされる。(created_atは上書きされる)
-           $book_onloan = array_merge($book->toArray(),$book->bookonloan->toArray(),$book->$returnDate_min);
+           $book_onloan = array_merge($book->toArray(),$book->bookonloan->toArray());
+           //dd($book_onloan);
+           $book_onloan_bookid = $book_onloan["bookId"];
+           if(array_key_exists($book_onloan_bookid,$returnDate_min_arr)){
+           $book_onloan["returnDate_min"] = $returnDate_min_arr[$book_onloan_bookid];
+           }
         //    $book_onloan1 = array_push($book_onloan,$book->minReturnday());
            
             //←ここに貸出最短日を追加

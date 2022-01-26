@@ -22,12 +22,11 @@ class Book extends Model
 
     // bookonloansテーブルから今日を含めた貸出中の本を抽出
     //その結果から最短のreturnDateを取り出して、連想配列に格納する。["(bookIdの数字がkey)" => ["returnDate_min" => "(最短の返却日が入る)"]]
-    public function minReturnday()
-    {
-        
-        //booksテーブルの中身を変数に定義(コレクションのインスタンスとして取得される)
-        $books = Book::all(); 
-        $fromtoday = Bookonloan::where('returnDate','>=',date("Y-m-d"))->orderBy('bookId','asc')->orderBy('returnDate','asc')->get(); 
+    public static function minReturnday()
+    {       
+       
+        $fromtoday = BookOnloan::where('returnDate','>=',date("Y-m-d"))->orderBy('bookId','asc')->orderBy('returnDate','asc')->get();
+        //dd($fromtoday); 
         
         $bookid_arr= $fromtoday->pluck('bookId')->toArray();
         // dd(gettype($fromtoday));
@@ -44,18 +43,24 @@ class Book extends Model
         //onloanテーブル(貸出中)の本について、booksテーブルからその本の冊数を取得
         foreach($onloan_bookid_arr as $onloan_bookid){
             $book_number = Book::where('id',$onloan_bookid)->value('number');
+            //dd($onloan_bookid);
             //貸出中の冊数と全冊数を比較
+            ////ここでばらけさす
             foreach($onloan_number_arr as $onloan_number){ //貸出中の冊数を取得
                 //もし全部借りられてたら、
                 if($book_number <= $onloan_number){
-                    $fromtoday_nodup = $fromtoday->unique('bookId'); //filterして取り出す
-                    $fromtoday_nodup_search_arr = array_search($onloan_bookid, array_column($fromtoday_nodup, 'bookId')); //多次元配列内をbookIdで検索して、該当の内側配列を取り出す
-                    $returnDate_min = ["returnDate_min" => $fromtoday_nodup_search_arr['returnDate']];
-                    $returnDate_min_arr[$onloan_bookid] = $returnDate_min;                                      
+                    $fromtoday_nodup = $fromtoday->unique('bookId')->toArray(); //重複を消して配列化 [0=>[...], 1=>[...], 2=>...]]
+                    //dd($fromtoday_nodup);
+                    $fromtoday_nodup_search_index = array_search($onloan_bookid, array_column($fromtoday_nodup, 'bookId')); //多次元配列内をbookIdで検索して、該当のindexを取り出す
+                    //dd($fromtoday_nodup[$fromtoday_nodup_search_index]['returnDate']);
+                    //dd($onloan_bookid);
+                    $returnDate_min_arr[$onloan_bookid] = $fromtoday_nodup[$fromtoday_nodup_search_index]['returnDate'];
+                    var_dump($returnDate_min_arr);                                                      
                 }else{                   
                       //何もしない                  
                 }
             }            
         }
         return $returnDate_min_arr;    
+    }
 }
