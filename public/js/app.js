@@ -19531,6 +19531,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -19539,12 +19544,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
+ //リダイレクト用
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Index",
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       result: "",
-      title: "BOOK_LIST"
+      title: "BOOK_LIST",
+      checkoutDate: "",
+      returnDate: ""
     });
     var url = "http://127.0.0.1:8000/api/books";
 
@@ -19576,10 +19586,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }();
 
+    var returnDate = function returnDate() {
+      // const checkoutDay = dayjs().format("YYYY-MM-DD");
+      // document.getElementById("date").setAttribute("min", checkoutDay);
+      //return日に条件を付ける場合add()の第一引数(7日)を変更
+      var returnDay_max = dayjs__WEBPACK_IMPORTED_MODULE_3___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD"); //return_min日はcheckout日の翌日から
+
+      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_3___default()(data.checkoutDate).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("max", returnDay_max);
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+      console.log("日=" + returnDay_max);
+      console.log(typeof returnDay === "undefined" ? "undefined" : _typeof(returnDay));
+    };
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(data, function () {
+      returnDate();
+    });
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
+
+    var doAction = function doAction() {
+      var url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
+        // book_title: data.book_title,
+        checkoutDate: data.checkoutDate,
+        returnDate: data.returnDate,
+        userId: data.userId
+      }).then(function (response) {
+        console.log(response);
+
+        if (confirm("続けて貸出し予約をしますか？")) {
+          data.book_title = "";
+          data.checkoutDate = "";
+          data.returnDate = ""; //「キャンセル」ボタンをクリックした時
+        } else {
+          router.push("/");
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert("ご入力された本はありません。\n再入力してください。");
+      });
+    }; //ページ読込み時に貸出日のminを今日、返却日のminを明日にする。
+
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      var checkoutDay_min = dayjs__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DD");
+      document.getElementById("date").setAttribute("min", checkoutDay_min);
+      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_3___default()(checkoutDay_min).add(1, "d").format("YYYY-MM-DD");
+      document.getElementById("date1").setAttribute("min", returnDay_min);
+    });
     getAPI_books();
     return {
       data: data,
-      getAPI_books: getAPI_books
+      getAPI_books: getAPI_books,
+      doAction: doAction,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted
     };
   }
 });
@@ -19858,7 +19919,7 @@ var _hoisted_3 = {
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
   "class": "table-dark text-center"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "BookID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Title"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "全冊数"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出中"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "userId"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出し可能日")])], -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "BookID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Title"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "全冊数"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出中"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "userId"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出し可能日"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出日"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "返却日")])], -1
 /* HOISTED */
 );
 
@@ -19871,6 +19932,8 @@ var _hoisted_6 = {
 var _hoisted_7 = {
   key: 1
 };
+var _hoisted_8 = ["value"];
+var _hoisted_9 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
   /* TEXT */
@@ -19889,7 +19952,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), item.returnDate_min ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.returnDate_min), 1
     /* TEXT */
-    )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", _hoisted_7, "\"貸出可\""))]);
+    )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", _hoisted_7, "\"貸出可\"")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "date",
+      id: "date",
+      name: "checkoutDate",
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+        return $setup.data.checkoutDate = $event;
+      }),
+      "class": "form-control"
+    }, null, 512
+    /* NEED_PATCH */
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.checkoutDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "date",
+      id: "date1",
+      name: "returnDate",
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        return $setup.data.returnDate = $event;
+      }),
+      "class": "form-control"
+    }, null, 512
+    /* NEED_PATCH */
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.returnDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "hidden",
+      name: "userId",
+      value: item.userId
+    }, null, 8
+    /* PROPS */
+    , _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "hidden",
+      name: "bookId",
+      value: item.bookId
+    }, null, 8
+    /* PROPS */
+    , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn- btn-info text-white mt-2",
+      onClick: _cache[2] || (_cache[2] = function () {
+        return $setup.doAction && $setup.doAction.apply($setup, arguments);
+      })
+    }, "送信")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td><input type=\"button\" value=\"借りる\"></td>               ")]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])])]);
