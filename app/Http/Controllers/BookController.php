@@ -19,41 +19,8 @@ class BookController extends Controller
         //booksテーブルの中身を変数に定義(コレクションのインスタンスとして取得される)
         $books = Book::all();
 
-        // 
-        // $fromtoday = Bookonloan::where('returnDate','>=',date("Y-m-d"))->orderBy('bookId','asc')->orderBy('returnDate','asc')->get(); 
-        
-        // $bookid_arr= $fromtoday->pluck('bookId')->toArray();
-        // // dd(gettype($fromtoday));
-        // //bookId毎にカウント(得られる配列["bookid"=>"count数","bookid"=>"count数",...])
-        // $onloan_number_arr = array_count_values($bookid_arr);
-        // //カウントしたものと全冊数を比べる
-        //  //$onloan_number_arrのkey(bookid)を取得
-        // $onloan_bookid_arr = array_keys($onloan_number_arr);
-        
-        // // $book_number_arr = []; //内容を格納するための空配列を用意
-
-        // $returnDate_min_arr = [];        
-
-        // //onloanテーブル(貸出中)の本について、booksテーブルからその本の冊数を取得
-        // foreach($onloan_bookid_arr as $onloan_bookid){
-        //     $book_number = Book::where('id',$onloan_bookid)->value('number');
-        //     //貸出中の冊数と全冊数を比較
-        //     foreach($onloan_number_arr as $onloan_number){ //貸出中の冊数を取得
-        //         //もし全部借りられてたら、
-        //         if($book_number <= $onloan_number){
-        //             $fromtoday_nodup = $fromtoday->unique('bookId'); //filterして取り出す
-        //             $fromtoday_nodup_search_arr = array_search($onloan_bookid, array_column($fromtoday_nodup, 'bookId')); //多次元配列内をbookIdで検索して、該当の内側配列を取り出す
-        //             $returnDate_min = ["returnDate_min" => $fromtoday_nodup_search_arr['returnDate']];
-        //             $returnDate_min_arr[$onloan_bookid] = $returnDate_min;                                      
-        //         }else{                   
-        //               //何もしない                  
-        //         }
-        //     }            
-        // }
-        // //
-
-        $returnDate_min_arr = BOOK::minReturnday();
-        dd( $returnDate_min_arr );
+        $minReturnday = Book::minReturnday();
+        // dd( $minReturnday );
 
         $books_onloans = [];  //結合した内容を格納するための空配列を用意
         foreach ($books as $book){
@@ -62,15 +29,15 @@ class BookController extends Controller
             //一つの配列としてmerge(booksテーブルの中身(eloquantコレクション)をtoArrayで配列化、bookonloansテーブルも同様に配列化) コレクションの形のままarray_mergeは使えないので一旦toArrayで配列化 注意:同じ項目は上書きされる。(created_atは上書きされる)
            $book_onloan = array_merge($book->toArray(),$book->bookonloan->toArray());
            //dd($book_onloan);
+           //もし$returnDate_min_arrの中にbookIdが該当すれば、貸出最短日を配列に追加(=keyにreturnDate_minがあれば全冊貸出中で最速の返却日がvalueに入る)
            $book_onloan_bookid = $book_onloan["bookId"];
-           if(array_key_exists($book_onloan_bookid,$returnDate_min_arr)){
-           $book_onloan["returnDate_min"] = $returnDate_min_arr[$book_onloan_bookid];
+           //貸出中の冊数を配列にkey(onloan_numbe)追加
+           $book_onloan["onloan_number"] = $minReturnday["onloan_number_arr"][$book_onloan_bookid];
+           if(array_key_exists($book_onloan_bookid,$minReturnday["returnDate_min_arr"])){
+           $book_onloan["returnDate_min"] = $minReturnday["returnDate_min_arr"][$book_onloan_bookid];
            }
-        //    $book_onloan1 = array_push($book_onloan,$book->minReturnday());
-           
-            //←ここに貸出最短日を追加
-           //pushで上の空配列に格納する→これで同じ本の情報が一つのObjectになって、配列の中にはいる。[{},{},{}]の形になってフロントエンドに渡せるのでフロントエンド側でデータを扱いやすくなる。
-           dd($book_onloan);
+            
+           //pushで上の空配列に格納する→これで同じ本の情報が一つのObjectになって、配列の中にはいる。[{},{},{}]の形になってフロントエンドに渡せるのでフロントエンド側でデータを扱いやすくなる。        
            array_push($books_onloans,$book_onloan);
         }        
         // eloquantをそのままreturnすると、jsonに変換してくれる。

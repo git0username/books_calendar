@@ -4,7 +4,7 @@
       <div style="width:300px; margin:10px;">
         <p>{{data.title}}</p>
 
-        <table class="table table-light table-striped" style="table-layout:auto">
+        <table class="table table-light table-striped" style="width:600px">
           <thead class="table-dark text-center">
             <tr>
               <th>BookID</th><th>Title</th><th>全冊数</th><th>貸出中</th><th>userId</th><th>貸出し可能日</th>
@@ -15,9 +15,10 @@
               <td>{{key}}</td>
               <td>{{item.title}}</td>
               <td>{{item.number}}</td>
-              <td>{{item.number}}</td>
+              <td>{{item.onloan_number}}</td>
               <td>{{item.userId}}</td>
-              <td>{{item.title}}</td>                            
+              <td v-if="item.returnDate_min">{{item.returnDate_min}}</td>
+              <td v-else>"貸出可"</td>              
             </tr>
           </tbody>
         </table>
