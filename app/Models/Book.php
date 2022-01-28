@@ -26,7 +26,7 @@ class Book extends Model
     {       
        
         $fromtoday = BookOnloan::where('returnDate','>=',date("Y-m-d"))->orderBy('bookId','asc')->orderBy('returnDate','asc')->get();
-        //dd($fromtoday); 
+        // dd($fromtoday); 
         //bookIdだけ取り出す(得られる配列[0=>1(bookId), 1=>1(bookId), 2=>2(bookId), ...])
         $bookid_arr= $fromtoday->pluck('bookId')->toArray();
         // dd($bookid_arr); 

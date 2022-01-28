@@ -36,15 +36,15 @@ class BookOnloanController extends Controller
     public function store(Request $request)
     {
         //①本のタイトルから本Idの値を取ってくる 
-        $bookId = Book::where('title',$request->book_title)->value('id'); 
+        // $bookId = Book::where('title',$request->book_title)->value('id'); 
         
         //②入力されたタイトルがあるかないか(idが空かどうか)
-        if(empty($bookId)){
+        // if(empty($bookId)){
             //空だったら(idが検索できなかったら)returnする
-            return response("no-title",404);
+            // return response("no-title",404);
             // return redirect('/books',303); →redirectはphpなのでブラウザ側で分かってくれない。（＝遷移しない）
             
-        }else{
+        // }else{
             //③本の在庫があるか確認する
             
 
@@ -54,7 +54,7 @@ class BookOnloanController extends Controller
 
         //BookOnloadsテーブルにpost
         $BookOnloan = new BookOnloan;
-        $BookOnloan->bookId = $bookId;
+        $BookOnloan->bookId = $request->bookId;
         $BookOnloan->userId = $request->userId;
         $BookOnloan->checkoutDate = $request->checkoutDate;
         $BookOnloan->returnDate = $request->returnDate;
@@ -63,12 +63,12 @@ class BookOnloanController extends Controller
         //中間テーブルにpost
         $Booklist = new Booklist;
         $Booklist->userId = $request->userId;
-        $Booklist->bookId = $bookId;
+        $Booklist->bookId = $request->bookId;
         $Booklist->onloanId = BookOnloan::latest()->value('id'); //book_onloansテーブルから今入れたやつのprimarykey(id)を持ってくる
         $Booklist->save();
         
         return response("success"); //responseメソッドでresponse内容に"succsess"というメッセージを追記してくれる。 
-        }
+        // }
     }
 
     /**
