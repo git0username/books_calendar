@@ -3,6 +3,8 @@ import Index from './components/Index.vue'
 import checkoutForm from './components/checkoutForm'
 import bookingList from './components/bookingList'
 import calendar from './components/calendar'
+import calendar_test2 from './components/calendar_test2'
+
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -43,6 +45,12 @@ export const router = createRouter({
             path:'/calendar',
             name: 'calendar',
             component:calendar,
+            props:true        
+        },
+        {
+            path:'/calendar_test2',
+            name: 'calendar_test2',
+            component:calendar_test2,
             props:true        
         },
         

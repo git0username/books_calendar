@@ -3,7 +3,9 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+import axios from "axios";
+
 import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -17,14 +19,16 @@ export default {
   setup(){
     const data = reactive({
       onloanDate_arr:[],
+      result:[],
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
         dateClick: handleDateClick,
         weekends: true,
         events: [
-          { title: "event 1", start: "2022-01-20", end: "2022-01-22" },
-          { title: "event 2", date: "2022-01-30" }
+          { title: "event 1", start: "2022-01-08", end: "2022-01-10" },
+          { title: "event 2", date: "2022-01-30" },
+          { title: "event 3", date: data.result[0].checkoutDate },
         ],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
@@ -78,10 +82,22 @@ export default {
     };
 
     test();
+
+    const url = "http://127.0.0.1:8000/api/books";
+    const getAPI_books = async () => {
+      const result = await axios.get(url);
+      data.result = result.data;       
+      console.log("result.data=");
+      console.log(result.data); 
+    };
+
+     onMounted(() => {
+    getAPI_books();
+    });
     
 
 
-    return{ data, handleDateClick, test };
+    return{ data, handleDateClick, test, onMounted };
   }
 };
 
