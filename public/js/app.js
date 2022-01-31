@@ -33958,23 +33958,23 @@ __webpack_require__.r(__webpack_exports__);
     return {
       calendarOptions: {
         plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__["default"]],
-        initialView: 'dayGridMonth',
+        initialView: "dayGridMonth",
         dateClick: this.handleDateClick,
         weekends: true,
         events: [{
-          title: 'event 1',
-          start: '2022-01-20',
-          end: '2022-01-22'
+          title: "event 1",
+          start: "2022-01-20",
+          end: "2022-01-22"
         }, {
-          title: 'event 2',
-          date: '2022-01-30'
+          title: "event 2",
+          date: "2022-01-30"
         }],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function select(info) {
           //alert("selected " + info.startStr + " to " + info.endStr);
           // 入力ダイアログ
-          var eventName = prompt("イベントを入力してください");
+          var eventName = prompt("イベントを入力してください"); // console.log(this.calendarOptions)
 
           if (eventName) {
             // イベントの追加
@@ -33984,6 +33984,11 @@ __webpack_require__.r(__webpack_exports__);
               end: info.end,
               allDay: true
             });
+            console.log(this); //   this.events.push({
+            //     title: eventName,
+            //     start: info.start,
+            //     end: info.end
+            //   });
           }
         }
       }
@@ -33991,7 +33996,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleDateClick: function handleDateClick(arg) {
-      alert('date click! ' + arg.dateStr);
+      alert("date click! " + arg.dateStr);
     }
   }
 });
