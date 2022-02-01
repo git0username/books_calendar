@@ -1,5 +1,8 @@
 <template>
+<div>
   <FullCalendar :options="data.calendarOptions" />
+
+</div>
 </template>
 
 <script>
@@ -19,7 +22,7 @@ export default {
   setup(){
     const data = reactive({
       onloanDate_arr:[],
-      result:[],
+      // result:[],
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
@@ -28,7 +31,7 @@ export default {
         events: [
           { title: "event 1", start: "2022-01-08", end: "2022-01-10" },
           { title: "event 2", date: "2022-01-30" },
-          { title: "event 3", date: data.result[0].checkoutDate },
+          // { title: "event 3", date: data.result[0].checkoutDate },
         ],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
@@ -85,8 +88,8 @@ export default {
 
     const url = "http://127.0.0.1:8000/api/books";
     const getAPI_books = async () => {
-      const result = await axios.get(url);
-      data.result = result.data;       
+      const result = await axios.get(url); //{params:{bookId:1}}
+      // data.result = result.data;       
       console.log("result.data=");
       console.log(result.data); 
     };

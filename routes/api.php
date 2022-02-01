@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 // Laravel8から使うコントローラのuseが必要
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookOnloanController;
+use App\Http\Controllers\CalendarController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('/books',BookController::class);
 
 Route::apiResource('/bookonloan',BookOnloanController::class);
+
+Route::apiResource('/calendar',CalendarController::class);

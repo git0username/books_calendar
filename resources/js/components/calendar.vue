@@ -24,6 +24,7 @@ export default {
         weekends: true,
         events: [
           { title: "event 1", start: "2022-01-20", end: "2022-01-22" },
+          { title: "event 1", start: "2022-01-20", end: "2022-01-22" },
           { title: "event 2", date: "2022-01-30" }
         ],
         // 日付をクリック、または範囲を選択したイベント
@@ -36,7 +37,7 @@ export default {
           // console.log(this.calendarOptions)
           if (eventName) {
             // イベントの追加
-            this.addEvent({ //composition api でthis使えている？
+            this.addEventSource({ //composition api でthis使えている？
               title: eventName,
               start: info.start,
               end: info.end,

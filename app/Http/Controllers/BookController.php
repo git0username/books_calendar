@@ -69,7 +69,8 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        $books = Book::where('id',$id)->get();
+        return $books;
     }
 
     /**
