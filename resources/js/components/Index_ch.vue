@@ -11,8 +11,9 @@
 <script>
 import { reactive, onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router"; //リダイレクト用
-import Router from 'Router.vue'
+import { useRouter } from 'vue-router'; //リダイレクト用
+// import Router from 'Router.vue'
+// import { Calendar } from '@fullcalendar/core';
 
 
 export default {
@@ -37,9 +38,10 @@ export default {
       axios.get(url).then(response => {
         data.response = response.data;
         console.log(data.response);        
-        router.push("/calendar");
-        Router.push({
-          params:{bookId:"11"}
+        // router.push("/calendar");
+        router.push({
+          name:"calendar",
+          params:{id:bookId,}
         })
       }).catch(error => {
           console.log(error);
