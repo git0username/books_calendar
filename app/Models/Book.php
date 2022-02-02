@@ -35,7 +35,7 @@ class Book extends Model
         $onloan_number_arr = array_count_values($bookid_arr);
         // dd($onloan_number_arr);
         //カウントしたものと全冊数を比べる
-         //$onloan_number_arrのkey(bookid)を取得(得られる配列[0=>1(bookId), 1=>2(bookId), ...])=貸出中の本のbookIdを配列化
+         //$onloan_number_arrのkey(bookid)を取得(得られる配列[0=>1(bookId), 1=>3(bookId), ...])=貸出中の本のbookIdを配列化
         $onloan_bookid_arr = array_keys($onloan_number_arr);
         // dd($onloan_bookid_arr);
         
