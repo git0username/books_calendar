@@ -33894,22 +33894,13 @@ __webpack_require__.r(__webpack_exports__);
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
-        events: [//ここをapi取得に変更 addressの末尾に$router.paramsのbookidをつけたい edit keyもつける
-        {
-          title: "event 1",
-          start: "2022-02-15",
-          end: "2022-02-16",
-          edit: "no"
-        }, {
-          title: "event 1",
-          start: "2022-02-20",
-          end: "2022-02-22",
-          edit: "no"
-        }, {
-          title: "event 2",
-          date: "2022-02-10",
-          edit: "yes"
-        }],
+        allDay: false,
+        events: 'http://127.0.0.1:8000/api/calendar/2',
+        // events: [ //ここをapi取得に変更 addressの末尾に$router.paramsのbookidをつけたい edit keyもつける
+        //   { title: "event 1", start: "2022-02-15", end: "2022-02-16", edit:"no" },
+        //   { title: "event 1", start: "2022-02-20", end: "2022-02-22", edit:"no" },
+        //   { title: "event 2", date: "2022-02-10", edit:"yes" }
+        // ],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function select(info) {
@@ -34454,16 +34445,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.bookId), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.booktypeId), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.number), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td>{{item.number}}</td>       "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn- btn-info text-white mt-2 flag",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.doAction($props.item.bookId);
+      return $setup.doAction($props.item.booktypeId);
     })
   }, "借りる")])]);
 }

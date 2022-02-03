@@ -15,10 +15,10 @@ class CreateBookOnloansTable extends Migration
     {
         Schema::create('book_onloans', function (Blueprint $table) {
             $table->id();
-            $table->Integer('bookId');
-            $table->Integer('userId')->nullable();
-            $table->string('checkoutDate');
-            $table->string('returnDate');
+            $table->Integer('booktypeId');
+            $table->Integer('userId'); //->nullable();
+            $table->date('start');
+            $table->date('end');
             $table->timestamps();
         });
     }

@@ -35,12 +35,16 @@ export default {
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
+        allDay: false,
 
-        events: [ //ここをapi取得に変更 addressの末尾に$router.paramsのbookidをつけたい edit keyもつける
-          { title: "event 1", start: "2022-02-15", end: "2022-02-16", edit:"no" },
-          { title: "event 1", start: "2022-02-20", end: "2022-02-22", edit:"no" },
-          { title: "event 2", date: "2022-02-10", edit:"yes" }
-        ],
+
+        events: 'http://127.0.0.1:8000/api/calendar/2',
+
+        // events: [ //ここをapi取得に変更 addressの末尾に$router.paramsのbookidをつけたい edit keyもつける
+        //   { title: "event 1", start: "2022-02-15", end: "2022-02-16", edit:"no" },
+        //   { title: "event 1", start: "2022-02-20", end: "2022-02-22", edit:"no" },
+        //   { title: "event 2", date: "2022-02-10", edit:"yes" }
+        // ],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function(info) {          

@@ -39,9 +39,22 @@ class CalendarController extends Controller
      */
     public function show($id)
     {
-        $books = Book::where('id',$id)->get();
-        return $books;
-    }
+        $books = BookOnloan::where('booktypeId',$id)->get()->toArray();        
+        foreach ($books as $book){
+            $title = "貸出Id".$book['id']."/"."userId".$book['userId'];
+            dd($title);
+        
+            unset($book['id']);
+            $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' ));           
+            
+            $book_onloan[] = array_merge($book,["edit"=>"no"]);            
+                
+            };
+           
+        //  dd( $book_onloan);
+        return $book_onloan;
+        }
+    
 
     /**
      * Update the specified resource in storage.

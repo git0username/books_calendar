@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class BookOnloan extends Model
 {
     protected $fillable = [
-        'bookId',
-        'checkoutDate',
-        'returnDate',
+        'booktypeId',
+        'start',
+        'end',
     ];
 
     //BOOKテーブル（主）と連携する
