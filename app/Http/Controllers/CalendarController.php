@@ -27,8 +27,13 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        $books = BookOnloan::where('bookId',$request->bookId)->get();
-        return $books;
+       //BookOnloadsテーブルにpost
+       $BookOnloan = new BookOnloan;
+       $BookOnloan->booktypeId = $request->booktypeId;
+       $BookOnloan->userId = $request->userId;
+       $BookOnloan->start = $request->start;
+       $BookOnloan->end = $request->end;
+       $BookOnloan->save();
     }
 
     /**
@@ -39,19 +44,22 @@ class CalendarController extends Controller
      */
     public function show($id)
     {
-        $books = BookOnloan::where('booktypeId',$id)->get()->toArray();        
-        foreach ($books as $book){
-            $title = "貸出Id".$book['id']."/"."userId".$book['userId'];
-            // dd($title);        
-            unset($book['id']);
-            $book["title"] = $title;
-            // dd($book);
-            $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' ));           
-            
-            $book_onloan[] = array_merge($book,["edit"=>"no"]);
+        $books = BookOnloan::where('booktypeId',$id)->get()->toArray();
+        if (!Empty($books)){ 
+            foreach ($books as $book){
+                $title = "貸出Id".$book['id']."/"."userId".$book['userId'];
+                // dd($title);        
+                unset($book['id']);
+                $book["title"] = $title;               
+                // dd($book);
+                $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' ));           
+                
+                $book_onloan[] = array_merge($book,["edit"=>"no"]);
             };
-           
-        //  dd( $book_onloan);
+        }else{
+            $book_onloan[]= ["title"=> "", "start"=> "", "end"=> ""];
+        };
+       
         return $book_onloan;
         }
     

@@ -28,6 +28,7 @@
         "@fullcalendar/interaction": "^5.10.1",
         "@fullcalendar/vue3": "^5.10.1",
         "dayjs": "^1.10.7",
+        "moment": "^2.29.1",
         "vue-router": "^4.0.12"
     }
 }
