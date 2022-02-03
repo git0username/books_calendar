@@ -35,7 +35,7 @@ export default {
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
-        allDay: false,
+        // allDay: false,
 
 
         events: 'http://127.0.0.1:8000/api/calendar/2',
@@ -50,6 +50,7 @@ export default {
         select: function(info) {          
           //alert("selected " + info.startStr + " to " + info.endStr);
           if(confirm("指定した日で貸出しますか？")){
+
           this.addEvent({ //this = Calendar
               title: "userId" + data.userId, //userIdが自動で入る
               start: info.start,
@@ -63,9 +64,11 @@ export default {
               end: info.end,
               edit:"yes",
               allDay: true
-            });            
+            }); 
+              console.log(this);
+
           }else{
-            alert("選択しなおしてください。");
+            // alert("選択しなおしてください。");
           }
         },
 
@@ -140,6 +143,7 @@ export default {
 
     // const router = useRouter()
     console.log("q");
+    // console.log(this);
     // console.log(this.$route.params.id);
 
     //貸出日をpostする

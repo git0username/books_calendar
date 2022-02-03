@@ -33894,7 +33894,7 @@ __webpack_require__.r(__webpack_exports__);
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
-        allDay: false,
+        // allDay: false,
         events: 'http://127.0.0.1:8000/api/calendar/2',
         // events: [ //ここをapi取得に変更 addressの末尾に$router.paramsのbookidをつけたい edit keyもつける
         //   { title: "event 1", start: "2022-02-15", end: "2022-02-16", edit:"no" },
@@ -33923,8 +33923,8 @@ __webpack_require__.r(__webpack_exports__);
               edit: "yes",
               allDay: true
             });
-          } else {
-            alert("選択しなおしてください。");
+            console.log(this);
+          } else {// alert("選択しなおしてください。");
           }
         },
         // 入力ダイアログ
@@ -33980,7 +33980,8 @@ __webpack_require__.r(__webpack_exports__);
 
     test(); // const router = useRouter()
 
-    console.log("q"); // console.log(this.$route.params.id);
+    console.log("q"); // console.log(this);
+    // console.log(this.$route.params.id);
     //貸出日をpostする
 
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_7__.useRouter)();
