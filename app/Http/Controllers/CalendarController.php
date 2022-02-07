@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\BookOnloan;
+use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 class CalendarController extends Controller
 {
@@ -27,13 +28,20 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-       //BookOnloadsテーブルにpost
-       $BookOnloan = new BookOnloan;
-       $BookOnloan->booktypeId = $request->booktypeId;
-       $BookOnloan->userId = $request->userId;
-       $BookOnloan->start = $request->start;
-       $BookOnloan->end = $request->end;
-       $BookOnloan->save();
+        $request = $request->toArray();
+        // var_export($request);
+        // dd($request);
+        //BookOnloadsテーブルにpost
+    //    $BookOnloan = new BookOnloan;
+       foreach($request as $request1){
+        //    dd($request,$request1);
+        $BookOnloan = new BookOnloan;
+            $BookOnloan->booktypeId = $request1['booktypeId'];
+            $BookOnloan->userId = $request1['userId'];
+            $BookOnloan->start = $request1['start'];
+            $BookOnloan->end = $request1['end'];
+            $BookOnloan->save();
+       }
     }
 
     /**

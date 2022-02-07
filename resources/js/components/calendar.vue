@@ -59,11 +59,11 @@ export default {
              var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く 
             //DBに渡す用arrにpush            
             data.onloanDate_arr.push({
-              title: data.userId, //userIdが自動で入る
+              booktypeId: data.booktypeId,
+              userId: data.userId,              
               start: start_afterDate,
               end: end_afterDate,
-              edit:"yes",
-              allDay: true
+              edit:"yes",              
             });            
           }else{
               // alert("選択しなおしてください。");
@@ -96,15 +96,31 @@ export default {
 
     //貸出日をpostする
     const router = useRouter();
-    const doAction = () => {
+    const doAction = () => {      
+      console.log(data.onloanDate_arr);      
       const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している
-      axios
-        .post(url, { //何種類もあったときは？2回に分けて借りるときなど------------------
-          booktypeId: route.params.booktypeId, 
-          start: data.onloanDate_arr[0]["start"],
-          end: data.onloanDate_arr[0]["end"],
-          userId: data.userId, 
-        })
+      // axios
+      //   .post(url, { //何種類もあったときは？2回に分けて借りるときなど------------------
+      //     booktypeId: route.params.booktypeId, 
+      //     start: data.onloanDate_arr[0]["start"],
+      //     end: data.onloanDate_arr[0]["end"],
+      //     userId: data.userId, 
+      //   })
+
+      // axios({
+      //           method: 'post',
+      //           url: url,
+      //           dataType: 'json',
+      //           data:{
+      //               list: [
+      //                   {id: "0", name: "高橋", class: "1組"},
+      //                   {id: "1", name: "鈴木", class: "2組"},
+      //                   {id: "2", name: "佐藤", class: "3組"}
+      //               ],
+      //           },
+      //       })
+
+      axios.post(url,data.onloanDate_arr)
         .then(response => {
           console.log(response);
           if (confirm("続けて貸出し予約をしますか？")) {
