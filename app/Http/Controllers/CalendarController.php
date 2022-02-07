@@ -36,7 +36,7 @@ class CalendarController extends Controller
        foreach($request as $request1){
         //    dd($request,$request1);
         $BookOnloan = new BookOnloan;
-            $BookOnloan->booktypeId = $request1['booktypeId'];
+            $BookOnloan->bookId = $request1['bookId'];
             $BookOnloan->userId = $request1['userId'];
             $BookOnloan->start = $request1['start'];
             $BookOnloan->end = $request1['end'];
@@ -52,15 +52,12 @@ class CalendarController extends Controller
      */
     public function show($id)
     {
-        $bookId_arr = Book::where('booktypeId',$id)->pluck('id')->toArray();
-        // dd($bookId_arr);
-        // $bookId_arr1 = $bookId_arr
-        
-        $books = BookOnloan::whereIn('bookId',['4','5'])->get()->toArray();
-        dd($books);
+        $bookId_arr = Book::where('booktypeId',$id)->pluck('id')->toArray();        
+        $books = BookOnloan::whereIn('bookId',$bookId_arr)->get()->toArray();
+       
         if (!Empty($books)){ 
             foreach ($books as $book){
-                $title = "貸出Id".$book['id']."/"."userId".$book['userId']."/"."bookId".$book['bookId'];
+                $title = "貸出Id".$book['id']."/"."userId".$book['userId']."/"."bookId"."/".$book['bookId'];
                 // dd($title);        
                 unset($book['id']);
                 $book["title"] = $title;               

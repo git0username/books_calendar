@@ -1,6 +1,6 @@
 <template>
 <div>
-<div>{{this.$route.params.id}}</div>
+<div style="font-size: 30px">【{{this.$route.params.title}}】 の貸出表</div>
   <FullCalendar :options="data.calendarOptions" />
   <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button> 
 </div>
@@ -42,8 +42,15 @@ export default {
         
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
-        select: function(info) {         
+        select: function(info) {
+          console.log("this");
+          console.log(this.getEvents());
+          console.log(info);
+          console.log(info.endStr);
+          
+
           if(confirm("指定した日で貸出しますか？")){
+            
             //ここにすでに全数借りられてたらアラートだす処理-------------------------
             this.addEvent({ //this = Calendar
               title: "userId" + data.userId, //userIdが自動で入る
@@ -57,7 +64,8 @@ export default {
              var start_beforeDate = moment(info.start, "YYYY-MM-DD"); // DBに渡せる形にする
              var start_afterDate = start_beforeDate.format('YYYY-MM-DD');
              var end_beforeDate = moment(info.end, "YYYY-MM-DD");             
-             var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く 
+             var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く
+
             //DBに渡す用arrにpush            
             data.onloanDate_arr.push({
               booktypeId: data.booktypeId,

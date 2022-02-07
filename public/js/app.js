@@ -33571,7 +33571,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
 
-    var doAction = function doAction(booktypeId, number) {
+    var doAction = function doAction(booktypeId, number, title) {
       var url = "http://127.0.0.1:8000/api/calendar/" + booktypeId; //このページがAPI入出力の窓口として機能している
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().get(url).then(function (response) {
@@ -33582,7 +33582,8 @@ __webpack_require__.r(__webpack_exports__);
           name: "calendar",
           params: {
             booktypeId: booktypeId,
-            number: number
+            number: number,
+            title: title
           }
         });
       })["catch"](function (error) {
@@ -33780,6 +33781,11 @@ __webpack_require__.r(__webpack_exports__);
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function select(info) {
+          console.log("this");
+          console.log(this.getEvents());
+          console.log(info);
+          console.log(info.endStr);
+
           if (confirm("指定した日で貸出しますか？")) {
             //ここにすでに全数借りられてたらアラートだす処理-------------------------
             this.addEvent({
@@ -33796,7 +33802,7 @@ __webpack_require__.r(__webpack_exports__);
 
             var start_afterDate = start_beforeDate.format('YYYY-MM-DD');
             var end_beforeDate = moment__WEBPACK_IMPORTED_MODULE_7___default()(info.end, "YYYY-MM-DD");
-            var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く 
+            var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く
             //DBに渡す用arrにpush            
 
             data.onloanDate_arr.push({
@@ -34255,7 +34261,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn- btn-info text-white mt-2 flag",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.doAction($props.item.booktypeId, $props.item.number);
+      return $setup.doAction($props.item.booktypeId, $props.item.number, $props.item.title);
     })
   }, "借りる")])]);
 }
@@ -34349,10 +34355,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = {
+  style: {
+    "font-size": "30px"
+  }
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_FullCalendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FullCalendar");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.$route.params.id), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, "【" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.$route.params.title) + "】 の貸出表", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FullCalendar, {
     options: $setup.data.calendarOptions
