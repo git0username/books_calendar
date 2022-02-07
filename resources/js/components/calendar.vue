@@ -49,6 +49,7 @@ export default {
               title: "userId" + data.userId, //userIdが自動で入る
               start: info.start,
               end: info.end,
+              bookId: 1, 
               edit:"yes",
               allDay: true
             });
@@ -63,6 +64,7 @@ export default {
               userId: data.userId,              
               start: start_afterDate,
               end: end_afterDate,
+              bookId: 1,
               edit:"yes",              
             });            
           }else{
@@ -98,28 +100,7 @@ export default {
     const router = useRouter();
     const doAction = () => {      
       console.log(data.onloanDate_arr);      
-      const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している
-      // axios
-      //   .post(url, { //何種類もあったときは？2回に分けて借りるときなど------------------
-      //     booktypeId: route.params.booktypeId, 
-      //     start: data.onloanDate_arr[0]["start"],
-      //     end: data.onloanDate_arr[0]["end"],
-      //     userId: data.userId, 
-      //   })
-
-      // axios({
-      //           method: 'post',
-      //           url: url,
-      //           dataType: 'json',
-      //           data:{
-      //               list: [
-      //                   {id: "0", name: "高橋", class: "1組"},
-      //                   {id: "1", name: "鈴木", class: "2組"},
-      //                   {id: "2", name: "佐藤", class: "3組"}
-      //               ],
-      //           },
-      //       })
-
+      const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
       axios.post(url,data.onloanDate_arr)
         .then(response => {
           console.log(response);

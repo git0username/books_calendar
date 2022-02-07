@@ -32,11 +32,12 @@ export default {
   setup() {
     const data = reactive({
       title: "貸出し履歴",
-      table_obj: {}
+      table_obj: {},
+      userId:2,
     });
 
     const getAction = async () => {
-      const url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
+      const url = "http://127.0.0.1:8000/api/bookonloan" + data.userId; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
       data.table_obj = response.data;

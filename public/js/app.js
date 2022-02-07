@@ -33635,7 +33635,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       title: "貸出し履歴",
-      table_obj: {}
+      table_obj: {},
+      userId: 2
     });
 
     var getAction = /*#__PURE__*/function () {
@@ -33645,7 +33646,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
+                url = "http://127.0.0.1:8000/api/bookonloan" + data.userId; //このページがAPI入出力の窓口として機能している
 
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(url);
@@ -33787,6 +33788,7 @@ __webpack_require__.r(__webpack_exports__);
               //userIdが自動で入る
               start: info.start,
               end: info.end,
+              bookId: 1,
               edit: "yes",
               allDay: true
             });
@@ -33802,6 +33804,7 @@ __webpack_require__.r(__webpack_exports__);
               userId: data.userId,
               start: start_afterDate,
               end: end_afterDate,
+              bookId: 1,
               edit: "yes"
             });
           } else {// alert("選択しなおしてください。");
@@ -33832,26 +33835,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var doAction = function doAction() {
       console.log(data.onloanDate_arr);
-      var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している
-      // axios
-      //   .post(url, { //何種類もあったときは？2回に分けて借りるときなど------------------
-      //     booktypeId: route.params.booktypeId, 
-      //     start: data.onloanDate_arr[0]["start"],
-      //     end: data.onloanDate_arr[0]["end"],
-      //     userId: data.userId, 
-      //   })
-      // axios({
-      //           method: 'post',
-      //           url: url,
-      //           dataType: 'json',
-      //           data:{
-      //               list: [
-      //                   {id: "0", name: "高橋", class: "1組"},
-      //                   {id: "1", name: "鈴木", class: "2組"},
-      //                   {id: "2", name: "佐藤", class: "3組"}
-      //               ],
-      //           },
-      //       })
+      var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
 
       axios__WEBPACK_IMPORTED_MODULE_5___default().post(url, data.onloanDate_arr).then(function (response) {
         console.log(response);
@@ -34343,9 +34327,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.checkoutDate), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.start), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.returnDate), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.end), 1
   /* TEXT */
   )])]);
 }

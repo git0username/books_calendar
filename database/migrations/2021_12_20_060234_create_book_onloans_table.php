@@ -15,7 +15,7 @@ class CreateBookOnloansTable extends Migration
     {
         Schema::create('book_onloans', function (Blueprint $table) {
             $table->id();
-            $table->Integer('booktypeId');
+            $table->Integer('bookId');
             $table->Integer('userId'); //->nullable();
             $table->date('start');
             $table->date('end');

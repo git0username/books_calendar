@@ -3,8 +3,8 @@
       <tr>
         <td>{{item.id}}</td>
         <td>{{item.title}}</td>
-        <td>{{item.checkoutDate}}</td>
-        <td>{{item.returnDate}}</td>
+        <td>{{item.start}}</td>
+        <td>{{item.end}}</td>
       </tr>
     </tbody>
 </template>

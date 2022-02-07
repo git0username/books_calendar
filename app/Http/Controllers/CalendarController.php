@@ -52,10 +52,15 @@ class CalendarController extends Controller
      */
     public function show($id)
     {
-        $books = BookOnloan::where('booktypeId',$id)->get()->toArray();
+        $bookId_arr = Book::where('booktypeId',$id)->pluck('id')->toArray();
+        // dd($bookId_arr);
+        // $bookId_arr1 = $bookId_arr
+        
+        $books = BookOnloan::whereIn('bookId',['4','5'])->get()->toArray();
+        dd($books);
         if (!Empty($books)){ 
             foreach ($books as $book){
-                $title = "貸出Id".$book['id']."/"."userId".$book['userId'];
+                $title = "貸出Id".$book['id']."/"."userId".$book['userId']."/"."bookId".$book['bookId'];
                 // dd($title);        
                 unset($book['id']);
                 $book["title"] = $title;               
