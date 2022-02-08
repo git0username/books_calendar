@@ -13,9 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(20)->create();
+        // \App\Models\User::factory(20)->create(); //userテーブルのseeder factory
         $this->call(BooksTableSeeder::class);
         $this->call(BookOnloansTableSeeder::class);
         $this->call(BooklistsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+
     }
 }

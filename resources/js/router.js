@@ -4,6 +4,7 @@ import checkoutForm from './components/checkoutForm'
 import bookingList from './components/bookingList'
 import calendar from './components/calendar'
 import calendar_test2 from './components/calendar_test2'
+import login_form from './components/login_form'
 
 
 export const router = createRouter({
@@ -51,6 +52,12 @@ export const router = createRouter({
             path:'/calendar_test2',
             name: 'calendar_test2',
             component:calendar_test2,
+            props:true        
+        },
+        {
+            path:'/login_form',
+            name: 'login_form',
+            component:login_form,
             props:true        
         },
         

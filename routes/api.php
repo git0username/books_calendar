@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookOnloanController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\LoginController;
 
 
 /*
@@ -24,6 +25,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// 認証済みでないと許可しない
+// Route::group(["middleware" => ["auth:sanctum"]], function () {
+
+//     Route::apiResource('/books',BookController::class);
+
+//     Route::apiResource('/Lending',LendingController::class);
+// });
+
 // Laravel8から書き方が変更された
 // apiに対応したrestfulにしておく
 Route::apiResource('/books',BookController::class);
@@ -31,3 +40,5 @@ Route::apiResource('/books',BookController::class);
 Route::apiResource('/bookonloan',BookOnloanController::class);
 
 Route::apiResource('/calendar',CalendarController::class);
+
+Route::post('/login',[LoginController::class, 'authenticate']);

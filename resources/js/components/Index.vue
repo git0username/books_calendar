@@ -51,10 +51,6 @@ export default {
       console.log("result.data=");
       console.log(result.data); 
     }
-
-    
-
-
     onMounted(() => {
     getAPI_books();
     });
