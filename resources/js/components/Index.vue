@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header />  
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
         <p>{{data.title}}</p>
@@ -29,11 +30,12 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
 import Index_ch from "./Index_ch.vue";
+import Header from "./header.vue";
 
 
 export default {
   name: "Index",
-  components: { Index_ch },
+  components: { Index_ch, Header },
 
   setup() {
     const data = reactive({

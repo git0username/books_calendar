@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3>login form</h3>
+    <h2>login form</h2>
     <div class="form-group" style="padding:30px">
       <!-- <form action="/api/check" method="post"> -->
       <label for="studentNo">studentNo</label>
-      <input id="studentNo" type="text" name="studentNo" v-model="data.studentNo" class="form-control" />
+      <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" />
       <br />
       <label for="password">パスワード</label>
       <input id="password" type="text" name="password" v-model="data.password" class="form-control" />      
@@ -53,7 +53,11 @@ export default {
         })
         .then(response => {
           console.log(response);
-          // router.push("/");
+          if(response.data == 'success'){
+          router.push("/");
+          }else{
+            alert("ログイン出来ませんでした。\n再入力してください");
+          }
           // if (confirm("続けて貸出し予約をしますか？")) {
           //   data.book_title = "";
           //   data.checkoutDate = "";

@@ -16,7 +16,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+            //adminかどうかcheck
             return response("success",200);
         }
 

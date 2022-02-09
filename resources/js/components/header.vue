@@ -1,28 +1,23 @@
 <template>
   <div class="container"> 
-    <h1><a href="/index">Books</a></h1>
-    <!-- <Header />    -->
-    <!-- <nav>   
+    <!-- <h1><a href="/index">Books</a></h1>    -->
+    <nav>   
             <ul class="main-nav">
-                <li><a href="/checkoutform">貸出し予約</a></li>
+                <!-- <li><a href="/checkoutform">貸出し予約</a></li> -->
                 <li><a href="/bookingList">過去に借りた本の一覧</a></li>                
-                <li><a href="url()->previous()">前のページに戻る</a></li>
+                <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
-        </nav> -->
-    <router-view></router-view>
-
+        </nav>
   </div>
 </template>
 
-
 <script>
-import Header from "./components/header.vue";
 import { reactive } from "vue";
 
 export default {
-  name: "App",
+  name: "Header",
   components: {
-    Header
+    // 
   },
 
   setup() {
@@ -32,6 +27,7 @@ export default {
   }
 };
 </script>
+<!--
 <style>
     body {
         color: #333333;
@@ -52,16 +48,7 @@ export default {
         list-style: none;
         margin: 10px;
     }
-
-    /* .main-nav{
-        display: flex; 
-        border: solid black 1px;
-    }
-
-    .main-nav p{        
-        margin: 10px;
-    } */
-
+    
     .main-nav li {
         margin-left: 15px;
 
@@ -89,3 +76,4 @@ export default {
     }
 
 </style>
+-->
