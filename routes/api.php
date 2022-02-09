@@ -26,19 +26,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // 認証済みでないと許可しない
-// Route::group(["middleware" => ["auth:sanctum"]], function () {
+Route::group(["middleware" => ["auth:sanctum"]], function () {
 
-//     Route::apiResource('/books',BookController::class);
+    Route::apiResource('/books',BookController::class);
 
-//     Route::apiResource('/Lending',LendingController::class);
-// });
+    Route::apiResource('/bookonloan',BookOnloanController::class);
+
+    Route::apiResource('/calendar',CalendarController::class);
+
+    Route::get('/index', function () { return view('welcome');});
+    
+});
+    
 
 // Laravel8から書き方が変更された
 // apiに対応したrestfulにしておく
-Route::apiResource('/books',BookController::class);
-
-Route::apiResource('/bookonloan',BookOnloanController::class);
-
-Route::apiResource('/calendar',CalendarController::class);
 
 Route::post('/login',[LoginController::class, 'authenticate']);

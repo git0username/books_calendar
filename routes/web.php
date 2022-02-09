@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', function () {
-    return view('welcome');
-})->where('any','.*');
+// Route::group(["middleware" => ["auth:sanctum"]], function () {
+
+// Route::get('/{any}', function () {
+//     return view('welcome'); //welcome.blade.php を返す
+// })->where('any','.*'); //whereメソッドでパラメータを指定する where('パラメータ名', '正規表現')
+//     // })->where('any','^(?!login).*$'); //loginページ以外から入れないようにする
+
+// });
+
+Route::get('/login',function () {
+    return view('welcome'); //welcome.blade.php を返す
+});
+

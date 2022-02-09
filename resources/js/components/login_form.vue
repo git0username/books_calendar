@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
 
 export default {
-  name: "checkoutForm",
+  name: "login",
   setup() {
     const data = reactive({
       studentNo:"",
@@ -53,7 +53,7 @@ export default {
         })
         .then(response => {
           console.log(response);
-          router.push("/");
+          // router.push("/");
           // if (confirm("続けて貸出し予約をしますか？")) {
           //   data.book_title = "";
           //   data.checkoutDate = "";

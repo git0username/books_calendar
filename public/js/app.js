@@ -34185,7 +34185,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  //リダイレクト用
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "checkoutForm",
+  name: "login",
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       studentNo: "",
@@ -34236,8 +34236,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         studentNo: data.studentNo,
         password: data.password
       }).then(function (response) {
-        console.log(response);
-        router.push("/"); // if (confirm("続けて貸出し予約をしますか？")) {
+        console.log(response); // router.push("/");
+        // if (confirm("続けて貸出し予約をしますか？")) {
         //   data.book_title = "";
         //   data.checkoutDate = "";
         //   data.returnDate = "";
@@ -34763,8 +34763,8 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_6__.createRouter)({
     component: _components_calendar_test2__WEBPACK_IMPORTED_MODULE_4__["default"],
     props: true
   }, {
-    path: '/login_form',
-    name: 'login_form',
+    path: '/login',
+    name: 'login',
     component: _components_login_form__WEBPACK_IMPORTED_MODULE_5__["default"],
     props: true
   }]
