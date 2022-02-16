@@ -23,23 +23,23 @@ class CalendarController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request_arr
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request = $request->toArray();
-        // var_export($request);
-        // dd($request);
+        $request_arr = $request->toArray();
+        // var_export($request_arr);
+        // dd($request_arr);
         //BookOnloadsテーブルにpost
     //    $BookOnloan = new BookOnloan;
-       foreach($request as $request1){
-        //    dd($request,$request1);
+       foreach($request_arr as $request_ch){
+        //    dd($request_arr,$request_ch);
         $BookOnloan = new BookOnloan;
-            $BookOnloan->bookId = $request1['bookId'];
-            $BookOnloan->userId = $request1['userId'];
-            $BookOnloan->start = $request1['start'];
-            $BookOnloan->end = $request1['end'];
+            $BookOnloan->bookId = $request_ch['bookId'];
+            $BookOnloan->studentNo = $request_ch['studentNo'];
+            $BookOnloan->start = $request_ch['start'];
+            $BookOnloan->end = $request_ch['end'];
             $BookOnloan->save();
        }
     }
@@ -77,11 +77,11 @@ class CalendarController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request_arr
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request_arr, $id)
     {
         //
     }

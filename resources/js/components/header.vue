@@ -8,7 +8,7 @@
                 <li><a href="/index">貸出し予約</a></li>
                 <li><a href="/bookingList">過去に借りた本の一覧</a></li>
                 <li><a href="/bookingList">logout</a></li>
-                <li><a href="http://127.0.0.1:8000/api/bookonloan/3">api/bookonloan/3</a></li>
+                <li><a href="http://127.0.0.1:8000/api/bookonloan/2">api/bookonloan/2</a></li>
                 <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
         </nav>

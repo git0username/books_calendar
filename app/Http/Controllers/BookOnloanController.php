@@ -83,15 +83,20 @@ class BookOnloanController extends Controller
     public function show($id)
     {
         $bookonloan_arr = BookOnloan::where('studentNo', $id)->get();
+        // dd($bookonloan_arr);
+        $books = [];
         foreach($bookonloan_arr as $bookonloan){
             // dd($bookonloan->book);
             // var_export($bookonloan->toArray());
             // var_export($bookonloan->book->toArray());
+            $book_arr = $bookonloan->toArray();
 
-            $book = array_merge($bookonloan->toArray(), $bookonloan->book->toArray());
-            dd($book);
+            // $book_onloan_book= $bookonloan->book->toArray();
+
+            $book = array_merge($bookonloan->book->toArray(), $book_arr);
+            // dd($book);
             $books[] = $book;
-        }
+        };
         return $books;
 
     }

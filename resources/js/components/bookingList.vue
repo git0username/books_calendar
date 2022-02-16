@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header />
+    <p>{{$store.state.test}}</p>
     <p>{{data.title}}</p>
     <h3>{{ data.booking }}</h3>
     <table class="table table-light table-striped">
@@ -26,6 +27,8 @@ import { reactive, onMounted } from "vue";
 import axios from "axios";
 import bookingList_ch from "./bookingList_ch.vue";
 import Header from "./header.vue";
+import { store } from "./store.js";
+
 
 export default {
   name: "bookingList",
@@ -39,7 +42,7 @@ export default {
     });
 
     const getAction = async () => {
-      const url = "http://127.0.0.1:8000/api/bookonloan/3" ; //このページがAPI入出力の窓口として機能している
+      const url = "http://127.0.0.1:8000/api/bookonloan/2" ; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
       data.table_obj = response.data;
