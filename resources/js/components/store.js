@@ -1,9 +1,18 @@
-import { createStore } from "Vuex";
+import { createStore } from "vuex";
 
-const store = createStore({
+export const store = createStore({
     state () {
       return {
-        test: 'this is test.'
+        studentInfo: [],
+      }
+    },
+
+    mutations: {
+      setStudentInfo (state, payload) {
+        state.studentInfo = payload;
+        console.log("store.state.studentInfo=");
+        console.log(state.studentInfo);
       }
     }
 });
+

@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-      <h3 class="text-primary">studentNo：{{}}</h3>
+      <h3 class="text-primary">studentNo：{{data.studentInfo[0].studentNo}}</h3>
+      <h3 class="text-primary">ようこそ　{{data.studentInfo[0].name}}　さん</h3>
+      
     <!-- <h1><a href="/index">Books</a></h1>    -->
     <nav>   
             <ul class="main-nav">
@@ -16,7 +18,8 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, onBeforeMount } from "vue";
+import { store } from "./store.js";
 
 export default {
   name: "Header",
@@ -25,9 +28,24 @@ export default {
   },
 
   setup() {
-    const data = reactive({});
+    const data = reactive({
+        studentInfo: store.state.studentInfo,
+    });
 
-    return { data };
+    // console.log("store.state.studentInfo_header=");
+    // console.log(store.state.studentInfo);
+    // console.log("data.studentInfo_header=");
+    // console.log(data.studentInfo);
+    // console.log("header.data.studentInfo[studentNo]=");
+    //  console.log(data.studentInfo["studentNo"]);
+
+     onBeforeMount(() => {
+    // data.studentInfo = store.state.studentInfo;
+    });
+
+    
+
+    return { data, onBeforeMount };
   }
 };
 </script>

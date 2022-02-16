@@ -3,7 +3,10 @@
     <Header />  
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
-        <p>{{data.title}}</p>
+        <p class="h5">{{data.title}}</p>
+
+        <!-- <p>{{data.studentInfo}}</p>
+        <p>{{data.studentInfo[0].studentNo}}</p>   -->
 
         <table class="table table-light table-striped" style="width:600px">
           <thead class="table-dark text-center">
@@ -31,6 +34,7 @@ import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
 import Index_ch from "./Index_ch.vue";
 import Header from "./header.vue";
+import { store } from "./store.js";
 
 
 export default {
@@ -41,6 +45,7 @@ export default {
     const data = reactive({
       result:"",
       title: "BOOK_LIST",
+      studentInfo:store.state.studentInfo,
       // checkoutDate: "",
       // returnDate: "",
       // userId:2      
@@ -50,8 +55,12 @@ export default {
     const getAPI_books = async () => {
       const result = await axios.get(url);
       data.result = result.data;       
-      console.log("result.data=");
-      console.log(result.data); 
+      console.log("index.result.data=");
+      // console.log(result.data); 
+      console.log(store.state.studentInfo[0].studentNo);
+      console.log("index.data.studentinfo[0].studentNo");
+      console.log(data.studentInfo[0].studentNo);
+      // data.studentInfo = store.state.studentInfo;
     }
     onMounted(() => {
     getAPI_books();

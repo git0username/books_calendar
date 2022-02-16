@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Header />
-    <p>{{$store.state.test}}</p>
+    <Header />    
     <p>{{data.title}}</p>
     <h3>{{ data.booking }}</h3>
     <table class="table table-light table-striped">
@@ -38,14 +37,14 @@ export default {
     const data = reactive({
       title: "貸出し履歴",
       table_obj: {},
-      userId:2,
+      userId:2,      
     });
 
     const getAction = async () => {
       const url = "http://127.0.0.1:8000/api/bookonloan/2" ; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
-      data.table_obj = response.data;
+      data.table_obj = response.data;      
     };
 
     onMounted(() => {

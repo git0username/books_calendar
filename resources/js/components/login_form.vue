@@ -18,6 +18,7 @@ import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
+import { store } from "./store.js";
 
 
 export default {
@@ -53,9 +54,13 @@ export default {
           password: data.password,           
         })
         .then(response => {
-          console.log(response);
-          if(response.data == 'success'){
-          router.push("/");
+           console.log("a");
+          console.log(response.data);
+          if(response.data["result"] == 'success'){ 
+                 console.log("success");
+                 console.log(response.data["studentInfo"]);        
+            store.commit('setStudentInfo', response.data["studentInfo"]);
+            router.push("/");
           }else{
             alert("ログイン出来ませんでした。\n再入力してください");
           }
