@@ -1,10 +1,14 @@
 <template>
-  <div class="container"> 
+  <div class="container">
+      <h3 class="text-primary">studentNo：{{}}</h3>
     <!-- <h1><a href="/index">Books</a></h1>    -->
     <nav>   
             <ul class="main-nav">
                 <!-- <li><a href="/checkoutform">貸出し予約</a></li> -->
-                <li><a href="/bookingList">過去に借りた本の一覧</a></li>                
+                <li><a href="/index">貸出し予約</a></li>
+                <li><a href="/bookingList">過去に借りた本の一覧</a></li>
+                <li><a href="/bookingList">logout</a></li>
+                <li><a href="http://127.0.0.1:8000/api/bookonloan/3">api/bookonloan/3</a></li>
                 <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
         </nav>

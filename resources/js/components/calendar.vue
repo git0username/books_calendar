@@ -28,7 +28,7 @@ export default {
     const route = useRoute();
     const data = reactive({    
       booktypeId:route.params.booktypeId,
-      userId:2,
+      studentNo:2,
       number:route.params.number,
       onloanDate_arr:[],
       calendarOptions: {
@@ -53,7 +53,7 @@ export default {
             
             //ここにすでに全数借りられてたらアラートだす処理-------------------------
             this.addEvent({ //this = Calendar
-              title: "userId" + data.userId, //userIdが自動で入る
+              title: "studentNo" + data.studentNo, //studentNoが自動で入る
               start: info.start,
               end: info.end,
               bookId: 1, 
@@ -69,7 +69,7 @@ export default {
             //DBに渡す用arrにpush            
             data.onloanDate_arr.push({
               booktypeId: data.booktypeId,
-              userId: data.userId,              
+              studentNo: data.studentNo,              
               start: start_afterDate,
               end: end_afterDate,
               bookId: 1,

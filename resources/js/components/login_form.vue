@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>login form</h2>
+    <h3 class="text-primary">login form</h3>
     <div class="form-group" style="padding:30px">
       <!-- <form action="/api/check" method="post"> -->
       <label for="studentNo">studentNo</label>
@@ -19,6 +19,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
 
+
 export default {
   name: "login",
   setup() {
@@ -32,7 +33,7 @@ export default {
       const result = await axios.get("sanctum/csrf-cookie");
       // data.token = result.data;       
       console.log("result.data=");
-      console.log(result.data); 
+      console.log(result); 
     }
     onMounted(() => {
     getToken();

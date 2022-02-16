@@ -25,7 +25,7 @@ export default {
 
   setup(props) {
     const data = reactive({ 
-      userId:2,
+      studentNo:2,
       item:props.item ,
       response:[]
     });

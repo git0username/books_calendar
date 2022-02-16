@@ -17,8 +17,15 @@ class UsersTableSeeder extends Seeder
     {
         $param = [
             'studentNo' => '1',
-            'name' => 'AAAAAA',            
-            'password' => bcrypt('1234'),
+            'name' => 'A',            
+            'password' => bcrypt('1'),
+        ];
+        DB::table('users')->insert($param);
+
+        $param = [
+            'studentNo' => '3',
+            'name' => 'C',            
+            'password' => bcrypt('3'),
         ];
         DB::table('users')->insert($param);
 

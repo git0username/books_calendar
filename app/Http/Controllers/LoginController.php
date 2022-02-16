@@ -17,7 +17,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             //adminかどうかcheck
-            return response("success",200);
+            return response("success",200); //userinfo を全部持たせる
         }
 
         return back()->withErrors([

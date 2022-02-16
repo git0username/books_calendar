@@ -33570,7 +33570,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup(props) {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      userId: 2,
+      studentNo: 2,
       item: props.item,
       response: []
     });
@@ -33624,6 +33624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _bookingList_ch_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bookingList_ch.vue */ "./resources/js/components/bookingList_ch.vue");
+/* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -33633,10 +33634,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "bookingList",
   components: {
-    bookingList_ch: _bookingList_ch_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    bookingList_ch: _bookingList_ch_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    Header: _header_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
@@ -33652,7 +33655,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/bookonloan" + data.userId; //このページがAPI入出力の窓口として機能している
+                url = "http://127.0.0.1:8000/api/bookonloan/3"; //このページがAPI入出力の窓口として機能している
 
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(url);
@@ -33772,7 +33775,7 @@ __webpack_require__.r(__webpack_exports__);
     var route = (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.useRoute)();
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       booktypeId: route.params.booktypeId,
-      userId: 2,
+      studentNo: 2,
       number: route.params.number,
       onloanDate_arr: [],
       calendarOptions: {
@@ -33795,8 +33798,8 @@ __webpack_require__.r(__webpack_exports__);
             //ここにすでに全数借りられてたらアラートだす処理-------------------------
             this.addEvent({
               //this = Calendar
-              title: "userId" + data.userId,
-              //userIdが自動で入る
+              title: "studentNo" + data.studentNo,
+              //studentNoが自動で入る
               start: info.start,
               end: info.end,
               bookId: 1,
@@ -33812,7 +33815,7 @@ __webpack_require__.r(__webpack_exports__);
 
             data.onloanDate_arr.push({
               booktypeId: data.booktypeId,
-              userId: data.userId,
+              studentNo: data.studentNo,
               start: start_afterDate,
               end: end_afterDate,
               bookId: 1,
@@ -34239,7 +34242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 result = _context.sent;
                 // data.token = result.data;       
                 console.log("result.data=");
-                console.log(result.data);
+                console.log(result);
 
               case 5:
               case "end":
@@ -34445,9 +34448,11 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Header");
+
   var _component_bookingList_ch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookingList_ch");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.booking), 1
   /* TEXT */
@@ -34670,17 +34675,16 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "container"
 };
+var _hoisted_2 = {
+  "class": "text-primary"
+};
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-  "class": "main-nav"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li><a href=\"/checkoutform\">貸出し予約</a></li> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/bookingList"
-}, "過去に借りた本の一覧")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li><a href=\"url()->previous()\">前のページに戻る</a></li> ")])], -1
-/* HOISTED */
-);
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<nav><ul class=\"main-nav\"><!-- &lt;li&gt;&lt;a href=&quot;/checkoutform&quot;&gt;貸出し予約&lt;/a&gt;&lt;/li&gt; --><li><a href=\"/index\">貸出し予約</a></li><li><a href=\"/bookingList\">過去に借りた本の一覧</a></li><li><a href=\"/bookingList\">logout</a></li><li><a href=\"http://127.0.0.1:8000/api/bookonloan/3\">api/bookonloan/3</a></li><!-- &lt;li&gt;&lt;a href=&quot;url()-&gt;previous()&quot;&gt;前のページに戻る&lt;/a&gt;&lt;/li&gt; --></ul></nav>", 1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1><a href=\"/index\">Books</a></h1>    "), _hoisted_2]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, "studentNo：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1><a href=\"/index\">Books</a></h1>    "), _hoisted_3]);
 }
 
 /***/ }),
@@ -34699,7 +34703,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "login form", -1
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  "class": "text-primary"
+}, "login form", -1
 /* HOISTED */
 );
 
