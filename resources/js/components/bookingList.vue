@@ -44,7 +44,8 @@ export default {
       const url = "http://127.0.0.1:8000/api/bookonloan/2" ; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
-      data.table_obj = response.data;      
+      data.table_obj = response.data;  
+       console.log(store.state.studentInfo);
     };
 
     onMounted(() => {
