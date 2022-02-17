@@ -9,7 +9,7 @@
                 <!-- <li><a href="/checkoutform">貸出し予約</a></li> -->
                 <li><a href="/index">貸出し予約</a></li>
                 <li><a href="/bookingList">過去に借りた本の一覧</a></li>
-                <li><a href="/bookingList">logout</a></li>
+                <li><a href="#" v-on:click="doAction()" >logout</a></li>
                 <li><a href="http://127.0.0.1:8000/api/bookonloan/2">api/bookonloan/2</a></li>
                 <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
@@ -20,6 +20,7 @@
 <script>
 import { reactive, onBeforeMount } from "vue";
 import { store } from "./store.js";
+import { useRouter } from "vue-router";
 
 export default {
   name: "Header",
@@ -27,10 +28,25 @@ export default {
     // 
   },
 
-  setup() {
+  setup() { 
     const data = reactive({
         studentInfo: store.state.studentInfo,
+        // doAction: doAction(),    
     });
+
+    const router = useRouter();
+    const doAction = ()=>{
+        
+        store.commit("clearStudentInfo");
+         router.push("/");
+    };
+
+    const noLink = ()=> {
+    // これで画面の遷移を止めます
+    return false;
+  };
+
+    
 
     // console.log("store.state.studentInfo_header=");
     // console.log(store.state.studentInfo);
@@ -45,7 +61,7 @@ export default {
 
     
 
-    return { data, onBeforeMount };
+    return { data, onBeforeMount, doAction, noLink };
   }
 };
 </script>

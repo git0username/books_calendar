@@ -1,12 +1,22 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+// const getDefaultState = ()=>{
+//   return {
+//     studentInfo: null,
+//   }
+// }
+
 export const store = createStore({
-    state () {
-      return {
-        studentInfo: null,
+  // state:  getDefaultState(),
+
+    state(){
+      return{
+      studentInfo : getDefaultState(),
       }
     },
+    
+  
 
     mutations: {
       setStudentInfo (state, payload) {
@@ -16,8 +26,8 @@ export const store = createStore({
       },
 
       // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
-      clearStudentInfo(state) {
-        Object.assign(state, state());
+      clearStudentInfo (state) {
+        Object.assign(state, getDefaultState());
         console.log("storeデータは初期化されました。");
         console.log(state.studentInfo);
       }
