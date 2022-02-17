@@ -34891,7 +34891,7 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
   // state:  getDefaultState(),
   state: function state() {
     return {
-      studentInfo: getDefaultState()
+      studentInfo: null
     };
   },
   mutations: {
@@ -34902,7 +34902,8 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
     },
     // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
     clearStudentInfo: function clearStudentInfo(state) {
-      Object.assign(state, getDefaultState());
+      state.studentInfo = null; // Object.assign(state, getDefaultState());
+
       console.log("storeデータは初期化されました。");
       console.log(state.studentInfo);
     }
