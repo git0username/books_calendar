@@ -57,7 +57,7 @@ class CalendarController extends Controller
        
         if (!Empty($books)){ 
             foreach ($books as $book){
-                $title = "貸出Id".$book['id']."/"."userId".$book['userId']."/"."bookId"."/".$book['bookId'];
+                $title = "貸出Id".$book['id']."/"."studentNo".$book['studentNo']; //."/"."bookId"."/".$book['bookId'];
                 // dd($title);        
                 unset($book['id']);
                 $book["title"] = $title;               
