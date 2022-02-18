@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-      <h3 class="text-primary">studentNo：{{data.studentInfo[0].studentNo}}</h3>
-      <h3 class="text-primary">ようこそ　{{data.studentInfo[0].name}}　さん</h3>
+      <h3 class="text-primary">studentNo：{{data.studentInfo.studentInfo.studentNo}}</h3>
+      <h3 class="text-primary">{{data.studentInfo.studentInfo.name}} さんのページ</h3>
       
     <!-- <h1><a href="/index">Books</a></h1>    -->
     <nav>   
@@ -29,16 +29,23 @@ export default {
   },
 
   setup() { 
+      console.log("header.store.state.studentInfo.studentInfo=");
+      console.log(store.state.studentInfo);
+
     const data = reactive({
-        studentInfo: store.state.studentInfo,
-        // doAction: doAction(),    
+        studentInfo: store.state.studentInfo, //store.state.(module名).(指定したmoduleのstateのキー名)        
     });
+    console.log("data.studentInfo=");
+    console.log(data.studentInfo);
+    console.log("data.studentInfo.studentNo=");
+    console.log(data.studentInfo.studentInfo.studentNo);
+
 
     const router = useRouter();
     const doAction = ()=>{
-        
         store.commit("clearStudentInfo");
-         router.push("/");
+        store.commit("clearCalendar");
+         router.push("/login");
     };
 
     const noLink = ()=> {

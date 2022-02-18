@@ -34,18 +34,22 @@ export default {
   components: { bookingList_ch, Header },
 
   setup() {
+       console.log("store.state.studentInfo.studentInfo=");
+       console.log(store.state.studentInfo);
+
+
     const data = reactive({
       title: "貸出し履歴",
       table_obj: {},
-      userId:2,      
+      studentNo:store.state.studentInfo.studentInfo.studentNo,      
     });
 
     const getAction = async () => {
-      const url = "http://127.0.0.1:8000/api/bookonloan/2" ; //このページがAPI入出力の窓口として機能している
+      const url = "http://127.0.0.1:8000/api/bookonloan/" + data.studentNo ; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
       data.table_obj = response.data;  
-       console.log(store.state.studentInfo);
+      //  console.log(store.state.studentInfo.studentInfo);
     };
 
     onMounted(() => {

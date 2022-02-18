@@ -47,9 +47,9 @@ export default {
     const router = useRouter();
 
     const doAction = () => {
-      const url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している
-      axios
-        .post(url, {
+      const url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している      
+      
+        axios.post(url, {
           studentNo: data.studentNo,
           password: data.password,           
         })
@@ -58,8 +58,10 @@ export default {
           console.log(response.data);
           if(response.data["result"] == 'success'){ 
                  console.log("success");
-                 console.log(response.data["studentInfo"]);        
+                 console.log(response.data["studentInfo"]);
+            //storeにlogin情報(studentInfo)を保存
             store.commit('setStudentInfo', response.data["studentInfo"]);
+            //リダイレクト
             router.push("/");
           }else{
             alert("ログイン出来ませんでした。\n再入力してください");
@@ -75,10 +77,9 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          // alert(" ");
-        });
+          alert("入力して下さい。");
+        });      
     };
-
 
     return { data, doAction ,onMounted};
   }

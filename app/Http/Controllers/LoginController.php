@@ -19,16 +19,18 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             //adminかどうかcheck
-            $studentInfo = User::where('studentNo', $request->studentNo)->get(['studentNo','name'])->toArray();  //セキュリティ上全部のデータを持たせたくないのでいる分だけ精査          
+            $studentInfo_pre = User::where('studentNo', $request->studentNo)->get(['studentNo','name'])->toArray();  //セキュリティ上全部のデータを持たせたくないのでいる分だけ精査
+            $studentInfo =array_reduce($studentInfo_pre, 'array_merge', array());
 
-            // dd( $studentInfo);
+            // var_dump($studentInfo);
+            // dd( $a);
             
             return response(["result" => "success" , "studentInfo" => $studentInfo] ,200); //userinfo を全部持たせる
             // return $studentInfo;
-        }
+        }       
 
         return back()->withErrors([
-            'userId' => 'The provided credentials do not match our records.',
+            'studentNo' => 'The provided credentials do not match our records.',
         ]);
     }
 }

@@ -45,7 +45,7 @@ export default {
     const data = reactive({
       result:"",
       title: "BOOK_LIST",
-      studentInfo:store.state.studentInfo,
+      studentInfo:store.state.studentInfo.studentInfo, //使ってない？
       // checkoutDate: "",
       // returnDate: "",
       // userId:2      
@@ -57,9 +57,9 @@ export default {
       data.result = result.data;       
       console.log("index.result.data=");
       // console.log(result.data); 
-      console.log(store.state.studentInfo[0].studentNo);
-      console.log("index.data.studentinfo[0].studentNo");
-      console.log(data.studentInfo[0].studentNo);
+      console.log(store.state.studentInfo.studentInfo);
+      console.log("index.data.studentinfo.studentNo");
+      console.log(data.studentInfo.studentNo);
       // data.studentInfo = store.state.studentInfo;
     }
     onMounted(() => {

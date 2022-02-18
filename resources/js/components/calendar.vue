@@ -1,36 +1,52 @@
 <template>
 <div>
-<div style="font-size: 30px">【{{this.$route.params.title}}】 の貸出表</div>
-  <FullCalendar :options="data.calendarOptions" />
-  <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button> 
+<Header /> 
+<div style="font-size: 30px">【{{data.title}}】 の貸出表</div>
+  <FullCalendar :options="calendar.calendarOptions" />
+  <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button>
+  <p>カレンダー上でドラッグすると日付を選べます。</p> 
 </div>
 </template>
 
 <script>
-import { reactive, onMounted, watch, ref } from "vue";
+import { reactive, onMounted, watch,} from "vue";
 import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import axios from "axios";
 import dayjs from 'dayjs';
 import moment from 'moment';
+import { store } from "./store.js";
+import Header from "./header.vue";
+
 
 
 export default {
   name: "calendar",
   components: {
-    FullCalendar // make the <FullCalendar> tag available
+    FullCalendar, // make the <FullCalendar> tag available
+    Header,
   },
   
   setup(){   
-    const route = useRoute();
+    const router = useRouter();
+    const store_calendar = store.state.calendar.calendar;
+    console.log("store_calendar");
+    console.log(store_calendar.booktypeId);
+
     const data = reactive({    
-      booktypeId:route.params.booktypeId,
-      studentNo:2,
-      number:route.params.number,
-      onloanDate_arr:[],
+      booktypeId: store_calendar.booktypeId,
+      title: store_calendar.title,
+      studentNo: store.state.studentInfo.studentInfo.studentNo,
+      number: store_calendar.number,
+      onloanDate_arr: [],
+      today: dayjs().format('YYYY-MM-DD'),       
+    });
+
+    const calendar = reactive({      
+      //calendar情報
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
@@ -38,7 +54,7 @@ export default {
         weekends: true,
         editable: false,
         // allDay: false,
-        events: 'http://127.0.0.1:8000/api/calendar/'+ route.params.booktypeId,
+        events: 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId,
         
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
@@ -47,37 +63,48 @@ export default {
           console.log(this.getEvents());
           console.log(info);
           console.log(info.endStr);
-          
 
-          if(confirm("指定した日で貸出しますか？")){
-            
-            //ここにすでに全数借りられてたらアラートだす処理-------------------------
-            this.addEvent({ //this = Calendar
-              title: "studentNo" + data.studentNo, //studentNoが自動で入る
-              start: info.start,
-              end: info.end,
-              bookId: 1, 
-              edit:"yes",
-              allDay: true
-            });
-            
-             var start_beforeDate = moment(info.start, "YYYY-MM-DD"); // DBに渡せる形にする
-             var start_afterDate = start_beforeDate.format('YYYY-MM-DD');
-             var end_beforeDate = moment(info.end, "YYYY-MM-DD");             
-             var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く
+          //今日以前は選択できない。管理者しかできない仕様。途中
+          // if(info.startStr <= data.today){
+          //   alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
+          //   const admin_name = window.prompt("admin name を入力","");
+          //   if(!admin_name == null){
+          //     const admin_passwd = window.prompt("admin password を入力","");
+          //     const adminInfo = {name: admin_name, passwd: admin_passwd};
+          //     console.log(adminInfo);
+          //   } 
+          // }else{ 
 
-            //DBに渡す用arrにpush            
-            data.onloanDate_arr.push({
-              booktypeId: data.booktypeId,
-              studentNo: data.studentNo,              
-              start: start_afterDate,
-              end: end_afterDate,
-              bookId: 1,
-              edit:"yes",              
-            });            
-          }else{
+            if(confirm("指定した日で貸出しますか？")){
+              
+              //ここにすでに全数借りられてたらアラートだす処理-------------------------
+              this.addEvent({ //this = Calendar
+                title: "studentNo" + data.studentNo, //studentNoが自動で入る
+                start: info.start,
+                end: info.end,
+                bookId: 1, 
+                edit:"yes",
+                allDay: true
+              });
+              
+              var start_beforeDate = moment(info.start, "YYYY-MM-DD"); // DBに渡せる形にする
+              var start_afterDate = start_beforeDate.format('YYYY-MM-DD');
+              var end_beforeDate = moment(info.end, "YYYY-MM-DD");             
+              var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く
+
+              //DBに渡す用arrにpush            
+              data.onloanDate_arr.push({
+                booktypeId: data.booktypeId,
+                studentNo: data.studentNo,              
+                start: start_afterDate,
+                end: end_afterDate,
+                bookId: 1,
+                edit:"yes",              
+              });            
+            }else{
               // alert("選択しなおしてください。");
-          }
+            }
+          // }
         },
 
          
@@ -100,14 +127,12 @@ export default {
       alert("date click! " + arg.dateStr);
     };
 
-
-
-    
-
-    //貸出日をpostする
-    const router = useRouter();
+    //貸出日をpostする    
     const doAction = () => {      
-      console.log(data.onloanDate_arr);      
+      console.log(data.onloanDate_arr);
+      if(data.onloanDate_arr.length){
+        alert("貸出日をカレンダーから選んでください。")
+      }      
       const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
       axios.post(url,data.onloanDate_arr)
         .then(response => {
@@ -115,7 +140,7 @@ export default {
           if (confirm("続けて貸出し予約をしますか？")) {
             router.push("/");
           } else { //「キャンセル」ボタンをクリックした時
-            alert("貸出予約が完了しました。過去に借りた本一覧のページに遷移します。")
+            alert("貸出予約が完了しました。過去に借りた本一覧のページに遷移します。");
             setTimeout(router.push("/bookingList"),2000);
           }
         })
@@ -126,8 +151,16 @@ export default {
      }
 
     
-    return{ data, handleDateClick, onMounted, watch, doAction };
+    return{ data, calendar, handleDateClick, onMounted, watch, doAction };
   }
 };
-  
+
+
 </script>
+  <!--
+  必要な機能
+  本の冊数に上限が必要
+  期間を長く借りるならドラッグでは手間なので、formでカレンダー入力できるようにする
+  今日以前は管理者のみ登録できる 
+   /> -->
+

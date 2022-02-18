@@ -33494,7 +33494,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       result: "",
       title: "BOOK_LIST",
-      studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_6__.store.state.studentInfo // checkoutDate: "",
+      studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_6__.store.state.studentInfo.studentInfo //使ってない？
+      // checkoutDate: "",
       // returnDate: "",
       // userId:2      
 
@@ -33516,9 +33517,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data.result = result.data;
                 console.log("index.result.data="); // console.log(result.data); 
 
-                console.log(_store_js__WEBPACK_IMPORTED_MODULE_6__.store.state.studentInfo[0].studentNo);
-                console.log("index.data.studentinfo[0].studentNo");
-                console.log(data.studentInfo[0].studentNo); // data.studentInfo = store.state.studentInfo;
+                console.log(_store_js__WEBPACK_IMPORTED_MODULE_6__.store.state.studentInfo.studentInfo);
+                console.log("index.data.studentinfo.studentNo");
+                console.log(data.studentInfo.studentNo); // data.studentInfo = store.state.studentInfo;
 
               case 8:
               case "end":
@@ -33561,11 +33562,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 
 
  //リダイレクト用
-// import Router from 'Router.vue'
+
+ // import Router from 'Router.vue'
 // import { Calendar } from '@fullcalendar/core';
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -33576,32 +33579,28 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup(props) {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      studentNo: 2,
-      item: props.item,
-      response: []
+      // studentNo:2,
+      item: props.item // response:[]
+
     });
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
 
-    var doAction = function doAction(booktypeId, number, title) {
-      var url = "http://127.0.0.1:8000/api/calendar/" + booktypeId; //このページがAPI入出力の窓口として機能している
+    var doAction = function doAction() {
+      _store_js__WEBPACK_IMPORTED_MODULE_2__.store.commit('setCalendar', data.item);
+      router.push("/calendar");
+    }; // const url = "http://127.0.0.1:8000/api/calendar/" + booktypeId; //このページがAPI入出力の窓口として機能している
+    // axios.get(url).then(response => {
+    //   data.response = response.data;
+    //   console.log(data.response);   
+    //   router.push({
+    //     name:"calendar",
+    //     params:{booktypeId: booktypeId, number:number ,title:title}
+    //   })
+    // }).catch(error => {
+    //     console.log(error);
+    //     alert("エラ－");
+    //   });
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get(url).then(function (response) {
-        data.response = response.data;
-        console.log(data.response); // router.push("/calendar");
-
-        router.push({
-          name: "calendar",
-          params: {
-            booktypeId: booktypeId,
-            number: number,
-            title: title
-          }
-        });
-      })["catch"](function (error) {
-        console.log(error);
-        alert("エラ－");
-      });
-    };
 
     return {
       data: data,
@@ -33650,10 +33649,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Header: _header_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   setup: function setup() {
+    console.log("store.state.studentInfo.studentInfo=");
+    console.log(_store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo);
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       title: "貸出し履歴",
       table_obj: {},
-      userId: 2
+      studentNo: _store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo.studentNo
     });
 
     var getAction = /*#__PURE__*/function () {
@@ -33663,7 +33664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/bookonloan/2"; //このページがAPI入出力の窓口として機能している
+                url = "http://127.0.0.1:8000/api/bookonloan/" + data.studentNo; //このページがAPI入出力の窓口として機能している
 
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(url);
@@ -33671,10 +33672,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context.sent;
                 console.log(response.data);
-                data.table_obj = response.data;
-                console.log(_store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo);
+                data.table_obj = response.data; //  console.log(store.state.studentInfo.studentInfo);
 
-              case 7:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -33757,15 +33757,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/vue3 */ "./node_modules/@fullcalendar/vue3/dist/main.js");
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
 /* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
+/* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
 
  // solves problem with Vite
+
+
 
 
 
@@ -33777,16 +33781,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "calendar",
   components: {
-    FullCalendar: _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_2__["default"] // make the <FullCalendar> tag available
-
+    FullCalendar: _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_2__["default"],
+    // make the <FullCalendar> tag available
+    Header: _header_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   setup: function setup() {
-    var route = (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.useRoute)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.useRouter)();
+    var store_calendar = _store_js__WEBPACK_IMPORTED_MODULE_8__.store.state.calendar.calendar;
+    console.log("store_calendar");
+    console.log(store_calendar.booktypeId);
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      booktypeId: route.params.booktypeId,
-      studentNo: 2,
-      number: route.params.number,
+      booktypeId: store_calendar.booktypeId,
+      title: store_calendar.title,
+      studentNo: _store_js__WEBPACK_IMPORTED_MODULE_8__.store.state.studentInfo.studentInfo.studentNo,
+      number: store_calendar.number,
       onloanDate_arr: [],
+      today: dayjs__WEBPACK_IMPORTED_MODULE_6___default()().format('YYYY-MM-DD')
+    });
+    var calendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+      //calendar情報
       calendarOptions: {
         plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__["default"]],
         initialView: "dayGridMonth",
@@ -33794,14 +33807,23 @@ __webpack_require__.r(__webpack_exports__);
         weekends: true,
         editable: false,
         // allDay: false,
-        events: 'http://127.0.0.1:8000/api/calendar/' + route.params.booktypeId,
+        events: 'http://127.0.0.1:8000/api/calendar/' + data.booktypeId,
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function select(info) {
           console.log("this");
           console.log(this.getEvents());
           console.log(info);
-          console.log(info.endStr);
+          console.log(info.endStr); //今日以前は選択できない。管理者しかできない仕様。途中
+          // if(info.startStr <= data.today){
+          //   alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
+          //   const admin_name = window.prompt("admin name を入力","");
+          //   if(!admin_name == null){
+          //     const admin_passwd = window.prompt("admin password を入力","");
+          //     const adminInfo = {name: admin_name, passwd: admin_passwd};
+          //     console.log(adminInfo);
+          //   } 
+          // }else{ 
 
           if (confirm("指定した日で貸出しますか？")) {
             //ここにすでに全数借りられてたらアラートだす処理-------------------------
@@ -33831,7 +33853,8 @@ __webpack_require__.r(__webpack_exports__);
               edit: "yes"
             });
           } else {// alert("選択しなおしてください。");
-          }
+          } // }
+
         },
         //入力した貸出日を削除する
         eventClick: function eventClick(item, jsEvent, view) {
@@ -33851,13 +33874,16 @@ __webpack_require__.r(__webpack_exports__);
 
     var handleDateClick = function handleDateClick(arg) {
       alert("date click! " + arg.dateStr);
-    }; //貸出日をpostする
+    }; //貸出日をpostする    
 
-
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.useRouter)();
 
     var doAction = function doAction() {
       console.log(data.onloanDate_arr);
+
+      if (data.onloanDate_arr.length) {
+        alert("貸出日をカレンダーから選んでください。");
+      }
+
       var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
 
       axios__WEBPACK_IMPORTED_MODULE_5___default().post(url, data.onloanDate_arr).then(function (response) {
@@ -33878,6 +33904,7 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       data: data,
+      calendar: calendar,
       handleDateClick: handleDateClick,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
       watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
@@ -34193,15 +34220,22 @@ __webpack_require__.r(__webpack_exports__);
   components: {// 
   },
   setup: function setup() {
+    console.log("header.store.state.studentInfo.studentInfo=");
+    console.log(_store_js__WEBPACK_IMPORTED_MODULE_1__.store.state.studentInfo);
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_1__.store.state.studentInfo // doAction: doAction(),    
+      studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_1__.store.state.studentInfo //store.state.(module名).(指定したmoduleのstateのキー名)        
 
     });
+    console.log("data.studentInfo=");
+    console.log(data.studentInfo);
+    console.log("data.studentInfo.studentNo=");
+    console.log(data.studentInfo.studentInfo.studentNo);
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
 
     var doAction = function doAction() {
       _store_js__WEBPACK_IMPORTED_MODULE_1__.store.commit("clearStudentInfo");
-      router.push("/");
+      _store_js__WEBPACK_IMPORTED_MODULE_1__.store.commit("clearCalendar");
+      router.push("/login");
     };
 
     var noLink = function noLink() {
@@ -34306,7 +34340,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
 
     var doAction = function doAction() {
-      var url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している
+      var url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している      
 
       axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
         studentNo: data.studentNo,
@@ -34317,8 +34351,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (response.data["result"] == 'success') {
           console.log("success");
-          console.log(response.data["studentInfo"]);
-          _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]);
+          console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
+
+          _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //リダイレクト
+
           router.push("/");
         } else {
           alert("ログイン出来ませんでした。\n再入力してください");
@@ -34332,7 +34368,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // }
 
       })["catch"](function (error) {
-        console.log(error); // alert(" ");
+        console.log(error);
+        alert("入力して下さい。");
       });
     };
 
@@ -34465,7 +34502,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn- btn-info text-white mt-2 flag",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.doAction($props.item.booktypeId, $props.item.number, $props.item.title);
+      return $setup.doAction();
     })
   }, "借りる")])]);
 }
@@ -34566,13 +34603,20 @@ var _hoisted_1 = {
     "font-size": "30px"
   }
 };
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "カレンダー上でドラッグすると日付を選べます。", -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Header");
+
   var _component_FullCalendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FullCalendar");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, "【" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.$route.params.title) + "】 の貸出表", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, "【" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title) + "】 の貸出表", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FullCalendar, {
-    options: $setup.data.calendarOptions
+    options: $setup.calendar.calendarOptions
   }, null, 8
   /* PROPS */
   , ["options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -34580,7 +34624,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.doAction();
     })
-  }, "確定")]);
+  }, "確定"), _hoisted_2]);
 }
 
 /***/ }),
@@ -34752,9 +34796,9 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, "studentNo：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo[0].studentNo), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, "studentNo：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo.studentInfo.studentNo), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_3, "ようこそ　" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo[0].name) + "　さん", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo.studentInfo.name) + " さんのページ", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1><a href=\"/index\">Books</a></h1>    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li><a href=\"/checkoutform\">貸出し予約</a></li> "), _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "#",
@@ -34881,14 +34925,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-persistedstate */ "./node_modules/vuex-persistedstate/dist/vuex-persistedstate.es.js");
 
- // const getDefaultState = ()=>{
-//   return {
-//     studentInfo: null,
-//   }
-// }
+ //studentInfoのstore
 
-var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
-  // state:  getDefaultState(),
+var studentInfo = {
   state: function state() {
     return {
       studentInfo: null
@@ -34908,13 +34947,70 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
       console.log(state.studentInfo);
     }
   },
-  actions: {},
-  getters: {},
+  actions: {//
+  },
+  getters: {//
+  }
+}; //calendar用のsotre
+
+var calendar = {
+  state: function state() {
+    return {
+      calendar: null
+    };
+  },
+  mutations: {
+    setCalendar: function setCalendar(state, payload) {
+      state.calendar = payload;
+      console.log("store.state.calendar=");
+      console.log(state.calendar);
+    },
+    clearCalendar: function clearCalendar(state) {
+      state.calendar = null; // Object.assign(state, getDefaultState());
+
+      console.log("storeデータは初期化されました。");
+      console.log(state.calendar);
+    }
+  },
+  actions: {//
+  },
+  getters: {//
+  }
+};
+var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
+  modules: {
+    studentInfo: studentInfo,
+    calendar: calendar
+  },
   plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__["default"])({
     storage: window.sessionStorage,
-    key: 'studentInfo'
+    key: 'books'
   })]
-});
+}); // export const store = createStore({
+//   // state:  getDefaultState(),
+//     state(){
+//       return{
+//       studentInfo : null,
+//       }
+//     },
+//     mutations: {
+//       setStudentInfo (state, payload) {
+//         state.studentInfo = payload;
+//         console.log("store.state.studentInfo=");
+//         console.log(state.studentInfo);
+//       },
+//       // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
+//       clearStudentInfo (state) {
+//         state.studentInfo = null;
+//         // Object.assign(state, getDefaultState());
+//         console.log("storeデータは初期化されました。");
+//         console.log(state.studentInfo);
+//       }
+//     },    
+//     actions: {},
+//     getters: {},
+//     plugins: [createPersistedState({storage: window.sessionStorage, key:'studentInfo'})] 
+// });
 
 /***/ }),
 
@@ -58458,7 +58554,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App_vue_vue_type_template_id_f348271a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a */ "./resources/js/App.vue?vue&type=template&id=f348271a");
 /* harmony import */ var _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue?vue&type=script&lang=js */ "./resources/js/App.vue?vue&type=script&lang=js");
 /* harmony import */ var _App_vue_vue_type_style_index_0_id_f348271a_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.vue?vue&type=style&index=0&id=f348271a&lang=css */ "./resources/js/App.vue?vue&type=style&index=0&id=f348271a&lang=css");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -58466,7 +58562,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_App_vue_vue_type_template_id_f348271a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/App.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_App_vue_vue_type_template_id_f348271a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/App.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58488,13 +58584,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=bb962f12 */ "./resources/js/components/Index.vue?vue&type=template&id=bb962f12");
 /* harmony import */ var _Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js */ "./resources/js/components/Index.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58516,13 +58612,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Index_ch_vue_vue_type_template_id_29cf0b5d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index_ch.vue?vue&type=template&id=29cf0b5d */ "./resources/js/components/Index_ch.vue?vue&type=template&id=29cf0b5d");
 /* harmony import */ var _Index_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index_ch.vue?vue&type=script&lang=js */ "./resources/js/components/Index_ch.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Index_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_ch_vue_vue_type_template_id_29cf0b5d__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index_ch.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Index_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_ch_vue_vue_type_template_id_29cf0b5d__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index_ch.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58544,13 +58640,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _bookingList_vue_vue_type_template_id_2235781c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bookingList.vue?vue&type=template&id=2235781c */ "./resources/js/components/bookingList.vue?vue&type=template&id=2235781c");
 /* harmony import */ var _bookingList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bookingList.vue?vue&type=script&lang=js */ "./resources/js/components/bookingList.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_bookingList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_bookingList_vue_vue_type_template_id_2235781c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/bookingList.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_bookingList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_bookingList_vue_vue_type_template_id_2235781c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/bookingList.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58572,13 +58668,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _bookingList_ch_vue_vue_type_template_id_29c9c4d0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bookingList_ch.vue?vue&type=template&id=29c9c4d0 */ "./resources/js/components/bookingList_ch.vue?vue&type=template&id=29c9c4d0");
 /* harmony import */ var _bookingList_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bookingList_ch.vue?vue&type=script&lang=js */ "./resources/js/components/bookingList_ch.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_bookingList_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_bookingList_ch_vue_vue_type_template_id_29c9c4d0__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/bookingList_ch.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_bookingList_ch_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_bookingList_ch_vue_vue_type_template_id_29c9c4d0__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/bookingList_ch.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58600,13 +58696,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calendar.vue?vue&type=template&id=094224ee */ "./resources/js/components/calendar.vue?vue&type=template&id=094224ee");
 /* harmony import */ var _calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar.vue?vue&type=script&lang=js */ "./resources/js/components/calendar.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58628,13 +58724,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _calendar_test2_vue_vue_type_template_id_8c7ae5ac__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calendar_test2.vue?vue&type=template&id=8c7ae5ac */ "./resources/js/components/calendar_test2.vue?vue&type=template&id=8c7ae5ac");
 /* harmony import */ var _calendar_test2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar_test2.vue?vue&type=script&lang=js */ "./resources/js/components/calendar_test2.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_calendar_test2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_test2_vue_vue_type_template_id_8c7ae5ac__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar_test2.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_calendar_test2_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_test2_vue_vue_type_template_id_8c7ae5ac__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar_test2.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58656,13 +58752,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkoutForm.vue?vue&type=template&id=6dd245f5 */ "./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5");
 /* harmony import */ var _checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./checkoutForm.vue?vue&type=script&lang=js */ "./resources/js/components/checkoutForm.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/checkoutForm.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/checkoutForm.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58684,13 +58780,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _header_vue_vue_type_template_id_798ca618__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./header.vue?vue&type=template&id=798ca618 */ "./resources/js/components/header.vue?vue&type=template&id=798ca618");
 /* harmony import */ var _header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./header.vue?vue&type=script&lang=js */ "./resources/js/components/header.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_header_vue_vue_type_template_id_798ca618__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/header.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_header_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_header_vue_vue_type_template_id_798ca618__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/header.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58712,13 +58808,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _login_form_vue_vue_type_template_id_819b1936__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login_form.vue?vue&type=template&id=819b1936 */ "./resources/js/components/login_form.vue?vue&type=template&id=819b1936");
 /* harmony import */ var _login_form_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login_form.vue?vue&type=script&lang=js */ "./resources/js/components/login_form.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_login_form_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_login_form_vue_vue_type_template_id_819b1936__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/login_form.vue"]])
+const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_login_form_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_login_form_vue_vue_type_template_id_819b1936__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/login_form.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -64286,7 +64382,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","/home/itsys/books_calendar"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"/home/itsys/books_calendar","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","/home/itsys/Books_calendar"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"/home/itsys/Books_calendar","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 
