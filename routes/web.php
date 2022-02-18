@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login',function () {
         return view('welcome'); //welcome.blade.php を返す
-    })->name('login');
+    })->name('login');//routeに名前を付ける middleware Authenticate.php 内のreturn先が route('login')になっているので、ログインページのパスに対してloginという名前を付けてあげると、認証漏れした時にログインページに飛ばされるようになる
 
 //認証済みでないと許可しない
 Route::group(["middleware" => ["auth:sanctum"]], function () {
@@ -24,10 +25,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
         return view('welcome'); //welcome.blade.php を返す
     })->where('any','.*'); //whereメソッドでパラメータを指定する where('パラメータ名', '正規表現')
         // })->where('any','^(?!login).*$'); //loginページ以外から入れないようにする けど 上から読込むので
+
+       
 });
 
-// Route::get('/login',function () {
-//     return view('welcome'); //welcome.blade.php を返す
-// })->name('login'); //routeに名前を付ける middleware Authenticate.php 内のreturn先が route('login')になっているので、ログインページのパスに対してloginという名前を付けてあげると、認証漏れした時にログインページに飛ばされるようになる
+Route::get('/calendar/{a}/{b}',[CalendarController::class, 'show1']);
 
 

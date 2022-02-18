@@ -50,10 +50,12 @@ class CalendarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    // public function show($booktypeId)
+    public function show($booktypeId)
     {
-        $bookId_arr = Book::where('booktypeId',$id)->pluck('id')->toArray();        
-        $books = BookOnloan::whereIn('bookId',$bookId_arr)->get()->toArray();
+        $bookId_arr = Book::where('booktypeId',$booktypeId)->pluck('id')->toArray(); //id だけの配列ができる
+        // dd($bookId_arr);      
+        $books = BookOnloan::whereIn('bookId',$bookId_arr)->get()->toArray(); //BookOnloanテーブル、bookIdカラム内から上のid（配列）に一致するものを取得
        
         if (!Empty($books)){ 
             foreach ($books as $book){
@@ -62,7 +64,9 @@ class CalendarController extends Controller
                 unset($book['id']);
                 $book["title"] = $title;               
                 // dd($book);
-                $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' ));           
+                $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' ));
+                
+                // if($book['studentNo'] == )
                 
                 $book_onloan[] = array_merge($book,["edit"=>"no"]);
             };
@@ -95,5 +99,10 @@ class CalendarController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function show1($a,$b)
+    {
+        return $a;
     }
 }

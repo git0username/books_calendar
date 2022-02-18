@@ -65,15 +65,15 @@ export default {
           console.log(info.endStr);
 
           //今日以前は選択できない。管理者しかできない仕様。途中
-          // if(info.startStr <= data.today){
-          //   alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
-          //   const admin_name = window.prompt("admin name を入力","");
-          //   if(!admin_name == null){
-          //     const admin_passwd = window.prompt("admin password を入力","");
-          //     const adminInfo = {name: admin_name, passwd: admin_passwd};
-          //     console.log(adminInfo);
-          //   } 
-          // }else{ 
+          if(info.startStr <= data.today){
+            alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
+            // const admin_name = window.prompt("admin name を入力","");
+            // if(!admin_name == null){
+            //   const admin_passwd = window.prompt("admin password を入力","");
+            //   const adminInfo = {name: admin_name, passwd: admin_passwd};
+            //   console.log(adminInfo);
+            // } 
+          }else{ 
 
             if(confirm("指定した日で貸出しますか？")){
               
@@ -104,7 +104,7 @@ export default {
             }else{
               // alert("選択しなおしてください。");
             }
-          // }
+          }
         },
 
          
@@ -130,24 +130,24 @@ export default {
     //貸出日をpostする    
     const doAction = () => {      
       console.log(data.onloanDate_arr);
-      if(data.onloanDate_arr.length){
-        alert("貸出日をカレンダーから選んでください。")
-      }      
-      const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
-      axios.post(url,data.onloanDate_arr)
-        .then(response => {
-          console.log(response);
-          if (confirm("続けて貸出し予約をしますか？")) {
-            router.push("/");
-          } else { //「キャンセル」ボタンをクリックした時
-            alert("貸出予約が完了しました。過去に借りた本一覧のページに遷移します。");
-            setTimeout(router.push("/bookingList"),2000);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          alert("error");
-        });
+      if(!data.onloanDate_arr.length){
+        alert("貸出日を指定してください。")
+      }else{      
+        const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
+        axios.post(url,data.onloanDate_arr)
+          .then(response => {
+            console.log(response);
+            if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
+              router.push("/");
+            } else { //「キャンセル」ボタンをクリックした時              
+              setTimeout(router.push("/bookingList"),2000);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            alert("error");
+          });
+      }
      }
 
     

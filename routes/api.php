@@ -34,7 +34,9 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::apiResource('/calendar',CalendarController::class);
 
-    Route::get('/index', function () { return view('welcome');});
+    // Route::apiResource('/calendar/{booktypeId}','CalendarController@show');
+
+    Route::get('/index', function () { return view('welcome');}); //これはweb.phpに記載されてるのでいらない？
     
 });
     
