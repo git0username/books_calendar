@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Header />  
+    <Header />     
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
-        <p class="h5">{{data.title}}</p>
+        <p class="h5 a">{{data.title}}</p>
 
         <!-- <p>{{data.studentInfo}}</p>
         <p>{{data.studentInfo[0].studentNo}}</p>   -->
@@ -72,3 +72,8 @@ export default {
   }
 };
 </script>
+
+
+<style>
+/* @import "../css/style.css"; */
+</style>

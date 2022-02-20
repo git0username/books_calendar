@@ -80,9 +80,9 @@ class BookOnloanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($studentNo)
     {
-        $bookonloan_arr = BookOnloan::where('studentNo', $id)->get();
+        $bookonloan_arr = BookOnloan::where('studentNo', $studentNo)->get();
         // dd($bookonloan_arr);
         $books = [];
         foreach($bookonloan_arr as $bookonloan){

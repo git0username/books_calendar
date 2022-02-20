@@ -32,9 +32,15 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::apiResource('/bookonloan',BookOnloanController::class);
 
-    Route::apiResource('/calendar',CalendarController::class);
+    Route::apiResource('/calendar',CalendarController::class)->except(['show']);    
 
-    // Route::apiResource('/calendar/{booktypeId}','CalendarController@show');
+    Route::get('/calendar/{booktypeId}', [CalendarController::class, 'NumberPerDay']);
+
+    Route::get('/calendar/{booktypeId}/{studentNo}', [CalendarController::class, 'show']);
+
+    
+
+    // Route::apiResource('/calendar/{booktypeId}/{studentNo}',[CalendarController::class, 'show1']);
 
     Route::get('/index', function () { return view('welcome');}); //これはweb.phpに記載されてるのでいらない？
     

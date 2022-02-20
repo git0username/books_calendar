@@ -59,7 +59,7 @@ export const router = createRouter({
             name: 'login',
             component:login,
             props:true        
-        },
+        },        
         
     ],
 })

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header />    
-    <p>{{data.title}}</p>
-    <h3>{{ data.booking }}</h3>
+    <p class="a">{{data.title}}</p>
+    <!-- <h3>{{ data.booking }}</h3> -->
     <table class="table table-light table-striped">
       <thead class="table-dark text-center">
         <tr>
@@ -27,7 +27,6 @@ import axios from "axios";
 import bookingList_ch from "./bookingList_ch.vue";
 import Header from "./header.vue";
 import { store } from "./store.js";
-
 
 export default {
   name: "bookingList",
@@ -55,6 +54,7 @@ export default {
     onMounted(() => {
       getAction();
     });
+
 
     return { data, getAction };
   }

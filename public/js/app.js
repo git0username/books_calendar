@@ -33752,20 +33752,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _fullcalendar_core_vdom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core/vdom */ "./node_modules/@fullcalendar/core/vdom.js");
-/* harmony import */ var _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/vue3 */ "./node_modules/@fullcalendar/vue3/dist/main.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
-/* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _fullcalendar_core_vdom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/core/vdom */ "./node_modules/@fullcalendar/core/vdom.js");
+/* harmony import */ var _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/vue3 */ "./node_modules/@fullcalendar/vue3/dist/main.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
+/* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
  // solves problem with Vite
 
@@ -33781,42 +33789,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "calendar",
   components: {
-    FullCalendar: _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_2__["default"],
+    FullCalendar: _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"],
     // make the <FullCalendar> tag available
-    Header: _header_vue__WEBPACK_IMPORTED_MODULE_9__["default"]
+    Header: _header_vue__WEBPACK_IMPORTED_MODULE_10__["default"]
   },
   setup: function setup() {
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_10__.useRouter)();
-    var store_calendar = _store_js__WEBPACK_IMPORTED_MODULE_8__.store.state.calendar.calendar;
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_11__.useRouter)();
+    var store_calendar = _store_js__WEBPACK_IMPORTED_MODULE_9__.store.state.calendar.calendar;
     console.log("store_calendar");
     console.log(store_calendar.booktypeId);
-    var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+    var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       booktypeId: store_calendar.booktypeId,
       title: store_calendar.title,
-      studentNo: _store_js__WEBPACK_IMPORTED_MODULE_8__.store.state.studentInfo.studentInfo.studentNo,
+      studentNo: _store_js__WEBPACK_IMPORTED_MODULE_9__.store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number,
       onloanDate_arr: [],
-      today: dayjs__WEBPACK_IMPORTED_MODULE_6___default()().format('YYYY-MM-DD')
+      today: dayjs__WEBPACK_IMPORTED_MODULE_7___default()().format('YYYY-MM-DD'),
+      NumberPerDay_arr: []
     });
-    var calendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+    console.log('http://127.0.0.1:8000/api/calendar/' + data.booktypeId + '/' + data.studentNo);
+    var calendar = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       //calendar情報
       calendarOptions: {
-        plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__["default"]],
+        plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_5__["default"]],
+        locale: 'ja',
+        // titleFormat: {
+        //     month: 'yyyy年M月',
+        // },  
         initialView: "dayGridMonth",
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
         // allDay: false,
-        events: 'http://127.0.0.1:8000/api/calendar/' + data.booktypeId,
+        events: {
+          url: 'http://127.0.0.1:8000/api/calendar/' + data.booktypeId + '/' + data.studentNo // color: 'yellow',   // an option!
+          // textColor: 'black', // an option!
+
+        },
+        // events: 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId ,
+        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
         select: function select(info) {
           console.log("this");
           console.log(this.getEvents());
           console.log(info);
-          console.log(info.endStr); //今日以前は選択できない。管理者しかできない仕様。途中
+          console.log(info.endStr);
+          var A = this.getEvents();
+          console.log("A");
+          console.log(A[18]); //今日以前は選択できない。管理者しかできない仕様。途中
 
-          if (info.startStr <= data.today) {
+          if (info.startStr < data.today) {
             alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください"); // const admin_name = window.prompt("admin name を入力","");
             // if(!admin_name == null){
             //   const admin_passwd = window.prompt("admin password を入力","");
@@ -33832,14 +33855,14 @@ __webpack_require__.r(__webpack_exports__);
                 //studentNoが自動で入る
                 start: info.start,
                 end: info.end,
-                bookId: 1,
+                booktypeId: data.booktypeId,
                 edit: "yes",
                 allDay: true
               });
-              var start_beforeDate = moment__WEBPACK_IMPORTED_MODULE_7___default()(info.start, "YYYY-MM-DD"); // DBに渡せる形にする
+              var start_beforeDate = moment__WEBPACK_IMPORTED_MODULE_8___default()(info.start, "YYYY-MM-DD"); // DBに渡せる形にする
 
               var start_afterDate = start_beforeDate.format('YYYY-MM-DD');
-              var end_beforeDate = moment__WEBPACK_IMPORTED_MODULE_7___default()(info.end, "YYYY-MM-DD");
+              var end_beforeDate = moment__WEBPACK_IMPORTED_MODULE_8___default()(info.end, "YYYY-MM-DD");
               var end_afterDate = end_beforeDate.add(-1, "days").format('YYYY-MM-DD'); //endから1日引く
               //DBに渡す用arrにpush            
 
@@ -33848,7 +33871,7 @@ __webpack_require__.r(__webpack_exports__);
                 studentNo: data.studentNo,
                 start: start_afterDate,
                 end: end_afterDate,
-                bookId: 1,
+                // bookId: 1,
                 edit: "yes"
               });
             } else {// alert("選択しなおしてください。");
@@ -33858,7 +33881,7 @@ __webpack_require__.r(__webpack_exports__);
         //入力した貸出日を削除する
         eventClick: function eventClick(item, jsEvent, view) {
           if (item.event.extendedProps.edit == "yes") {
-            var date_start = dayjs__WEBPACK_IMPORTED_MODULE_6___default()(item.event.start).format('YYYY-MM-DD');
+            var date_start = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(item.event.start).format('YYYY-MM-DD');
 
             if (confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？")) {
               item.event.remove(); //削除 
@@ -33884,7 +33907,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
 
-        axios__WEBPACK_IMPORTED_MODULE_5___default().post(url, data.onloanDate_arr).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_6___default().post(url, data.onloanDate_arr).then(function (response) {
           console.log(response);
 
           if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
@@ -33900,12 +33923,59 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
 
+    var getNumberPerDay = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_6___default().get("http://127.0.0.1:8000/api/calendar/" + data.booktypeId);
+
+              case 2:
+                result = _context.sent;
+                console.log("result.data=");
+                console.log(result);
+                data.NumberPerDay_arr = result; //もしセレクトした日が配列の中にあれば借りれない
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function getNumberPerDay() {
+        return _ref.apply(this, arguments);
+      };
+    }(); //祝日の背景色を変えたかった
+
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      getNumberPerDay();
+      var child = document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
+
+      var sosen = child.parentElement; // 祖先要素を取得
+
+      var sosen2 = sosen.parentElement;
+      console.log("child");
+      console.log(sosen2);
+      var child1 = document.getElementsByClassName('holiday');
+      var length = child1.length;
+      console.log("child");
+      console.log(child1);
+      console.log(child1[0]); //htmlcoleectionからなぜか値を取得できない
+
+      console.log(length);
+    });
     return {
       data: data,
       calendar: calendar,
       handleDateClick: handleDateClick,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
+      watch: vue__WEBPACK_IMPORTED_MODULE_1__.watch,
       doAction: doAction
     };
   }
@@ -34209,7 +34279,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
@@ -34228,12 +34301,20 @@ __webpack_require__.r(__webpack_exports__);
     console.log(data.studentInfo);
     console.log("data.studentInfo.studentNo=");
     console.log(data.studentInfo.studentInfo.studentNo);
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)(); // const deleteCookie = ()=>{
+    //      document.cookie = "XSRF-TOKEN=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+    // }
 
     var doAction = function doAction() {
       _store_js__WEBPACK_IMPORTED_MODULE_1__.store.commit("clearStudentInfo");
       _store_js__WEBPACK_IMPORTED_MODULE_1__.store.commit("clearCalendar");
-      router.push("/login");
+      sessionStorage.clear(); // router.push("/logout");
+
+      window.location.href('http://127.0.0.1:8000/logout'); //      const url = "http://127.0.0.1:8000/logout";
+      // axios.get(url);
+      //     .then(function (response) {
+      //     console.log(response.data);
+      //   });
     };
 
     var noLink = function noLink() {
@@ -34242,7 +34323,7 @@ __webpack_require__.r(__webpack_exports__);
     }; // console.log("store.state.studentInfo_header=");
     // console.log(store.state.studentInfo);
     // console.log("data.studentInfo_header=");
-    // console.log(data.studentInfo);
+    // console.log(data.studentInfo)2;
     // console.log("header.data.studentInfo[studentNo]=");
     //  console.log(data.studentInfo["studentNo"]);
 
@@ -34295,11 +34376,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "login",
   setup: function setup() {
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       studentNo: "",
       password: "" // token:""
 
-    });
+    }); //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -34314,7 +34396,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 result = _context.sent;
                 // data.token = result.data;       
-                console.log("result.data=");
+                console.log("csrf-cookie=");
                 console.log(result);
 
               case 5:
@@ -34332,10 +34414,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getToken();
+      sessionStorage.clear();
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(data, function () {//
     });
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
 
     var doAction = function doAction() {
       var url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している      
@@ -34351,33 +34433,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           console.log("success");
           console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
 
-          _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //リダイレクト
+          _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
 
           router.push("/");
         } else {
           alert("ログイン出来ませんでした。\n再入力してください");
-        } // if (confirm("続けて貸出し予約をしますか？")) {
-        //   data.book_title = "";
-        //   data.checkoutDate = "";
-        //   data.returnDate = "";
-        //   //「キャンセル」ボタンをクリックした時
-        // } else {
-        //   router.push("/");
-        // }
-
+        }
       })["catch"](function (error) {
         console.log(error);
         alert("入力して下さい。");
       });
     };
 
+    console.log('document.cookie');
+    console.log(document.cookie);
+    document.cookie = "XSRF-TOKEN=; max-age=0";
+    console.log('document.cookie.delete');
+    console.log(document.cookie);
     return {
       data: data,
       doAction: doAction,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted
     };
   }
-});
+}); //このコンポーネント以外のブラウザバック動作にも反応する なぜ？
+// addEventListener("popstate", () => {
+//       history.pushState(null, null, "/login");
+//       this.$router.push("/login");
+// router.go(1);
+// router.go(0);
+// });
 
 /***/ }),
 
@@ -34437,7 +34522,7 @@ var _hoisted_2 = {
   }
 };
 var _hoisted_3 = {
-  "class": "h5"
+  "class": "h5 a"
 };
 var _hoisted_4 = {
   "class": "table table-light table-striped",
@@ -34521,10 +34606,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  "class": "a"
+};
+var _hoisted_2 = {
   "class": "table table-light table-striped"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
   "class": "table-dark text-center"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出しID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "本のタイトル"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "貸出日"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "返却日")])], -1
 /* HOISTED */
@@ -34535,11 +34623,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_bookingList_ch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookingList_ch");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.booking), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.table_obj, function (item, index) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h3>{{ data.booking }}</h3> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [_hoisted_3, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.table_obj, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_bookingList_ch, {
       key: index,
       item: item
@@ -34596,13 +34682,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  id: "sosen"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  id: "oya"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "ko"
+})])], -1
+/* HOISTED */
+);
+
+var _hoisted_2 = {
+  "class": "a",
   style: {
     "font-size": "30px"
   }
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "カレンダー上でドラッグすると日付を選べます。", -1
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "カレンダー上でドラッグすると日付を選べます。", -1
 /* HOISTED */
 );
 
@@ -34611,7 +34709,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_FullCalendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FullCalendar");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, "【" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title) + "】 の貸出表", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, "【" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title) + "】 の貸出表", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FullCalendar, {
     options: $setup.calendar.calendarOptions
@@ -34622,7 +34720,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.doAction();
     })
-  }, "確定"), _hoisted_2]);
+  }, "確定"), _hoisted_3]);
 }
 
 /***/ }),
@@ -34771,39 +34869,15 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   "class": "text-primary"
 };
-var _hoisted_4 = {
-  "class": "main-nav"
-};
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/index"
-}, "貸出し予約")], -1
-/* HOISTED */
-);
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/bookingList"
-}, "過去に借りた本の一覧")], -1
-/* HOISTED */
-);
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/calendar/1/1"
-}, "api/bookonloan/2")], -1
-/* HOISTED */
-);
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<nav><ul class=\"main-nav\"><!-- &lt;li&gt;&lt;a href=&quot;/checkoutform&quot;&gt;貸出し予約&lt;/a&gt;&lt;/li&gt; --><li><a href=\"/index\">貸出し予約</a></li><li><a href=\"/bookingList\">過去に借りた本の一覧</a></li><li><a href=\"/logout\">logout</a></li><!-- &lt;li&gt;&lt;a href=&quot;#&quot; v-on:click.stop.prevent=&quot;doAction()&quot; &gt;logout&lt;/a&gt;&lt;/li&gt; --><li><a href=\"api/calendar/1\">api/bookonloan/2</a></li><li><a href=\"api/calendar/1/2\">api/calendar/1/2</a></li><li><a href=\"api/calendar/1\">api/calendar/1</a></li><!-- &lt;li&gt;&lt;a href=&quot;url()-&gt;previous()&quot;&gt;前のページに戻る&lt;/a&gt;&lt;/li&gt; --></ul></nav>", 1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, "studentNo：" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo.studentInfo.studentNo), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.studentInfo.studentInfo.name) + " さんのページ", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1><a href=\"/index\">Books</a></h1>    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li><a href=\"/checkoutform\">貸出し予約</a></li> "), _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "#",
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.doAction();
-    })
-  }, "logout")]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li><a href=\"url()->previous()\">前のページに戻る</a></li> ")])])]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1><a href=\"/index\">Books</a></h1>    "), _hoisted_4]);
 }
 
 /***/ }),
@@ -35202,6 +35276,54 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\nbody {\n        color: #333333;\n        background-color: #FFFFFF;\n        font-size: 100%;\n        line-height: 1.7;\n        margin: 10px auto;\n        width: 90%;\n        -webkit-text-size-adjust: 100%;\n}\na {\n        text-decoration: none;\n}\n.main-nav {\n        display: flex;          \n        list-style: none;\n        margin: 10px;\n}\n\n    /* .main-nav{\n        display: flex; \n        border: solid black 1px;\n    }\n\n    .main-nav p{        \n        margin: 10px;\n    } */\n.main-nav li {\n        margin-left: 15px;\n}\nheader h1 {\n        color: darksalmon;\n}\ntable {\n        width: 80%;\n        border-collapse: collapse;\n        border-spacing: 0;\n}\ntable th,\n    table td {\n        padding: 10px;\n        text-align: center;\n}\ntable tr:nth-child(odd) {\n        background-color: #eee;\n}\n\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* @import \"../css/style.css\"; */\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.a{color:red}\n\n/* .fc-daygrid-day-frame {\n  background-color: #eaf4ff;\n} */\n.fc-day-sun { background-color: rgb(243, 203, 203);\n}  /* 日曜日 */\n.fc-day-sat {\n    background-color: #c7d1fc;\n}\ntd[data-date=\"2022-02-23\"]{\n    background-color:rgb(243, 203, 203);\n}\n.fc-event-title {\n\twhite-space: normal;\n  word-wrap: break-word;\n  text-align: left;\n  /*変なとこで改行させたくないやつ\n  line-break: strict;*/\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -57960,6 +58082,66 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_style_index_0_id_bb962f12_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Index.vue?vue&type=style&index=0&id=bb962f12&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_style_index_0_id_bb962f12_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_style_index_0_id_bb962f12_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_style_index_0_id_094224ee_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./calendar.vue?vue&type=style&index=0&id=094224ee&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_style_index_0_id_094224ee_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_style_index_0_id_094224ee_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -58582,13 +58764,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=bb962f12 */ "./resources/js/components/Index.vue?vue&type=template&id=bb962f12");
 /* harmony import */ var _Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js */ "./resources/js/components/Index.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _Index_vue_vue_type_style_index_0_id_bb962f12_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Index.vue?vue&type=style&index=0&id=bb962f12&lang=css */ "./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css");
+/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_Index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_Index_vue_vue_type_template_id_bb962f12__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/Index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -58694,13 +58879,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./calendar.vue?vue&type=template&id=094224ee */ "./resources/js/components/calendar.vue?vue&type=template&id=094224ee");
 /* harmony import */ var _calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar.vue?vue&type=script&lang=js */ "./resources/js/components/calendar.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _calendar_vue_vue_type_style_index_0_id_094224ee_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calendar.vue?vue&type=style&index=0&id=094224ee&lang=css */ "./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css");
+/* harmony import */ var _home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_home_itsys_books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_calendar_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/calendar.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -59150,6 +59338,32 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_App_vue_vue_type_style_index_0_id_f348271a_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/style-loader/dist/cjs.js!../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../node_modules/vue-loader/dist/stylePostLoader.js!../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./App.vue?vue&type=style&index=0&id=f348271a&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/App.vue?vue&type=style&index=0&id=f348271a&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Index_vue_vue_type_style_index_0_id_bb962f12_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Index.vue?vue&type=style&index=0&id=bb962f12&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Index.vue?vue&type=style&index=0&id=bb962f12&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_style_index_0_id_094224ee_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./calendar.vue?vue&type=style&index=0&id=094224ee&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=style&index=0&id=094224ee&lang=css");
 
 
 /***/ }),

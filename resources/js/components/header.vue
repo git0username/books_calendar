@@ -9,8 +9,11 @@
                 <!-- <li><a href="/checkoutform">貸出し予約</a></li> -->
                 <li><a href="/index">貸出し予約</a></li>
                 <li><a href="/bookingList">過去に借りた本の一覧</a></li>
-                <li><a href="#" v-on:click="doAction()" >logout</a></li>
-                <li><a href="/calendar/1/1">api/bookonloan/2</a></li>
+                <li><a href="/logout">logout</a></li>
+                <!-- <li><a href="#" v-on:click.stop.prevent="doAction()" >logout</a></li> -->
+                <li><a href="api/calendar/1">api/bookonloan/2</a></li>
+                <li><a href="api/calendar/1/2">api/calendar/1/2</a></li>
+                <li><a href="api/calendar/1">api/calendar/1</a></li>
                 <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
         </nav>
@@ -21,6 +24,7 @@
 import { reactive, onBeforeMount } from "vue";
 import { store } from "./store.js";
 import { useRouter } from "vue-router";
+import axios from "axios";
 
 export default {
   name: "Header",
@@ -42,10 +46,25 @@ export default {
 
 
     const router = useRouter();
+    // const deleteCookie = ()=>{
+    //      document.cookie = "XSRF-TOKEN=true; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+    // }
+
+   
     const doAction = ()=>{
         store.commit("clearStudentInfo");
         store.commit("clearCalendar");
-         router.push("/login");
+        sessionStorage.clear();                
+        // router.push("/logout");
+              window.location.href('http://127.0.0.1:8000/logout')
+
+    //      const url = "http://127.0.0.1:8000/logout";
+    // axios.get(url);
+//     .then(function (response) {
+//     console.log(response.data);
+//   });
+    
+     
     };
 
     const noLink = ()=> {
@@ -58,7 +77,7 @@ export default {
     // console.log("store.state.studentInfo_header=");
     // console.log(store.state.studentInfo);
     // console.log("data.studentInfo_header=");
-    // console.log(data.studentInfo);
+    // console.log(data.studentInfo)2;
     // console.log("header.data.studentInfo[studentNo]=");
     //  console.log(data.studentInfo["studentNo"]);
 
@@ -72,53 +91,3 @@ export default {
   }
 };
 </script>
-<!--
-<style>
-    body {
-        color: #333333;
-        background-color: #FFFFFF;
-        font-size: 100%;
-        line-height: 1.7;
-        margin: 10px auto;
-        width: 90%;
-        -webkit-text-size-adjust: 100%;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    .main-nav {
-        display: flex;          
-        list-style: none;
-        margin: 10px;
-    }
-    
-    .main-nav li {
-        margin-left: 15px;
-
-    }
-
-    header h1 {
-        color: darksalmon;
-    }
-
-    table {
-        width: 80%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        
-    }
-
-    table th,
-    table td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    table tr:nth-child(odd) {
-        background-color: #eee;
-    }
-
-</style>
--->

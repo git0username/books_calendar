@@ -1,7 +1,8 @@
 <template>
 <div>
-<Header /> 
-<div style="font-size: 30px">【{{data.title}}】 の貸出表</div>
+<Header />
+<div id="sosen"><div id="oya"><div class="ko"></div></div></div>
+<div class="a" style="font-size: 30px">【{{data.title}}】 の貸出表</div>
   <FullCalendar :options="calendar.calendarOptions" />
   <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button>
   <p>カレンダー上でドラッグすると日付を選べます。</p> 
@@ -30,31 +31,51 @@ export default {
     Header,
   },
   
-  setup(){   
+  setup(){ 
+      
     const router = useRouter();
     const store_calendar = store.state.calendar.calendar;
     console.log("store_calendar");
     console.log(store_calendar.booktypeId);
+    
 
+    
     const data = reactive({    
       booktypeId: store_calendar.booktypeId,
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number,
       onloanDate_arr: [],
-      today: dayjs().format('YYYY-MM-DD'),       
+      today: dayjs().format('YYYY-MM-DD'), 
+      NumberPerDay_arr:[],      
     });
+    console.log( 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo);
 
     const calendar = reactive({      
       //calendar情報
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
+        locale: 'ja',
+        
+        // titleFormat: {
+        //     month: 'yyyy年M月',
+        // },  
         initialView: "dayGridMonth",
         dateClick: handleDateClick,
         weekends: true,
         editable: false,
+        
         // allDay: false,
-        events: 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId,
+         events:{
+          url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
+          // color: 'yellow',   // an option!
+          // textColor: 'black', // an option!
+          
+         },
+
+        // events: 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId ,
+
+        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],
         
         // 日付をクリック、または範囲を選択したイベント
         selectable: true,
@@ -63,9 +84,14 @@ export default {
           console.log(this.getEvents());
           console.log(info);
           console.log(info.endStr);
+          const A = this.getEvents();
+          console.log("A");
+
+          console.log(A[18]);
+
 
           //今日以前は選択できない。管理者しかできない仕様。途中
-          if(info.startStr <= data.today){
+          if(info.startStr < data.today){
             alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
             // const admin_name = window.prompt("admin name を入力","");
             // if(!admin_name == null){
@@ -82,7 +108,7 @@ export default {
                 title: "studentNo" + data.studentNo, //studentNoが自動で入る
                 start: info.start,
                 end: info.end,
-                bookId: 1, 
+                booktypeId: data.booktypeId, 
                 edit:"yes",
                 allDay: true
               });
@@ -98,7 +124,7 @@ export default {
                 studentNo: data.studentNo,              
                 start: start_afterDate,
                 end: end_afterDate,
-                bookId: 1,
+                // bookId: 1,
                 edit:"yes",              
               });            
             }else{
@@ -148,15 +174,74 @@ export default {
             alert("error");
           });
       }
-     }
+     };
+
+     const getNumberPerDay = async () => {
+      const result = await axios.get("http://127.0.0.1:8000/api/calendar/"+ data.booktypeId); 
+      console.log("result.data=");
+      console.log(result);
+      data.NumberPerDay_arr = result;
+      //もしセレクトした日が配列の中にあれば借りれない
+    };
 
     
+
+     //祝日の背景色を変えたかった
+     onMounted(() => {
+       getNumberPerDay();
+
+      const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
+      const sosen = child.parentElement; // 祖先要素を取得
+      const sosen2 = sosen.parentElement;
+      console.log("child");
+      console.log(sosen2); 
+      const child1 =document.getElementsByClassName('holiday');
+      const length = child1.length;
+      console.log("child");
+      console.log(child1);
+      console.log(child1[0]);//htmlcoleectionからなぜか値を取得できない
+      console.log(length);
+    });
+
+
+
+   
+
     return{ data, calendar, handleDateClick, onMounted, watch, doAction };
   }
 };
-
-
+ 
 </script>
+
+<!--<style src="../css/calendar.css" scoped>
+/* @import "../css/calendar.css"; */
+</style>-->
+
+<style >
+.a{color:red}
+
+/* .fc-daygrid-day-frame {
+  background-color: #eaf4ff;
+} */
+
+.fc-day-sun { background-color: rgb(243, 203, 203); }  /* 日曜日 */
+.fc-day-sat {
+    background-color: #c7d1fc;
+}
+
+td[data-date="2022-02-23"]{
+    background-color:rgb(243, 203, 203);
+}
+.fc-event-title {
+	white-space: normal;
+  word-wrap: break-word;
+  text-align: left;
+  /*変なとこで改行させたくないやつ
+  line-break: strict;*/
+}
+</style>
+
+
   <!--
   必要な機能
   本の冊数に上限が必要
