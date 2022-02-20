@@ -34379,8 +34379,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       studentNo: "",
-      password: "" // token:""
-
+      password: ""
     }); //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
 
     var getToken = /*#__PURE__*/function () {
@@ -34443,7 +34442,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.log(error);
         alert("入力して下さい。");
       });
-    };
+    }; //cookieの挙動を確認 よく分からない
+
 
     console.log('document.cookie');
     console.log(document.cookie);

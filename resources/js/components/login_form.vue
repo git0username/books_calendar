@@ -25,12 +25,10 @@ export default {
   name: "login",
   setup() {
     const router = useRouter();
-    
 
     const data = reactive({
       studentNo:"",
-      password: "",      
-      // token:""
+      password: "",  
     });  
     
       //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
@@ -40,7 +38,6 @@ export default {
       console.log("csrf-cookie=");
       console.log(result); 
     };
-
     
     onMounted(() => {
       getToken();
@@ -79,12 +76,14 @@ export default {
           alert("入力して下さい。");
         });      
     };
-    console.log('document.cookie');
-    
+
+   //cookieの挙動を確認 よく分からない
+    console.log('document.cookie');    
     console.log(document.cookie);
     document.cookie = "XSRF-TOKEN=; max-age=0";
     console.log('document.cookie.delete');
     console.log(document.cookie);
+
     return { data, doAction ,onMounted};
   },  
   
@@ -97,4 +96,5 @@ export default {
       // router.go(1);
       // router.go(0);
     // });
+
 </script>
