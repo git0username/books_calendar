@@ -48,6 +48,8 @@ class CalendarController extends Controller
     {
         $number = BookOnloan::where('booktypeId',$booktypeId)->get(['start','end'])->toArray();
         //[3冊借りられてる日を配列にいれる]
+        dd($number);
+        
         return $number;
     }
 
