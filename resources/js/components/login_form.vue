@@ -41,7 +41,7 @@ export default {
     
     onMounted(() => {
       getToken();
-      sessionStorage.clear();   
+      // sessionStorage.clear();   
     });
     
     watch(data, () => {
@@ -78,11 +78,13 @@ export default {
     };
 
    //cookieの挙動を確認 よく分からない
-    console.log('document.cookie');    
-    console.log(document.cookie);
-    document.cookie = "XSRF-TOKEN=; max-age=0";
-    console.log('document.cookie.delete');
-    console.log(document.cookie);
+    // console.log('document.cookie');    
+    // console.log(document.cookie);
+    // document.cookie = "XSRF-TOKEN=; max-age=0";
+    // document.cookie = "laravel_session=; max-age=0";
+    // console.log('document.cookie.delete');
+    // console.log(document.cookie);
+    
 
     return { data, doAction ,onMounted};
   },  

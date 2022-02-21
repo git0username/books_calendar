@@ -38,6 +38,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::get('/calendar/{booktypeId}/{studentNo}', [CalendarController::class, 'show']);
 
+    // Route::get('/logout',  [LoginController::class, 'logout']);
+
     
 
     // Route::apiResource('/calendar/{booktypeId}/{studentNo}',[CalendarController::class, 'show1']);
@@ -51,3 +53,5 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 // apiに対応したrestfulにしておく
 
 Route::post('/login',[LoginController::class, 'authenticate']);
+
+// Route::get('/logout',  [LoginController::class, 'logout']);

@@ -36,6 +36,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        
+        // dd("a");
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();  // csrfトークンの再生成        
