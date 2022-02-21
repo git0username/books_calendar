@@ -26,7 +26,12 @@ class LoginController extends Controller
             // dd( $a);
             
             return response(["result" => "success" , "studentInfo" => $studentInfo] ,200); //userinfo を全部持たせる
-            // return $studentInfo;
+            // no-store
+            // ->withHeaders([
+            //     'Cache-Control' => 'no-store',
+
+            // ]); 
+            
         }       
 
         return back()->withErrors([
@@ -40,8 +45,15 @@ class LoginController extends Controller
         // dd("a");
         Auth::logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken();  // csrfトークンの再生成        
-        return redirect('/login');
+        $request->session()->regenerateToken();  // csrfトークンの再生成 
+        // dd("a");       
+        return redirect('/login')->withHeaders([
+            'Cache-Control' => 'no-store',
+        ]);
+
+        // return response("")->withHeaders([
+        //         'Cache-Control' => 'no-store',
+        //     ]);
     }
 
 }

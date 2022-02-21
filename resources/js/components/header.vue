@@ -10,11 +10,12 @@
                 <li><a href="/index">貸出し予約</a></li>
                 <li><a href="/bookingList">過去に借りた本の一覧</a></li>
                 <li><a href="api/logout">api_logout aタグ</a></li>
-                <li><a href="#" v-on:click="doAction()" >api_logout</a></li>
+                <li><a href="#" v-on:click='doAction()' >api_logout_doaction</a></li>
                  <li><a href="/logout">logout aタグ</a></li>               
                 <li><a href="api/calendar/1">api/bookonloan/2</a></li>
                 <li><a href="api/calendar/1/2">api/calendar/1/2</a></li>
                 <li><a href="api/calendar/1">api/calendar/1</a></li>
+                <button v-on:click="externalLink">ボタン</button>
                 <!-- <li><a href="url()->previous()">前のページに戻る</a></li> -->
             </ul>
         </nav>
@@ -57,14 +58,13 @@ export default {
         // store.commit("clearCalendar");
         sessionStorage.clear();                
         // router.push("/logout");
-              // window.location.href('http://127.0.0.1:8000/logout')
+        window.location.href = 'http://127.0.0.1:8000/logout';
 
-         const url = "http://127.0.0.1:8000/api/logout";
-    axios.get(url)
-    .then(function (response) {
-    console.log(response.data);
-  });
-    
+  //        const url = "http://127.0.0.1:8000/api/logout";
+  //   axios.get(url)
+  //   .then(function (response) {
+  //   console.log(response.data);
+  // });   
      
     };
 
