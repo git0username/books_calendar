@@ -44,10 +44,10 @@ export default {
       booktypeId: store_calendar.booktypeId,
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
-      number: store_calendar.number,
+      number: store_calendar.number, //本の全数
       onloanDate_arr: [],
       today: dayjs().format('YYYY-MM-DD'), 
-      NumberPerDay_arr:[],      
+      fullBooked_arr:[],      
     });
     console.log( 'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo);
 
@@ -100,6 +100,7 @@ export default {
             //   console.log(adminInfo);
             // } 
           }else{ 
+            //ここに挿入
 
             if(confirm("指定した日で貸出しますか？")){
               
@@ -177,12 +178,12 @@ export default {
      };
 
      const getNumberPerDay = async () => {
-      const result = await axios.get("http://127.0.0.1:8000/api/calendar/"+ data.booktypeId); 
+      const result = await axios.post("http://127.0.0.1:8000/api/calendar/"+ data.booktypeId , { number: data.number}); 
       console.log("result.data=");
-      console.log(result);
-      data.NumberPerDay_arr = result;
+      console.log(result.data);
+      data.fullBooked_arr = result.data;
       //もしセレクトした日が配列の中にあれば借りれない
-    };
+    }; //catch
 
     
 

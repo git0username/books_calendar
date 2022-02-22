@@ -34,7 +34,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::apiResource('/calendar',CalendarController::class)->except(['show']);    
 
-    Route::get('/calendar/{booktypeId}', [CalendarController::class, 'NumberPerDay']);
+    Route::post('/calendar/{booktypeId}', [CalendarController::class, 'NumberPerDay']);
 
     Route::get('/calendar/{booktypeId}/{studentNo}', [CalendarController::class, 'show']);
 
