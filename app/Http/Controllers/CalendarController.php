@@ -32,12 +32,8 @@ class CalendarController extends Controller
     public function store(Request $request)
     {
         $request_arr = $request->toArray();
-        // var_export($request_arr);
-        // dd($request_arr);
-        //BookOnloadsテーブルにpost
-    //    $BookOnloan = new BookOnloan;
-       foreach($request_arr as $request_ch){
-        //    dd($request_arr,$request_ch);
+        
+       foreach($request_arr as $request_ch){       
         $BookOnloan = new BookOnloan;
             $BookOnloan->booktypeId = $request_ch['booktypeId'];
             $BookOnloan->studentNo = $request_ch['studentNo'];
@@ -49,25 +45,32 @@ class CalendarController extends Controller
 
     public function NumberPerDay(Request $request, $booktypeId)
     {
-        $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...]        
-        //[3冊借りられてる日を配列にいれる]
-        // dd($request->number);
-        foreach($start_end_arr as $start_end){
-            $start = $start_end['start'];
-            $end = $start_end['end'];
-
-            $period = CarbonPeriod::create($start, $end); //第一引数と第二引数の期間を日単位に配列で取得 [2022.02.22, 2022.02.23, 2022.02.24]
-            // dd($period->toArray());
-            foreach ($period as $date) {                
-                $date_arr[] = $date->format('Y-m-d');
-            }            
-        }
-        $countDate_arr = array_count_values($date_arr); //各日が何個あるかcountして配列を取得 ["日付"=>"count数","日付"=>"count数",]
-    //    dd($countDate_arr);
+        //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
+        $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['studentNo','start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...]        
+        
+        if(empty($start_end_arr)){ //whereでヒットせず、配列が空になった場合
+            return $start_end_arr;
+        }else{
+            foreach($start_end_arr as $start_end){ //配列の要素を一つずつ取得                                
+                $start = $start_end['start'];
+                $end = $start_end['end'];
+                $periods = CarbonPeriod::create($start, $end); //第一引数と第二引数の期間を日単位に取得 (2022.02.22, 2022.02.23, 2022.02.24)                             
+                foreach ($periods as $period) {  // $periodを日付だけの配列にする [2022.02.22, 2022.02.23, 2022.02.24]
+                    $date = $period->format('Y-m-d');                            
+                    $date_arr[] = $date;
+                    
+                    if($start_end['studentNo']==$request->studentNo){ //自分が借りてる日付の配列を作る 重複レンタルの防止
+                        $bookedday_own[] = $date;                       
+                    };                    
+                };                         
+            };                              
+        };           
+        
+        $countDate_arr = array_count_values($date_arr); //各日が何個あるかcountして配列を取得 ["日付"=>"count数","日付"=>"count数",]    
         $number = $request->number; //clientから来たpram(本の全数)を格納
-        $fullBooked = array_keys($countDate_arr, $number);
-
-        return $fullBooked;
+        $fullBooked = array_keys($countDate_arr, $number); //count数が全数と同じ日付を取得し配列にする  
+                
+        return ['fullBooked' => $fullBooked, 'bookedday_own' => $bookedday_own]; //全数借りられている日の配列を返す
     }
 
     /**
@@ -87,38 +90,36 @@ class CalendarController extends Controller
        
         if (!Empty($books)){ 
             foreach ($books as $book){
-                $title = "貸出Id".$book['id']."/"."studentNo".$book['studentNo']; //."/"."bookId"."/".$book['bookId'];
-                // dd($title);        
+                $title = "貸出Id".$book['id']."/"."studentNo".$book['studentNo'];                       
                 unset($book['id']); //fullcalendarのeventsのidと認識されてしまうので消去
-                $book["title"] = $title; 
-                $book['end'] =  date('Y-m-d', strtotime($book['end']. '+1 day' )); //fullcalendarで1日ずれるので調整
+                $book["title"] = $title;                 
+                $end = new Carbon($book['end']); //Carbonインスタンス生成
+                $book['end'] = $end->addDays(1)->format('Y-m-d'); //fullcalendarで1日ずれるので調整                
                 if($book['studentNo'] == $studentNo){ //自分の貸出履歴のみ編集可にするflagを付ける
                     $book['edit'] = "yes";
                 }else{
                     $book['edit'] = "no";
                 }; 
                 
-                $book_onloan[] = $book; //array_merge($book,["edit"=>"no"]);
+                $book_onloan[] = $book;
             };
         }else{
             $book_onloan[]= ["title"=> "", "start"=> "", "end"=> ""];
         };
 
-        //祝日を入れる
-        $url = 'https://holidays-jp.github.io/api/v1/date.json';
-        $json = mb_convert_encoding(file_get_contents($url), 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN'); //urlからjsonを取得してエンコード処理
-        $holidaysData_arr = json_decode($json,true); //JSONを連想配列にする [日付=>祝日の名前, ..., ..]
-        foreach($holidaysData_arr as $key => $value){
-            $holiday =[
-                "title"=> $value,
-                "start"=>  $key,
-                "classNames"=> "holiday",
-                "holiday"=>  $key,
-            ];
-            // dd($holiday);
-            $book_onloan[] = $holiday;
-            // dd($book_onloan);
-        }
+        //祝日を入れる カレンダーが見にくくなるので要検討-----------------------------
+        // $url = 'https://holidays-jp.github.io/api/v1/date.json';
+        // $json = mb_convert_encoding(file_get_contents($url), 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN'); //urlからjsonを取得してエンコード処理
+        // $holidaysData_arr = json_decode($json,true); //JSONを連想配列にする [日付=>祝日の名前, ..., ..]
+        // foreach($holidaysData_arr as $key => $value){
+        //     $holiday =[
+        //         "title"=> $value,
+        //         "start"=>  $key,
+        //         "classNames"=> "holiday",
+        //         "holiday"=>  $key,
+        //     ];           
+        //     $book_onloan[] = $holiday;            
+        // }
 
         return $book_onloan;
         }
