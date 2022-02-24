@@ -2,7 +2,7 @@
   <div>
     <Header />    
     <p class="h5">{{data.title}}</p>    
-    <table class="table table-light table-striped">
+    <table class="table table-light table-striped" style="width:600px">
       <thead class="table-light text-center">
         <tr>
           <th>貸出しID</th>

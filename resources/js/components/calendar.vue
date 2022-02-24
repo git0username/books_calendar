@@ -4,9 +4,11 @@
 <div id="sosen"><div id="oya"><div class="ko"></div></div></div>
 <div style="font-size: 30px">【{{data.title}}】 の貸出表</div>
 <div>※{{data.title}}の蔵書数は、{{data.number}}冊です。</div><br>
+<div class="fullcalendar">
   <FullCalendar :options="calendar.calendarOptions" />
-  <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button>
-  <p>カレンダー上でドラッグすると日付を選べます。</p> 
+<button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button>
+<p>カレンダー上でドラッグすると日付を選べます。</p> 
+</div>
 </div>
 </template>
 
@@ -51,12 +53,13 @@ export default {
     const calendar = reactive({      
       //calendar情報
       calendarOptions: {
-        plugins: [dayGridPlugin, interactionPlugin],
+        plugins: [dayGridPlugin, interactionPlugin],         
         locale: 'ja',  
-        initialView: "dayGridMonth",        
+        initialView: "dayGridMonth",
         weekends: true,
         editable: false,
-        navLinks: false,        
+        navLinks: false,
+        // contentHeight:'auto', //全量表示の設定         
         events:{
           url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
           // color: 'yellow',   // an option!
@@ -249,7 +252,12 @@ export default {
 /* .fc-daygrid-day-frame {
   background-color: #eaf4ff;
 } */
-
+.fullcalendar{ /*カレンダーの高さ指定したいけどわからん*/
+  max-width: auto;
+  min-width: 750px;
+  /* border: solid; */
+  /* height: 700px; */
+}
 .fc-day-sun {  /* 日曜日 */
   background-color: rgb(243, 203, 203);
   color: red
