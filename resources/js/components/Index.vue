@@ -4,17 +4,13 @@
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
         <p class="h5 a">{{data.title}}</p>
-
-        <!-- <p>{{data.studentInfo}}</p>
-        <p>{{data.studentInfo[0].studentNo}}</p>   -->
-
         <table class="table table-light table-striped" style="width:600px">
-          <thead class="table-dark text-center">
+          <thead class="table-text-center">
             <tr>
-              <th>BookID</th><th>Title</th><th>全冊数</th>
+              <th>BookID</th><th>Title</th><th>所蔵数</th><th></th>
             </tr>
           </thead>
-          <tbody class="text-left" id="tbodyID">            
+          <tbody class="text-left align-middle" id="tbodyID">            
             <Index_ch
             v-for="(item, key) in data.result"
             v-bind:key="key"
@@ -28,10 +24,8 @@
 </template>
 
 <script>
-import { reactive, onMounted, watch } from "vue";
+import { reactive, onMounted, } from "vue";
 import axios from "axios";
-import dayjs from "dayjs";
-import { useRouter } from "vue-router"; //リダイレクト用
 import Index_ch from "./Index_ch.vue";
 import Header from "./header.vue";
 import { store } from "./store.js";
@@ -44,11 +38,8 @@ export default {
   setup() {
     const data = reactive({
       result:"",
-      title: "BOOK_LIST",
-      studentInfo:store.state.studentInfo.studentInfo, //使ってない？
-      // checkoutDate: "",
-      // returnDate: "",
-      // userId:2      
+      title: "書籍一覧 / 貸出し予約 のぺージ",
+      studentInfo:store.state.studentInfo.studentInfo, //使ってない？            
     });
 
     const url = "http://127.0.0.1:8000/api/books";
@@ -66,9 +57,7 @@ export default {
     getAPI_books();
     });
     
-    // return { data, getAPI_books, doAction ,onMounted };
     return { data, getAPI_books, onMounted };
-
   }
 };
 </script>
@@ -76,4 +65,7 @@ export default {
 
 <style>
 /* @import "../css/style.css"; */
+.h5 {
+  color: rgb(245, 115, 212);
+}
 </style>

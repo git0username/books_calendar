@@ -56,13 +56,14 @@ export default {
         initialView: "dayGridMonth",        
         weekends: true,
         editable: false,
-        
-         events:{
+        navLinks: false,        
+        events:{
           url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
           // color: 'yellow',   // an option!
           // textColor: 'black', // an option!
           // allDay: true,
-          // allDayDefault:true, 
+          // allDayDefault:true,
+                    
          },
          
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
@@ -79,9 +80,11 @@ export default {
           const startStr = dayjs(info.start).format("YYYY-MM-DD")
 
           //今日以前は選択できない。管理者しかできない仕様。途中
+
           if(info.startStr < today){ //選択した日が今日以前なら
             alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
             return;
+
             //↓管理者しかできない仕様。途中
             // const admin_name = window.prompt("admin name を入力","");
             // if(!admin_name == null){
@@ -97,7 +100,7 @@ export default {
            let count = 0; //alert message 切り替え用
           const check = [data.fullBooked_arr, data.bookedday_own_arr]; 
 
-          check.some((arr)=>{                                  
+          check.some((arr)=>{ //some()はforEach()をreturnしたいときに代わりとして使える                                
             arr.some((date)=>{                            
                if(dayjs(date).isBetween(startStr, endStr, null, '[]')){
                  alert_mess += date + "\n";                        
@@ -151,7 +154,7 @@ export default {
                new_reserve.push(date_str);           
                
                }
-            data.new_reserve_arr.push(new_reserve);                                
+            data.new_reserve_arr.push(new_reserve);   //data.new_reserve_arrには中身がpushされているが、 data.new_reserve_arr には入っていない                                        
           }  
         },
       // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで-----------------------------------------------------  
@@ -159,7 +162,6 @@ export default {
 
        //入力した貸出日を削除する
         eventClick: function(item, jsEvent, view) {
-          console.log(data.new_reserve_arr);    //data.new_reserve_arrが空配列になっている なぜ？
           if(item.event.extendedProps.edit == "yes"){
           const date_start = dayjs(item.event.start).format('YYYY-MM-DD');          
             if(confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？" )){              
@@ -244,14 +246,13 @@ export default {
 </style>-->
 
 <style >
-.a{color:red}
-
 /* .fc-daygrid-day-frame {
   background-color: #eaf4ff;
 } */
 
 .fc-day-sun {  /* 日曜日 */
   background-color: rgb(243, 203, 203);
+  color: red
   } 
 .fc-day-sat {  /* 土曜日 */
   background-color: #c7d1fc;
@@ -270,6 +271,27 @@ td[data-date="2022-02-23"]{
   /*変なとこで改行させたくないやつ
   line-break: strict;*/
 }
+a[aria-label="日曜日"]{
+  color: red;
+}
+a[aria-label="月曜日"],[aria-label="火曜日"],[aria-label="水曜日"],[aria-label="木曜日"],[aria-label="金曜日"]{
+  color: black;
+}
+.fc-sun {
+	color: red;
+	background-color: #fff0f0;
+}
+.fc-daygrid-day-top a{
+	color: black;
+}
+
+.fc-day-sun .fc-daygrid-day-top a{
+  color: red;
+}
+.fc-day-sat .fc-daygrid-day-top a{
+  color: blue;
+}
+
 </style>
 
 

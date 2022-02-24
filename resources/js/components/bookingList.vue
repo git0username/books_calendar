@@ -1,10 +1,9 @@
 <template>
   <div>
     <Header />    
-    <p class="a">{{data.title}}</p>
-    <!-- <h3>{{ data.booking }}</h3> -->
+    <p class="h5">{{data.title}}</p>    
     <table class="table table-light table-striped">
-      <thead class="table-dark text-center">
+      <thead class="table-light text-center">
         <tr>
           <th>貸出しID</th>
           <th>本のタイトル</th>
@@ -12,11 +11,13 @@
           <th>返却日</th>
         </tr>
       </thead>
+       <!-- <tbody class="text-left align-middle" id="tbodyID">     -->
       <bookingList_ch
         v-for="(item, index) in data.table_obj"
         v-bind:key="index"
         v-bind:item="item"
       />
+       <!-- </tbody> -->
     </table>
   </div>
 </template>
@@ -33,12 +34,8 @@ export default {
   components: { bookingList_ch, Header },
 
   setup() {
-       console.log("store.state.studentInfo.studentInfo=");
-       console.log(store.state.studentInfo);
-
-
     const data = reactive({
-      title: "貸出し履歴",
+      title: "貸出し履歴一覧のページ",
       table_obj: {},
       studentNo:store.state.studentInfo.studentInfo.studentNo,      
     });
@@ -60,3 +57,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.h5 {
+  color: rgb(245, 115, 212);
+}
+</style>

@@ -1,16 +1,8 @@
 <template>
-  <div class="container"> 
-    <h1><a href="/index">Books</a></h1>
-    <!-- <Header />    -->
-    <!-- <nav>   
-            <ul class="main-nav">
-                <li><a href="/checkoutform">貸出し予約</a></li>
-                <li><a href="/bookingList">過去に借りた本の一覧</a></li>                
-                <li><a href="url()->previous()">前のページに戻る</a></li>
-            </ul>
-        </nav> -->
+  <div class="container">      
+    <h1><a href="/index">Books</a></h1>      
+    <!-- <Header />        -->
     <router-view></router-view>
-
   </div>
 </template>
 
@@ -33,6 +25,11 @@ export default {
 };
 </script>
 <style>
+.main_title {
+    /* width:auto;
+    background-color:antiquewhite */
+}
+div
     body {
         color: #333333;
         background-color: #FFFFFF;

@@ -1,5 +1,5 @@
 <template>
-    <tbody class="text-left">
+    <tbody class="text-left align-middle">
       <tr>
         <td>{{item.id}}</td>
         <td>{{item.title}}</td>

@@ -48,6 +48,8 @@ class CalendarController extends Controller
         //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
         $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['studentNo','start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...]        
         
+        $bookedday_own =[];
+        
         if(empty($start_end_arr)){ //whereでヒットせず、配列が空になった場合
             return $start_end_arr;
         }else{
@@ -68,8 +70,8 @@ class CalendarController extends Controller
         
         $countDate_arr = array_count_values($date_arr); //各日が何個あるかcountして配列を取得 ["日付"=>"count数","日付"=>"count数",]    
         $number = $request->number; //clientから来たpram(本の全数)を格納
-        $fullBooked = array_keys($countDate_arr, $number); //count数が全数と同じ日付を取得し配列にする  
-                
+        $fullBooked = array_keys($countDate_arr, $number); //count数が全数と同じ日付を取得し配列にする なかったら空が返る       
+            
         return ['fullBooked' => $fullBooked, 'bookedday_own' => $bookedday_own]; //全数借りられている日の配列を返す
     }
 

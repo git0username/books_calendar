@@ -1,8 +1,7 @@
 <template>
   <div>
     <h3 class="text-primary">login form</h3>
-    <div class="form-group" style="padding:30px">
-      <!-- <form action="/api/check" method="post"> -->
+    <div class="form-group" style="padding:30px">      
       <label for="studentNo">studentNo</label>
       <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" />
       <br />
@@ -100,3 +99,9 @@ export default {
     // });
 
 </script>
+
+<style scoped>
+#studentNo, #password{
+  width:300px;
+}
+</style>
