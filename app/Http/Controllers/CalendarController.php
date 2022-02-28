@@ -31,21 +31,35 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request_arr = $request->toArray();        
         // dd($request_arr);
        //DBに登録
-        foreach($request_arr["add"] as $request_ch){       
-        $BookOnloan = new BookOnloan;
-            $BookOnloan->booktypeId = $request_ch['booktypeId'];
-            $BookOnloan->studentNo = $request_ch['studentNo'];
-            $BookOnloan->start = $request_ch['start'];
-            $BookOnloan->end = $request_ch['end'];
-            $BookOnloan->save();
-       };
+       if(!empty($request_arr["add"])){
+            foreach($request_arr["add"] as $request_ch){       
+            $BookOnloan = new BookOnloan;
+                $BookOnloan->booktypeId = $request_ch['booktypeId'];
+                $BookOnloan->studentNo = $request_ch['studentNo'];
+                $BookOnloan->start = $request_ch['start'];
+                $BookOnloan->end = $request_ch['end'];
+                $BookOnloan->save();
+            };
+        };
 
        //DBから削除
-       BookOnloan::destroy($request_arr["delete"]);   
-           
+       if(!empty($request_arr["delete"])){
+        BookOnloan::destroy($request_arr["delete"]);
+       };
+       
+       //DBを更新
+       if(!empty($request_arr["edit"]))
+       foreach($request->edit as $key => $value){
+        //    dd($key,$value);
+         if(!$value == null){
+            $BookOnloan = BookOnloan::find($key);
+            $BookOnloan->fill($value->all())->save();
+         }       
+       };           
 
     }
 
