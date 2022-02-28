@@ -33775,6 +33775,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       number: store_calendar.number,
       //本の全数
       onloanDate_arr: [],
+      //DBに渡す用add_arr
+      onloanDate_delete_arr: [],
+      //DBに渡す用delete_arr
+      onloanDate_edit_arr: [],
+      //DBに渡す用edit_arr 
       fullBooked_arr: [],
       //全数借りられている日
       bookedday_own_arr: [],
@@ -33789,7 +33794,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         locale: 'ja',
         initialView: "dayGridMonth",
         weekends: true,
-        editable: false,
+        // editable: false,
         navLinks: false,
         events: {
           url: 'http://127.0.0.1:8000/api/calendar/' + data.booktypeId + '/' + data.studentNo // color: 'yellow',   // an option!
@@ -33803,8 +33808,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         selectable: true,
         select: function select(info) {
           dayjs__WEBPACK_IMPORTED_MODULE_7___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8___default()));
-          var today = dayjs__WEBPACK_IMPORTED_MODULE_7___default()().format('YYYY-MM-DD');
-          var alert_mess = ""; //DBに渡せる形にする
+          var today = dayjs__WEBPACK_IMPORTED_MODULE_7___default()().format('YYYY-MM-DD'); //DBに渡せる形にする
 
           var endStr = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(info.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
 
@@ -33827,7 +33831,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           var flag = "";
           var count = 0; //alert message 切り替え用
 
-          var check = [data.fullBooked_arr, data.bookedday_own_arr];
+          var alert_mess = "";
+          var check = [data.fullBooked_arr, data.bookedday_own_arr, data.new_reserve_arr.flat()];
           check.some(function (arr) {
             //some()はforEach()をreturnしたいときに代わりとして使える                                
             arr.some(function (date) {
@@ -33839,7 +33844,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             if (alert_mess) {
               if (count == 0) {
                 alert("".concat(alert_mess, " \u306F\u7A7A\u304D\u304C\u3042\u308A\u307E\u305B\u3093\u3002"));
-              } else if (count == 1) {
+              } else if (count == 1 || count == 2) {
                 alert("".concat(alert_mess, " \u306F\u3059\u3067\u306B\u4E88\u7D04\u6E08\u307F\u3067\u3059\u3002"));
               }
 
@@ -33869,8 +33874,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               start: info.start,
               end: info.end,
               booktypeId: data.booktypeId,
-              edit: "yes"
-            }); //DBに渡す用arrにpush            
+              edit: "yes",
+              color: "red",
+              editable: true
+            }); //DBに渡す用add_arrにpush            
 
             data.onloanDate_arr.push({
               booktypeId: data.booktypeId,
@@ -33878,67 +33885,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               start: startStr,
               end: endStr,
               edit: "yes"
-            }); //自分が借りてる日の配列(bookedday_own_arr)にもpushする。
+            }); //自分が借りる日の配列を新しく作る( data.new_reserve_arr)
 
             var new_reserve = [];
 
             for (var date = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(startStr); date <= dayjs__WEBPACK_IMPORTED_MODULE_7___default()(endStr); date = date.add(1, 'day')) {
               var date_str = date.format("YYYY-MM-DD");
-              data.bookedday_own_arr.push(date_str);
               new_reserve.push(date_str);
             }
 
-            data.new_reserve_arr.push(new_reserve); //data.new_reserve_arrには中身がpushされているが、 data.new_reserve_arr には入っていない                                        
+            data.new_reserve_arr.push(new_reserve);
           }
         },
-        // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで-----------------------------------------------------  
+        // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで----------------------------------------------------  
         //入力した貸出日を削除する
-        eventClick: function eventClick(item, jsEvent, view) {
+        eventClick: function eventClick(item) {
           if (item.event.extendedProps.edit == "yes") {
             var date_start = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(item.event.start).format('YYYY-MM-DD');
 
             if (confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？")) {
-              item.event.remove(); //fullcalendarから削除
-              //new_reserve_arrとbookedday_own_arrから削除すること              
+              //カレンダー上で色を変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなる)
+              item.event.setProp("color", "green"); //DBに渡す用delete_arrにpush              
 
+              data.onloanDate_delete_arr.push(item.event.extendedProps.貸出Id); //new_reserve_arrからも削除
+
+              var count = 0;
               data.new_reserve_arr.forEach(function (date) {
-                var count = 0;
-
                 if (date[0] == date_start) {
                   data.new_reserve_arr.splice(count, 1);
-                  console.log(data.new_reserve_arr); //data.new_reserve_arrが空配列になっている？ なぜ？
                 }
+
+                count++;
               });
             }
           } else {
             //DBからきたeventは編集不可
             alert("このイベントは編集不可です。");
           }
+        },
+        eventResize: function eventResize(item) {
+          var 貸出Id = item.event.extendedProps.貸出Id;
+          var startStr_resize = item.event.startStr;
+          var endStr_resize = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(item.event.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
+
+          data.onloanDate_edit_arr[貸出Id] = {
+            start: startStr_resize,
+            end: endStr_resize
+          };
+          console.log(data.onloanDate_edit_arr); // data.new_reserve_arr
+
+          console.log(item.event.extendedProps.貸出Id);
         }
       }
     }); //calendar情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲     
     //貸出日をpostする    
 
     var doAction = function doAction() {
-      if (!data.onloanDate_arr.length) {
+      console.log(data.onloanDate_delete_arr);
+
+      if (!data.onloanDate_arr.length && !data.onloanDate_delete_arr.length) {
         //onloanDate_arrが空だった場合
         alert("貸出日を指定してください。");
       } else {
-        var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
+        if (confirm("赤色の日を予約、緑色の日は予約削除されます。")) {
+          var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
 
-        axios__WEBPACK_IMPORTED_MODULE_6___default().post(url, data.onloanDate_arr).then(function (response) {
-          console.log(response);
+          axios__WEBPACK_IMPORTED_MODULE_6___default().post(url, {
+            add: data.onloanDate_arr,
+            "delete": data.onloanDate_delete_arr
+          }).then(function (response) {
+            console.log(response);
 
-          if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
-            router.push("/"); //「OK」押すと本一覧ページ(/index)に遷移
-          } else {
-            //「キャンセル」押すと貸出し履歴に遷移           
-            router.push("/bookingList");
-          }
-        })["catch"](function (error) {
-          console.log(error);
-          alert("error");
-        });
+            if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
+              router.push("/"); //「OK」押すと本一覧ページ(/index)に遷移
+            } else {
+              //「キャンセル」押すと貸出し履歴に遷移           
+              router.push("/bookingList");
+            }
+          })["catch"](function (error) {
+            console.log(error);
+            alert("error");
+          });
+        }
       }
     }; //フルレンタルされてる日と自分が借りてる日の配列をそれぞれapiで取得
 

@@ -31,16 +31,22 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        $request_arr = $request->toArray();
-        
-       foreach($request_arr as $request_ch){       
+        $request_arr = $request->toArray();        
+        // dd($request_arr);
+       //DBに登録
+        foreach($request_arr["add"] as $request_ch){       
         $BookOnloan = new BookOnloan;
             $BookOnloan->booktypeId = $request_ch['booktypeId'];
             $BookOnloan->studentNo = $request_ch['studentNo'];
             $BookOnloan->start = $request_ch['start'];
             $BookOnloan->end = $request_ch['end'];
             $BookOnloan->save();
-       }
+       };
+
+       //DBから削除
+       BookOnloan::destroy($request_arr["delete"]);   
+           
+
     }
 
     public function NumberPerDay(Request $request, $booktypeId)
@@ -92,15 +98,20 @@ class CalendarController extends Controller
        
         if (!Empty($books)){ 
             foreach ($books as $book){
-                $title = "貸出Id".$book['id']."/"."studentNo".$book['studentNo'];                       
+                $book['貸出Id'] = $book['id'];                
+                $title = "貸出Id".$book['id']."/"."studentNo".$book['studentNo'];
                 unset($book['id']); //fullcalendarのeventsのidと認識されてしまうので消去
                 $book["title"] = $title;                 
                 $end = new Carbon($book['end']); //Carbonインスタンス生成
-                $book['end'] = $end->addDays(1)->format('Y-m-d'); //fullcalendarで1日ずれるので調整                
-                if($book['studentNo'] == $studentNo){ //自分の貸出履歴のみ編集可にするflagを付ける
+                $book['end'] = $end->addDays(1)->format('Y-m-d'); //fullcalendarで1日ずれるので調整
+                
+                //今日以降の自分の貸出予約を編集可にするflagを付ける
+                if($book['studentNo'] == $studentNo && $book['start'] >= new Carbon('today')){ 
                     $book['edit'] = "yes";
+                    $book['editable'] = true;
                 }else{
                     $book['edit'] = "no";
+                    $book['editable'] = false;
                 }; 
                 
                 $book_onloan[] = $book;

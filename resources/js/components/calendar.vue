@@ -41,10 +41,12 @@ export default {
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number, //本の全数
-      onloanDate_arr: [],      
+      onloanDate_arr: [], //DBに渡す用add_arr
+      onloanDate_delete_arr: [], //DBに渡す用delete_arr
+      onloanDate_edit_arr:[], //DBに渡す用edit_arr 
       fullBooked_arr:[], //全数借りられている日
       bookedday_own_arr:[], //自分が借りてる日
-      new_reserve_arr: [],     
+      new_reserve_arr: [],       
     });
     
   //calendar情報--------------------------------------------------------------------------------------------  
@@ -55,7 +57,7 @@ export default {
         locale: 'ja',  
         initialView: "dayGridMonth",        
         weekends: true,
-        editable: false,
+        // editable: false,
         navLinks: false,        
         events:{
           url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
@@ -70,10 +72,9 @@ export default {
         
         // 日付をクリック、または範囲を選択したイベントの挙動を定義---------------------------------------------
         selectable: true,
-        select: function(info) {                
+        select: function(info) {                       
           dayjs.extend(isBetween);
-          const today =  dayjs().format('YYYY-MM-DD');
-          let alert_mess = "";
+          const today =  dayjs().format('YYYY-MM-DD');          
 
           //DBに渡せる形にする
           const endStr = dayjs(info.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
@@ -98,18 +99,19 @@ export default {
           //または、すでに借りていたらalertでお知らせする。（二重貸出を防止）                   
            let flag ="";
            let count = 0; //alert message 切り替え用
-          const check = [data.fullBooked_arr, data.bookedday_own_arr]; 
+           let alert_mess ="";
+          const check = [data.fullBooked_arr, data.bookedday_own_arr, data.new_reserve_arr.flat()];          
 
           check.some((arr)=>{ //some()はforEach()をreturnしたいときに代わりとして使える                                
-            arr.some((date)=>{                            
+            arr.some((date)=>{                                          
                if(dayjs(date).isBetween(startStr, endStr, null, '[]')){
                  alert_mess += date + "\n";                        
               }
             })
             if(alert_mess){
-              if(count==0){
+              if(count==0){                
                 alert( `${alert_mess} は空きがありません。`);                              
-              }else if(count==1){
+              }else if(count==1 || count==2){                
                 alert( `${alert_mess} はすでに予約済みです。`);                
               }
               alert_mess = "";
@@ -128,81 +130,103 @@ export default {
 
           //上のcheck処理をpassしたら
           //貸出の確認alert
-          if(confirm("指定した日で貸出しますか？")){ 
+          if(confirm("指定した日で貸出しますか？")){            
             this.addEvent({ //this = Calendar
               title: "studentNo" + data.studentNo,
               start: info.start,
               end: info.end,
               booktypeId: data.booktypeId, 
-              edit:"yes",                
-            });           
+              edit:"yes",
+              color:"red",
+              editable:true,
+            });
             
-            //DBに渡す用arrにpush            
+            //DBに渡す用add_arrにpush            
             data.onloanDate_arr.push({
               booktypeId: data.booktypeId,
               studentNo: data.studentNo,              
               start: startStr,
               end: endStr,              
-              edit:"yes",              
+              edit:"yes",
             });            
                
-           //自分が借りてる日の配列(bookedday_own_arr)にもpushする。
-           let new_reserve =[]; 
-            for(let date = dayjs(startStr); date<=dayjs(endStr); date=date.add(1, 'day')){
-              let date_str = date.format("YYYY-MM-DD");
-               data.bookedday_own_arr.push(date_str);
-               new_reserve.push(date_str);           
-               
-               }
-            data.new_reserve_arr.push(new_reserve);   //data.new_reserve_arrには中身がpushされているが、 data.new_reserve_arr には入っていない                                        
+           //自分が借りる日の配列を新しく作る( data.new_reserve_arr)
+           let new_reserve = [];
+            for(let date = dayjs(startStr); date<=dayjs(endStr); date=date.add(1, 'day')){              
+              let date_str = date.format("YYYY-MM-DD");              
+              new_reserve.push(date_str);               
+            }
+            data.new_reserve_arr.push(new_reserve); 
           }  
         },
-      // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで-----------------------------------------------------  
+       // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで----------------------------------------------------  
          
 
        //入力した貸出日を削除する
-        eventClick: function(item, jsEvent, view) {
+        eventClick: function(item) {         
           if(item.event.extendedProps.edit == "yes"){
           const date_start = dayjs(item.event.start).format('YYYY-MM-DD');          
-            if(confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？" )){              
-              item.event.remove(); //fullcalendarから削除
-              //new_reserve_arrとbookedday_own_arrから削除すること              
-              data.new_reserve_arr.forEach((date)=>{                
-                let count = 0;                
+            if(confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？" )){             
+              //カレンダー上で色を変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなる)
+              item.event.setProp("color","green"); 
+              //DBに渡す用delete_arrにpush              
+              data.onloanDate_delete_arr.push(item.event.extendedProps.貸出Id);
+              //new_reserve_arrからも削除
+              let count = 0;
+              data.new_reserve_arr.forEach((date)=>{                                
                 if(date[0] == date_start){                  
-                  data.new_reserve_arr.splice(count,1);
-                  console.log(data.new_reserve_arr); //data.new_reserve_arrが空配列になっている？ なぜ？
+                  data.new_reserve_arr.splice(count,1);                  
                 }
+                count++;
               })
             }            
           }else{
             //DBからきたeventは編集不可
             alert("このイベントは編集不可です。")
           }
-        }, 
+        },
+        
+        eventResize: function(item){
+          const 貸出Id = item.event.extendedProps.貸出Id;
+          const startStr_resize = item.event.startStr;
+          const endStr_resize = dayjs(item.event.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
+          data.onloanDate_edit_arr[貸出Id] = {start: startStr_resize, end: endStr_resize};
+          console.log(data.onloanDate_edit_arr);
+
+          // data.new_reserve_arr
+
+          console.log(item.event.extendedProps.貸出Id);
+
+
+        }
       },
     });
+
+    
   //calendar情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲     
 
     //貸出日をpostする    
-    const doAction = () => {       
-      if(!data.onloanDate_arr.length){ //onloanDate_arrが空だった場合
+    const doAction = () => {  
+      console.log(data.onloanDate_delete_arr);     
+      if(!data.onloanDate_arr.length && !data.onloanDate_delete_arr.length){ //onloanDate_arrが空だった場合
         alert("貸出日を指定してください。")
-      }else{      
-        const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
-        axios.post(url,data.onloanDate_arr)
-          .then(response => {
-            console.log(response);
-            if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
-              router.push("/"); //「OK」押すと本一覧ページ(/index)に遷移
-            } else { //「キャンセル」押すと貸出し履歴に遷移           
-              router.push("/bookingList");
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            alert("error");
-          });
+      }else{
+        if(confirm("赤色の日を予約、緑色の日は予約削除されます。")){      
+          const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
+          axios.post(url, {add: data.onloanDate_arr, delete: data.onloanDate_delete_arr})
+            .then(response => {
+              console.log(response);
+              if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
+                router.push("/"); //「OK」押すと本一覧ページ(/index)に遷移
+              } else { //「キャンセル」押すと貸出し履歴に遷移           
+                router.push("/bookingList");
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              alert("error");
+            });
+        }
       }
      };
 
