@@ -6,8 +6,11 @@
 <div>※{{data.title}}の蔵書数は、{{data.number}}冊です。</div><br>
 <div class="fullcalendar">
   <FullCalendar :options="calendar.calendarOptions" />
-<button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction()">確定</button>
-<p>カレンダー上でドラッグすると日付を選べます。</p> 
+<button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction_確定()">確定</button>
+<p>カレンダー上でドラッグすると日付を選べます。</p><br>
+<!-- <p>変更したイベントオレンジ</p> 
+<button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction_リセット()">変更リセット</button> -->
+ 
 </div>
 </div>
 </template>
@@ -59,14 +62,9 @@ export default {
         locale: 'ja',  
         initialView: "dayGridMonth",
         weekends: true,
-<<<<<<< HEAD
-        // editable: false,
-        navLinks: false,        
-=======
         editable: false,
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定         
->>>>>>> d03a36b910a881e66bd9b9bf14ad567bdc22855a
         events:{
           url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
           // color: 'yellow',   // an option!
@@ -147,6 +145,7 @@ export default {
               edit:"yes",
               color:"red",
               editable:true,
+              delete_flag:"yes",
             });
             
             //DBに渡す用add_arrにpush            
@@ -164,22 +163,26 @@ export default {
               let date_str = date.format("YYYY-MM-DD");              
               new_reserve.push(date_str);               
             }
-            data.new_reserve_arr.push(new_reserve); 
+            data.new_reserve_arr.push(new_reserve);
           }  
         },
        // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで----------------------------------------------------  
          
 
        //入力した貸出日を削除する
-        eventClick: function(item) {         
-          if(item.event.extendedProps.edit == "yes"){
-          const date_start = dayjs(item.event.start).format('YYYY-MM-DD');          
-            if(confirm(item.event.title + "\n" + date_start + "～" + "を消しますか？" )){             
-              //カレンダー上で色を変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなる)
-              item.event.setProp("color","green"); 
-              //DBに渡す用delete_arrにpush              
-              data.onloanDate_delete_arr.push(item.event.extendedProps.貸出Id);
-              //new_reserve_arrからも削除
+        eventClick: function(item) {
+          const itemEve = item.event;
+          const itemExt = item.event.extendedProps;         
+
+          //別のstudentNoまたは今日以前endのeventは編集不可
+          if(itemExt.edit == "yes"){
+          const date_start = dayjs(itemEve.start).format('YYYY-MM-DD');          
+            if(confirm(itemEve.title + "\n" + date_start + "～" + "を消しますか？" )){             
+              //確定前のイベントの場合はカレンダーから消す
+              if(itemExt.delete_flag == "yes"){
+                itemEve.remove();
+              }
+              //確定前のイベントの場合はnew_reserve_arrから削除
               let count = 0;
               data.new_reserve_arr.forEach((date)=>{                                
                 if(date[0] == date_start){                  
@@ -187,25 +190,28 @@ export default {
                 }
                 count++;
               })
+
+              //DBから読込んできたイベントの場合↓
+              //カレンダー上で緑色に変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなるから)
+              itemEve.setProp("color","green");
+              //DBに渡す用delete_arrにpush              
+              data.onloanDate_delete_arr.push(itemExt.貸出Id);              
             }            
           }else{
-            //DBからきたeventは編集不可
+            //別のstudentNoまたは今日以前endのeventは編集不可
             alert("このイベントは編集不可です。")
           }
         },
         
-        eventResize: function(item){
+        eventResize: function(item){          
+          //data.onloanDate_edit_arrに更新する内容をいれる。
           const 貸出Id = item.event.extendedProps.貸出Id;
           const startStr_resize = item.event.startStr;
           const endStr_resize = dayjs(item.event.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
-          data.onloanDate_edit_arr[貸出Id] = {start: startStr_resize, end: endStr_resize};
-          console.log(data.onloanDate_edit_arr);
-
-          // data.new_reserve_arr
-
-          console.log(item.event.extendedProps.貸出Id);
-
-
+          data.onloanDate_edit_arr.push({id: 貸出Id, start: startStr_resize, end: endStr_resize});
+          console.log(data.onloanDate_edit_arr);  
+          //編集したイベントを黄色にする
+          item.event.setProp("color","#FFA500");
         }
       },
     });
@@ -214,14 +220,33 @@ export default {
   //calendar情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲     
 
     //貸出日をpostする    
-    const doAction = () => {  
-      console.log(data.onloanDate_delete_arr);     
-      if(!data.onloanDate_arr.length && !data.onloanDate_delete_arr.length){ //onloanDate_arrが空だった場合
+    const doAction_確定 = () => {     
+       //new_reserve_arrを成形
+       console.log(data.new_reserve_arr); 
+       const value_arr =[];
+       data.new_reserve_arr.forEach((value)=>
+       {  
+         value_arr.push(
+           {
+             start: value[0],
+             end: value[value.length-1],
+             booktypeId: data.booktypeId,
+             studentNo: data.studentNo
+            });        
+       });
+       data.new_reserve_arr.push(value_arr);
+       console.log(data.new_reserve_arr); //onloanDate_arr消せる？
+
+       const param = {add: data.new_reserve_arr,
+                      delete: data.onloanDate_delete_arr,
+                      edit: data.onloanDate_edit_arr}
+           
+      if(!data.new_reserve_arr.length && !data.onloanDate_delete_arr.length && !data.onloanDate_edit_arr.length){ //各arrが空だった場合
         alert("貸出日を指定してください。")
       }else{
-        if(confirm("赤色の日を予約、緑色の日は予約削除されます。")){      
+        if(confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")){      
           const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
-          axios.post(url, {add: data.onloanDate_arr, delete: data.onloanDate_delete_arr})
+          axios.post(url, param)
             .then(response => {
               console.log(response);
               if (confirm("予約が完了しました。\n OK：書籍一覧ページ　キャンセル：貸出履歴ページ")) {
@@ -264,7 +289,7 @@ export default {
       // console.log(length);
       //--------------------------------------------------------------------------------------------------
     
-    return{ data, calendar, onMounted, watch, doAction };
+    return{ data, calendar, onMounted, watch, doAction_確定 };
   }
 };
 
