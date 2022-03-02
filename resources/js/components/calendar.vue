@@ -46,12 +46,11 @@ export default {
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number, //本の全数
-      onloanDate_arr: [], //DBに渡す用add_arr
+      new_reserve_arr: [], //DBに渡す用add_arr
       onloanDate_delete_arr: [], //DBに渡す用delete_arr
       onloanDate_edit_arr:[], //DBに渡す用edit_arr 
       fullBooked_arr:[], //全数借りられている日
-      bookedday_own_arr:[], //自分が借りてる日
-      new_reserve_arr: [],       
+      bookedday_own_arr:[], //自分が借りてる日      
     });
     
   //calendar情報--------------------------------------------------------------------------------------------  
@@ -76,37 +75,47 @@ export default {
          
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
         
-        // 日付をクリック、または範囲を選択したイベントの挙動を定義---------------------------------------------
+        // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
-        select: function(info) {                       
+        select: function(select_item) {                       
           dayjs.extend(isBetween);
           const today =  dayjs().format('YYYY-MM-DD');          
 
           //DBに渡せる形にする
-          const endStr = dayjs(info.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
-          const startStr = dayjs(info.start).format("YYYY-MM-DD")
+          const endStr = dayjs(select_item.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
+          const startStr = dayjs(select_item.start).format("YYYY-MM-DD")
 
-          //今日以前は選択できない。管理者しかできない仕様。途中
-
-          if(info.startStr < today){ //選択した日が今日以前なら
+          //今日以前は選択できない。
+          if(select_item.startStr < today){ //選択した日が今日以前なら
             alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
             return;
-
-            //↓管理者しかできない仕様。途中
-            // const admin_name = window.prompt("admin name を入力","");
-            // if(!admin_name == null){
-            //   const admin_passwd = window.prompt("admin password を入力","");
-            //   const adminInfo = {name: admin_name, passwd: admin_passwd};
-            //   console.log(adminInfo);
-            // } 
           }      
           
           //選択した日にフルレンタルされてる日があれば、(ダブルブッキング防止)
-          //または、すでに借りていたらalertでお知らせする。（二重貸出を防止）                   
+          //または、すでに自分が借りていたらalertでお知らせする。（二重貸出を防止）                   
            let flag ="";
            let count = 0; //alert message 切り替え用
            let alert_mess ="";
-          const check = [data.fullBooked_arr, data.bookedday_own_arr, data.new_reserve_arr.flat()];          
+
+           //新しく登録した予約のtart～end日の間の日を埋める。
+           const new_reserve_arr_forCheck = [];
+           data.new_reserve_arr.forEach((value)=>{
+             for(let date = dayjs(value['start']); date<=dayjs(value['end']); date=date.add(1, 'day')){              
+              let date_str = date.format("YYYY-MM-DD");              
+              new_reserve_arr_forCheck.push(date_str);               
+             }          
+           });
+
+           //過去に自分が予約済のstart～end日の間の日を埋める。
+            const bookedday_own_arr_forCheck = [];            
+            data.bookedday_own_arr.forEach((value)=>{
+             for(let date = dayjs(value['start']); date<=dayjs(value['end']); date=date.add(1, 'day')){              
+              let date_str = date.format("YYYY-MM-DD");              
+              bookedday_own_arr_forCheck.push(date_str);               
+             }          
+           });
+            
+          const check = [data.fullBooked_arr, bookedday_own_arr_forCheck, new_reserve_arr_forCheck];          
 
           check.some((arr)=>{ //some()はforEach()をreturnしたいときに代わりとして使える                                
             arr.some((date)=>{                                          
@@ -130,90 +139,156 @@ export default {
             }
           });
 
-           if(flag){ //check.someでalertが出されたらselect処理を抜ける          
-              return true;
-            }
+          if(flag){ //check.someでalertが出されたらselect処理を抜ける          
+            return true;
+          }
 
           //上のcheck処理をpassしたら
           //貸出の確認alert
           if(confirm("指定した日で貸出しますか？")){            
             this.addEvent({ //this = Calendar
               title: "studentNo" + data.studentNo,
-              start: info.start,
-              end: info.end,
+              start: select_item.startStr,
+              end: select_item.endStr,
               booktypeId: data.booktypeId, 
               edit:"yes",
               color:"red",
               editable:true,
               delete_flag:"yes",
             });
-            
-            //DBに渡す用add_arrにpush            
-            data.onloanDate_arr.push({
-              booktypeId: data.booktypeId,
-              studentNo: data.studentNo,              
-              start: startStr,
-              end: endStr,              
-              edit:"yes",
-            });            
                
            //自分が借りる日の配列を新しく作る( data.new_reserve_arr)
-           let new_reserve = [];
-            for(let date = dayjs(startStr); date<=dayjs(endStr); date=date.add(1, 'day')){              
-              let date_str = date.format("YYYY-MM-DD");              
-              new_reserve.push(date_str);               
-            }
-            data.new_reserve_arr.push(new_reserve);
-          }  
+           data.new_reserve_arr.push({start: startStr, end: endStr});
+          }          
         },
-       // 日付をクリック、または範囲を選択したイベントの挙動を定義ここまで----------------------------------------------------  
+       // 日付をクリック、または範囲を選択したイベントの挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 
          
 
-       //入力した貸出日を削除する
-        eventClick: function(item) {
-          const itemEve = item.event;
-          const itemExt = item.event.extendedProps;         
+       //イベントクリックした時の挙動▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        eventClick: function(click_item) {
+          //入力した貸出日を削除する
+          const itemEve = click_item.event;
+          const itemExt = click_item.event.extendedProps;         
 
           //別のstudentNoまたは今日以前endのeventは編集不可
           if(itemExt.edit == "yes"){
-          const date_start = dayjs(itemEve.start).format('YYYY-MM-DD');          
-            if(confirm(itemEve.title + "\n" + date_start + "～" + "を消しますか？" )){             
-              //確定前のイベントの場合はカレンダーから消す
-              if(itemExt.delete_flag == "yes"){
-                itemEve.remove();
-              }
-              //確定前のイベントの場合はnew_reserve_arrから削除
+            const date_start = dayjs(itemEve.start).format('YYYY-MM-DD');          
+            if(confirm(itemEve.title + "\n" + date_start + "～" + "を消しますか？" )){  
+              
+              if(itemExt.delete_flag == "yes"){//確定前のイベントの場合↓
+                //カレンダーから消す                
+                itemEve.remove(); 
+                //new_reserve_arrから削除               
+                let count = 0;
+                data.new_reserve_arr.forEach((date)=>{ 
+                  if(date[0] == date_start){                  
+                    data.new_reserve_arr.splice(count,1);                  
+                  }
+                  count++;
+                })
+              }else{//DBから読込んできたイベントの場合↓              
+                //カレンダー上で緑色に変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなるから)
+                itemEve.setProp("color","green");
+                //bookedday_own_arrから削除
+                let count = 0;
+                data.bookedday_own_arr.forEach((value)=>{                
+                  if(value['貸出Id'] == itemExt.貸出Id){
+                    data.bookedday_own_arr.splice(count,1);
+                  }
+                  count++;
+                })
+                //DBに渡す用delete_arrにpush              
+                data.onloanDate_delete_arr.push(itemExt.貸出Id);              
+              }            
+            }else{
+              //別のstudentNoまたは今日以前endのeventは編集不可
+              alert("このイベントは編集不可です。")
+            }
+          }
+        },
+        //イベントクリックした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        
+        //イベントリサイズした時の挙動▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+        eventResize: function(resize_item){                 
+          //data.onloanDate_edit_arrに更新する内容をいれる。
+          const 貸出Id = resize_item.event.extendedProps.貸出Id;
+          //fullcalendarのendは1日ずれるので調整
+          const endStr_resize = dayjs(resize_item.event.endStr).add(-1, 'd').format("YYYY-MM-DD");
+          const oldendStr_resize = dayjs(resize_item.oldEvent.endStr).add(-1, 'd').format("YYYY-MM-DD");
+          
+          //新しく作成したイベント(赤色イベント)を移動した場合、data.new_reserve_arrのend日を入れ替える
+          if("delete_flag" in resize_item.event.extendedProps){
+            let count = 0;
+              data.new_reserve_arr.forEach((date)=>{
+                if(date['end'] == oldendStr_resize){
+                 data.new_reserve_arr[count]['end'] = endStr_resize;                  
+                }
+                count++;
+              }) 
+          }else{//DBから読込んできたイベントの場合、data.bookedday_own_arrに更新する内容をいれる。
+          if(resize_item.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可
               let count = 0;
-              data.new_reserve_arr.forEach((date)=>{                                
-                if(date[0] == date_start){                  
-                  data.new_reserve_arr.splice(count,1);                  
+              let flag = true;
+              //bookedday_own_arrに貸出Idが存在した場合は、end日を上書き(or 新規挿入)            
+              data.bookedday_own_arr.forEach((date)=>{
+                if(date['貸出Id'] == 貸出Id){
+                data.bookedday_own_arr[count]['end'] = endStr_resize;
+                flag = false;
+                }
+                count++;
+              });
+              if(flag){//bookedday_own_arrに貸出Idが存在しない場合は、新規で情報push
+                data.bookedday_own_arr.push({id: 貸出Id, end: endStr_resize });
+              }
+              //編集したイベントを黄色にする
+              resize_item.event.setProp("color","#FFA500");
+            }
+          }
+        },
+        //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+        //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        eventDrop: function(drop_item){
+          const startStr_drop = drop_item.event.startStr;
+          //fullcalendarのendは1日ずれるので調整
+          const endStr_drop = dayjs(drop_item.event.endStr).add(-1, 'd').format("YYYY-MM-DD");
+                                         
+          //新しく作成したイベント(赤色イベント)を移動した場合、data.new_reserve_arrのstart日とend日を入れ替える
+          if("delete_flag" in drop_item.event.extendedProps){
+            let count = 0;
+              data.new_reserve_arr.forEach((date)=>{
+                if(date['start'] == drop_item.oldEvent.startStr){
+                data.new_reserve_arr[count]['start'] = startStr_drop;
+                data.new_reserve_arr[count]['end'] = endStr_drop;
+                }
+              count++;
+              }) 
+          }else{//DBから読込んできたイベントの場合、data.bookedday_own_arrに更新する内容をいれる。
+            if(drop_item.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可        
+              const 貸出Id = drop_item.event.extendedProps.貸出Id;
+              //すでにdata.bookedday_own_arrに貸出Idが存在した場合は、start日とend日を上書き(or 新規挿入)
+              let count = 0;
+              let flag = true;
+              data.bookedday_own_arr.forEach((date)=>{
+                if(date['貸出Id'] == 貸出Id){
+                data.bookedday_own_arr[count]['start'] = startStr_drop;
+                data.bookedday_own_arr[count]['end'] = endStr_drop;
+                flag =false;
                 }
                 count++;
               })
-
-              //DBから読込んできたイベントの場合↓
-              //カレンダー上で緑色に変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなるから)
-              itemEve.setProp("color","green");
-              //DBに渡す用delete_arrにpush              
-              data.onloanDate_delete_arr.push(itemExt.貸出Id);              
-            }            
-          }else{
-            //別のstudentNoまたは今日以前endのeventは編集不可
-            alert("このイベントは編集不可です。")
+              //onloanDate_edit_arrに貸出Idが存在しない場合は、新規で情報push
+              if(flag){
+                data.bookedday_own_arr.push({id: 貸出Id, start: startStr_drop, end: endStr_drop }); 
+              }
+              //編集したイベントを黄色にする
+              drop_item.event.setProp("color","#FFA500");
+            }
           }
         },
-        
-        eventResize: function(item){          
-          //data.onloanDate_edit_arrに更新する内容をいれる。
-          const 貸出Id = item.event.extendedProps.貸出Id;
-          const startStr_resize = item.event.startStr;
-          const endStr_resize = dayjs(item.event.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
-          data.onloanDate_edit_arr.push({id: 貸出Id, start: startStr_resize, end: endStr_resize});
-          console.log(data.onloanDate_edit_arr);  
-          //編集したイベントを黄色にする
-          item.event.setProp("color","#FFA500");
-        }
+        //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
       },
+      //カレンダー情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     });
 
     
@@ -221,20 +296,21 @@ export default {
 
     //貸出日をpostする    
     const doAction_確定 = () => {     
-       //new_reserve_arrを成形
-       console.log(data.new_reserve_arr); 
-       const value_arr =[];
-       data.new_reserve_arr.forEach((value)=>
-       {  
-         value_arr.push(
-           {
-             start: value[0],
-             end: value[value.length-1],
-             booktypeId: data.booktypeId,
-             studentNo: data.studentNo
-            });        
-       });
-       data.new_reserve_arr.push(value_arr);
+       //new_reserve_arrを成形 
+       if(!data.new_reserve_arr){        
+        const value_arr =[];
+        data.new_reserve_arr.forEach((value)=>
+        {  
+          value_arr.push(
+            {
+              start: value[0],
+              end: value[value.length-1],
+              booktypeId: data.booktypeId,
+              studentNo: data.studentNo
+              });        
+        });
+        data.new_reserve_arr.push(value_arr);
+       }
        console.log(data.new_reserve_arr); //onloanDate_arr消せる？
 
        const param = {add: data.new_reserve_arr,

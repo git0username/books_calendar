@@ -33,7 +33,7 @@ class CalendarController extends Controller
     {   
        //DBに登録
        if(!empty($request->add)){
-            foreach($request->add as $request_ch){       
+            foreach($request->add as $request_ch){
             $BookOnloan = new BookOnloan;
                 $BookOnloan->booktypeId = $request_ch['booktypeId'];
                 $BookOnloan->studentNo = $request_ch['studentNo'];
@@ -61,14 +61,16 @@ class CalendarController extends Controller
     public function NumberPerDay(Request $request, $booktypeId)
     {
         //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
-        $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['studentNo','start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...]        
-        
+        $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['id','studentNo','start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...] 
         $bookedday_own =[];
         
         if(empty($start_end_arr)){ //whereでヒットせず、配列が空になった場合
             return $start_end_arr;
         }else{
-            foreach($start_end_arr as $start_end){ //配列の要素を一つずつ取得                                
+            foreach($start_end_arr as $start_end){ //配列の要素を一つずつ取得                
+                if($start_end['studentNo']==$request->studentNo){//自分が借りてる日付の配列を作る 重複レンタルの防止
+                    $bookedday_own[] = ['貸出Id' => $start_end['id'], 'start' => $start_end['start'], 'end' => $start_end['end']];
+                }
                 $start = $start_end['start'];
                 $end = $start_end['end'];
                 $periods = CarbonPeriod::create($start, $end); //第一引数と第二引数の期間を日単位に取得 (2022.02.22, 2022.02.23, 2022.02.24)                             
@@ -76,9 +78,9 @@ class CalendarController extends Controller
                     $date = $period->format('Y-m-d');                            
                     $date_arr[] = $date;
                     
-                    if($start_end['studentNo']==$request->studentNo){ //自分が借りてる日付の配列を作る 重複レンタルの防止
-                        $bookedday_own[] = $date;                       
-                    };                    
+                    // if($start_end['studentNo']==$request->studentNo){ //自分が借りてる日付の配列を作る 重複レンタルの防止
+                    //     $bookedday_own[] = $date;                       
+                    // };                    
                 };                         
             };                              
         };           
