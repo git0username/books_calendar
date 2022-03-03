@@ -50,7 +50,7 @@ export default {
     
 
     const doAction = () => {
-      const url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している      
+      const url = "api/login"; //このページがAPI入出力の窓口として機能している      
         // axios.get("sanctum/csrf-cookie");
         axios.post(url, {
           studentNo: data.studentNo,

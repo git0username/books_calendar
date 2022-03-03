@@ -42,7 +42,7 @@ export default {
       studentInfo:store.state.studentInfo.studentInfo, //使ってない？            
     });
 
-    const url = "http://127.0.0.1:8000/api/books";
+    const url = "api/books";
     const getAPI_books = async () => {
       const result = await axios.get(url);
       data.result = result.data;       

@@ -65,7 +65,7 @@ export default {
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定         
         events:{
-          url:  'http://127.0.0.1:8000/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
+          url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
           // color: 'yellow',   // an option!
           // textColor: 'black', // an option!
           // allDay: true,
@@ -140,7 +140,7 @@ export default {
 
           if(flag){ //check.someでalertが出されたらselect処理を抜ける          
             return true;
-            
+
           }
 
           //上のcheck処理をpassしたら
@@ -327,7 +327,7 @@ export default {
         alert("貸出日を指定してください。")
       }else{
         if(confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")){      
-          const url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
+          const url = "api/calendar/"; //このページがAPI入出力の窓口として機能している 
           axios.post(url, param)
             .then(response => {
               console.log(response);
@@ -347,7 +347,7 @@ export default {
 
      //フルレンタルされてる日と自分が借りてる日の配列をそれぞれapiで取得
      const getfullBooked_own_date = async () => {
-      const result = await axios.post("http://127.0.0.1:8000/api/calendar/"+ data.booktypeId ,
+      const result = await axios.post("api/calendar/"+ data.booktypeId ,
       { studentNo: data.studentNo, number: data.number}); 
       data.fullBooked_arr = result.data.fullBooked.sort();
       data.bookedday_own_arr =  result.data.bookedday_own.sort();

@@ -33492,7 +33492,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo //使ってない？            
 
     });
-    var url = "http://127.0.0.1:8000/api/books";
+    var url = "api/books";
 
     var getAPI_books = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -33636,7 +33636,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "http://127.0.0.1:8000/api/bookonloan/" + data.studentNo; //このページがAPI入出力の窓口として機能している
+                url = "api/bookonloan/" + data.studentNo; //このページがAPI入出力の窓口として機能している
 
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(url);
@@ -33797,7 +33797,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定         
         events: {
-          url: 'http://127.0.0.1:8000/api/calendar/' + data.booktypeId + '/' + data.studentNo // color: 'yellow',   // an option!
+          url: '/api/calendar/' + data.booktypeId + '/' + data.studentNo // color: 'yellow',   // an option!
           // textColor: 'black', // an option!
           // allDay: true,
           // allDayDefault:true,
@@ -34080,7 +34080,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         alert("貸出日を指定してください。");
       } else {
         if (confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")) {
-          var url = "http://127.0.0.1:8000/api/calendar/"; //このページがAPI入出力の窓口として機能している 
+          var url = "api/calendar/"; //このページがAPI入出力の窓口として機能している 
 
           axios__WEBPACK_IMPORTED_MODULE_6___default().post(url, param).then(function (response) {
             console.log(response);
@@ -34108,7 +34108,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://127.0.0.1:8000/api/calendar/" + data.booktypeId, {
+                return axios__WEBPACK_IMPORTED_MODULE_6___default().post("api/calendar/" + data.booktypeId, {
                   studentNo: data.studentNo,
                   number: data.number
                 });
@@ -34473,7 +34473,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var doAction = function doAction() {
       sessionStorage.clear();
-      window.location.href = 'http://127.0.0.1:8000/logout';
+      window.location.href = '/logout';
     };
 
     return {
@@ -34562,7 +34562,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
 
     var doAction = function doAction() {
-      var url = "http://127.0.0.1:8000/api/login"; //このページがAPI入出力の窓口として機能している      
+      var url = "api/login"; //このページがAPI入出力の窓口として機能している      
       // axios.get("sanctum/csrf-cookie");
 
       axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
