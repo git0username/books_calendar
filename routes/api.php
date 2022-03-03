@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // 認証済みでないと許可しない
 Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;etag']], function () {
+// Route::group(["middleware" => ["auth:sanctum"]], function () {
+
 
     Route::apiResource('/books',BookController::class);
 

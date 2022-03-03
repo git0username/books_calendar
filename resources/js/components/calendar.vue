@@ -37,7 +37,7 @@ export default {
     Header,
   },
   
-  setup(){       
+  setup(){
     const router = useRouter();
     const store_calendar = store.state.calendar.calendar; 
     
@@ -70,7 +70,6 @@ export default {
           // textColor: 'black', // an option!
           // allDay: true,
           // allDayDefault:true,
-                    
          },
          
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
@@ -141,6 +140,7 @@ export default {
 
           if(flag){ //check.someでalertが出されたらselect処理を抜ける          
             return true;
+            
           }
 
           //上のcheck処理をpassしたら
@@ -154,7 +154,7 @@ export default {
               edit:"yes",
               color:"red",
               editable:true,
-              delete_flag:"yes",
+              newEvent:"yes",
             });
                
            //自分が借りる日の配列を新しく作る( data.new_reserve_arr)
@@ -172,39 +172,44 @@ export default {
 
           //別のstudentNoまたは今日以前endのeventは編集不可
           if(itemExt.edit == "yes"){
-            const date_start = dayjs(itemEve.start).format('YYYY-MM-DD');          
-            if(confirm(itemEve.title + "\n" + date_start + "～" + "を消しますか？" )){  
-              
-              if(itemExt.delete_flag == "yes"){//確定前のイベントの場合↓
-                //カレンダーから消す                
-                itemEve.remove(); 
-                //new_reserve_arrから削除               
-                let count = 0;
-                data.new_reserve_arr.forEach((date)=>{ 
-                  if(date[0] == date_start){                  
-                    data.new_reserve_arr.splice(count,1);                  
-                  }
-                  count++;
-                })
-              }else{//DBから読込んできたイベントの場合↓              
-                //カレンダー上で緑色に変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなるから)
-                itemEve.setProp("color","green");
-                //bookedday_own_arrから削除
-                let count = 0;
-                data.bookedday_own_arr.forEach((value)=>{                
-                  if(value['貸出Id'] == itemExt.貸出Id){
-                    data.bookedday_own_arr.splice(count,1);
-                  }
-                  count++;
-                })
-                //DBに渡す用delete_arrにpush              
-                data.onloanDate_delete_arr.push(itemExt.貸出Id);              
-              }            
-            }else{
-              //別のstudentNoまたは今日以前endのeventは編集不可
-              alert("このイベントは編集不可です。")
-            }
-          }
+            const date_start = dayjs(itemEve.start).format('YYYY-MM-DD');
+            if(itemEve.backgroundColor == "green"){//すでに削除処理済みの場合
+              if(confirm("この削除済みの予約を元にもどしますか？")){
+                    itemEve.setProp("color","");
+              }
+            }else{ //初めて削除処理する場合
+              if(confirm(itemEve.title + "\n" + date_start + "～" + "を消しますか？" )){
+                if(itemExt.newEvent == "yes"){//確定前のイベントの場合↓
+                  //カレンダーから消す                
+                  itemEve.remove(); 
+                  //new_reserve_arrから削除               
+                  let count = 0;
+                  data.new_reserve_arr.forEach((date)=>{ 
+                    if(date['start'] == date_start){                  
+                      data.new_reserve_arr.splice(count,1);                  
+                    }
+                    count++;
+                  })
+                }else{//DBから読込んできたイベントの場合↓
+                      //カレンダー上で緑色に変更する(removeでカレンダーから削除したら、ユーザーがどれ消したか見えなくなるから)
+                      itemEve.setProp("color","green");
+                      //bookedday_own_arrから削除
+                      let count = 0;
+                      data.bookedday_own_arr.forEach((value)=>{                
+                        if(value['貸出Id'] == itemExt.貸出Id){
+                          data.bookedday_own_arr.splice(count,1);
+                        }
+                        count++;
+                      })
+                      //DBに渡す用delete_arrにpush              
+                      data.onloanDate_delete_arr.push(itemExt.貸出Id);              
+                }
+              }              
+            }         
+          }else{
+            //別のstudentNoまたは今日以前endのeventは編集不可
+            alert("このイベントは編集不可です。")
+          }     
         },
         //イベントクリックした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         
@@ -217,7 +222,7 @@ export default {
           const oldendStr_resize = dayjs(resize_item.oldEvent.endStr).add(-1, 'd').format("YYYY-MM-DD");
           
           //新しく作成したイベント(赤色イベント)を移動した場合、data.new_reserve_arrのend日を入れ替える
-          if("delete_flag" in resize_item.event.extendedProps){
+          if("newEvent" in resize_item.event.extendedProps){
             let count = 0;
               data.new_reserve_arr.forEach((date)=>{
                 if(date['end'] == oldendStr_resize){
@@ -226,7 +231,7 @@ export default {
                 count++;
               }) 
           }else{//DBから読込んできたイベントの場合、data.bookedday_own_arrに更新する内容をいれる。
-          if(resize_item.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可
+          if(resize_item.event.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可
               let count = 0;
               let flag = true;
               //bookedday_own_arrに貸出Idが存在した場合は、end日を上書き(or 新規挿入)            
@@ -237,7 +242,7 @@ export default {
                 }
                 count++;
               });
-              if(flag){//bookedday_own_arrに貸出Idが存在しない場合は、新規で情報push
+              if(flag){//bookedday_own_arrに貸出Idが存在しない場合は、新規で情報push ←これはありえんのでは イベントリサイズできるということはbookedday_own_arrにあるはず
                 data.bookedday_own_arr.push({id: 貸出Id, end: endStr_resize });
               }
               //編集したイベントを黄色にする
@@ -249,12 +254,13 @@ export default {
 
         //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         eventDrop: function(drop_item){
+          console.log(drop_item.event.extendedProps);
           const startStr_drop = drop_item.event.startStr;
           //fullcalendarのendは1日ずれるので調整
           const endStr_drop = dayjs(drop_item.event.endStr).add(-1, 'd').format("YYYY-MM-DD");
                                          
           //新しく作成したイベント(赤色イベント)を移動した場合、data.new_reserve_arrのstart日とend日を入れ替える
-          if("delete_flag" in drop_item.event.extendedProps){
+          if("newEvent" in drop_item.event.extendedProps){
             let count = 0;
               data.new_reserve_arr.forEach((date)=>{
                 if(date['start'] == drop_item.oldEvent.startStr){
@@ -264,7 +270,7 @@ export default {
               count++;
               }) 
           }else{//DBから読込んできたイベントの場合、data.bookedday_own_arrに更新する内容をいれる。
-            if(drop_item.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可        
+            if(drop_item.event.extendedProps.edit == "yes"){//別のstudentNoまたは今日以前endのeventは編集不可        
               const 貸出Id = drop_item.event.extendedProps.貸出Id;
               //すでにdata.bookedday_own_arrに貸出Idが存在した場合は、start日とend日を上書き(or 新規挿入)
               let count = 0;
@@ -350,6 +356,7 @@ export default {
      onMounted(() => {
        getfullBooked_own_date();
      });
+    //  getfullBooked_own_date();
 
       //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
       // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
