@@ -21,17 +21,8 @@ class LoginController extends Controller
             //adminかどうかcheck
             $studentInfo_pre = User::where('studentNo', $request->studentNo)->get(['studentNo','name'])->toArray();  //セキュリティ上全部のデータを持たせたくないのでいる分だけ精査
             $studentInfo =array_reduce($studentInfo_pre, 'array_merge', array());
-
-            // var_dump($studentInfo);
-            // dd( $a);
             
             return response(["result" => "success" , "studentInfo" => $studentInfo] ,200); //userinfo を全部持たせる
-            // no-store
-            // ->withHeaders([
-            //     'Cache-Control' => 'no-store',
-
-            // ]); 
-            
         }       
 
         return back()->withErrors([
@@ -41,19 +32,12 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        
-        // dd("a");
         Auth::logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken();  // csrfトークンの再生成 
-        // dd("a");       
+        $request->session()->regenerateToken();  // csrfトークンの再生成                
         return redirect('/login')->withHeaders([
             'Cache-Control' => 'no-store',
         ]);
-
-        // return response("")->withHeaders([
-        //         'Cache-Control' => 'no-store',
-        //     ]);
     }
 
 }
