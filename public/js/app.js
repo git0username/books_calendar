@@ -34569,7 +34569,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         studentNo: data.studentNo,
         password: data.password
       }).then(function (response) {
-        console.log("a");
+        console.log("postレスポンス返ってきたよ");
         console.log(response.data);
 
         if (response.data["result"] == 'success') {
@@ -34586,6 +34586,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.log(error);
         alert("入力して下さい。");
       });
+    }; //form input でEnterkey押されたときの動作(送信させる)
+
+
+    var enter = function enter(event) {
+      if (event.key == 'Enter') {
+        doAction();
+      }
     }; //cookieの挙動を確認 よく分からない
     // console.log('document.cookie');    
     // console.log(document.cookie);
@@ -34598,6 +34605,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       data: data,
       doAction: doAction,
+      enter: enter,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted
     };
   }
@@ -35126,7 +35134,7 @@ var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
 });
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form method=\"post\" action=\"\" onsubmit=\"return doAction()\" id=\"form1\">      "), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "studentNo",
     type: "text",
     pattern: "^[0-9]*$",
@@ -35135,25 +35143,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $setup.data.studentNo = $event;
     }),
     "class": "form-control",
-    oninput: ""
-  }, null, 512
-  /* NEED_PATCH */
+    oninput: "",
+    onKeydown: _cache[1] || (_cache[1] = function () {
+      return $setup.enter && $setup.enter.apply($setup, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.studentNo]]), _hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "password",
     type: "text",
     name: "password",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $setup.data.password = $event;
     }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
+    "class": "form-control",
+    onKeydown: _cache[3] || (_cache[3] = function () {
+      return $setup.enter && $setup.enter.apply($setup, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.password]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn- btn-info text-white mt-2",
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $setup.doAction && $setup.doAction.apply($setup, arguments);
     })
-  }, "送信")])]);
+  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"submit\" value=\"送信\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </form>      ")])]);
 }
 
 /***/ }),

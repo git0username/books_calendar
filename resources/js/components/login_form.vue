@@ -1,13 +1,16 @@
 <template>
   <div>
     <h3 class="text-primary">login form</h3>
-    <div class="form-group" style="padding:30px">      
+    <div class="form-group" style="padding:30px">
+      <!-- <form method="post" action="" onsubmit="return doAction()" id="form1">      -->
       <label for="studentNo">studentNo</label>
-      <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" />
+      <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" v-on:keydown ="enter"/>
       <br />
       <label for="password">パスワード</label>
-      <input id="password" type="text" name="password" v-model="data.password" class="form-control" />      
-      <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>      
+      <input id="password" type="text" name="password" v-model="data.password" class="form-control" v-on:keydown ="enter"/>      
+      <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button> 
+      <!-- <input type="submit" value="送信"> -->
+      <!-- </form>      -->
     </div>
   </div>
 </template>
@@ -57,7 +60,7 @@ export default {
           password: data.password,           
         })
         .then(response => {
-           console.log("a");
+           console.log("postレスポンス返ってきたよ");
           console.log(response.data);
           if(response.data["result"] == 'success'){ 
                  console.log("success");
@@ -73,7 +76,14 @@ export default {
         .catch(error => {
           console.log(error);
           alert("入力して下さい。");
-        });      
+        });
+    };
+
+    //form input でEnterkey押されたときの動作(送信させる)
+    const enter = (event) =>{      
+      if( event.key == 'Enter' ){
+        doAction();
+      }
     };
 
    //cookieの挙動を確認 よく分からない
@@ -85,7 +95,7 @@ export default {
     // console.log(document.cookie);
     
 
-    return { data, doAction ,onMounted};
+    return { data, doAction ,enter, onMounted};
   },  
   
 };
