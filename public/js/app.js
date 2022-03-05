@@ -35128,7 +35128,7 @@ var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
 var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "password"
-  }, "パスワード", -1
+  }, "パスワード1", -1
   /* HOISTED */
   );
 });

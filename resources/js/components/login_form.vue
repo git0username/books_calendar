@@ -6,7 +6,7 @@
       <label for="studentNo">studentNo</label>
       <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" v-on:keydown ="enter"/>
       <br />
-      <label for="password">パスワード</label>
+      <label for="password">パスワード1</label>
       <input id="password" type="text" name="password" v-model="data.password" class="form-control" v-on:keydown ="enter"/>      
       <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button> 
       <!-- <input type="submit" value="送信"> -->
