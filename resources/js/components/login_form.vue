@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-primary">login form</h3>
+    <h3 class="text-primary">login form1</h3>
     <div class="form-group" style="padding:30px">
       <!-- <form method="post" action="" onsubmit="return doAction()" id="form1">      -->
       <label for="studentNo">studentNo</label>
