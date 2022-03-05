@@ -42,8 +42,6 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
 
     // Route::get('/logout',  [LoginController::class, 'logout']);
 
-    
-
     // Route::apiResource('/calendar/{booktypeId}/{studentNo}',[CalendarController::class, 'show1']);
 
     Route::get('/index', function () { return view('welcome');}); //これはweb.phpに記載されてるのでいらない？
@@ -54,6 +52,4 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
 // Laravel8から書き方が変更された
 // apiに対応したrestfulにしておく
 
-Route::post('/login',[LoginController::class, 'authenticate']);
-
-// Route::get('/logout',  [LoginController::class, 'logout']);
+// Route::post('/login',[LoginController::class, 'authenticate']);
