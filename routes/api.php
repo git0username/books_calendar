@@ -40,10 +40,6 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
 
     Route::get('/calendar/{booktypeId}/{studentNo}', [CalendarController::class, 'show']);
 
-    // Route::get('/logout',  [LoginController::class, 'logout']);
-
-    // Route::apiResource('/calendar/{booktypeId}/{studentNo}',[CalendarController::class, 'show1']);
-
     Route::get('/index', function () { return view('welcome');}); //これはweb.phpに記載されてるのでいらない？
     
 });

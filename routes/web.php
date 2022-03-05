@@ -17,12 +17,14 @@ use App\Http\Controllers\LoginController;
 */
 
 Route::middleware('cache.headers:private;no_store;etag')->group(function () {
-Route::get('/login',function () {
-        return view('welcome'); //welcome.blade.php を返す
-    })->name('login');//routeに名前を付ける middleware Authenticate.php 内のreturn先が route('login')になっているので、ログインページのパスに対してloginという名前を付けてあげると、認証漏れした時にログインページに飛ばされるようになる
+    Route::get('/login',function () {
+            return view('welcome'); //welcome.blade.php を返す
+        })->name('login');//routeに名前を付ける middleware Authenticate.php 内のreturn先が route('login')になっているので、ログインページのパスに対してloginという名前を付けてあげると、認証漏れした時にログインページに飛ばされるようになる
+        
+    Route::post('/login',[LoginController::class, 'authenticate']);
 });
 
-Route::post('/login',[LoginController::class, 'authenticate']);
+// Route::post('/login',[LoginController::class, 'authenticate']);
 
 Route::get('/logout',  [LoginController::class, 'logout']);  
 
