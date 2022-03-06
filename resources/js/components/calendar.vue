@@ -360,11 +360,7 @@ export default {
 
      //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-     var el = document.querySelector("button[title='Next month']");
-     el.addEventListener('click', function() {
-       console.log("aaaa");
-     });
-
+    
       //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
       // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
       // const sosen = child.parentElement; // 祖先要素を取得
@@ -381,7 +377,13 @@ export default {
     
     return{ data, calendar, onMounted, watch, doAction_確定 };
   }
+  
 };
+ var el = document.querySelector("button[title='Next month']");
+     el.addEventListener('click', function() {
+       console.log("aaaa");
+     });
+
 
  //getEvents()のデータの取り方参考
     // const a = this.getEvents();

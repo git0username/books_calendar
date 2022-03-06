@@ -34139,11 +34139,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       getfullBooked_own_date();
     }); //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-
-    var el = document.querySelector("button[title='Next month']");
-    el.addEventListener('click', function () {
-      console.log("aaaa");
-    }); //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+    //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
     // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
     // const sosen = child.parentElement; // 祖先要素を取得
     // const sosen2 = sosen.parentElement;
@@ -34165,6 +34161,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       doAction_確定: doAction_確定
     };
   }
+});
+var el = document.querySelector("button[title='Next month']");
+el.addEventListener('click', function () {
+  console.log("aaaa");
 }); //getEvents()のデータの取り方参考
 // const a = this.getEvents();
 // console.log(a[0].extendedProps.edit);
