@@ -26,15 +26,11 @@ Route::middleware('cache.headers:private;no_store;etag')->group(function () {
     Route::post('/login',[LoginController::class, 'authenticate']);   
 });
 
-// Route::post('/login',[LoginController::class, 'authenticate']);
-
 Route::get('/logout',  [LoginController::class, 'logout']);  
 
 
 //認証済みでないと許可しない
 Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;etag']], function () {
-
-    Route::get('/books', [BookController::class, 'index']);
 
     Route::get('/{any}', function () {
         return view('welcome'); //welcome.blade.php を返す

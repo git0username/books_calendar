@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(["middleware" => ['cache.headers:private;no_store;etag']], function () {//"auth:sanctum"
 // Route::group(["middleware" => ["auth:sanctum"]], function () {
 
-    // Route::apiResource('/books',BookController::class);
+    Route::apiResource('/books',BookController::class);
 
     Route::apiResource('/bookonloan',BookOnloanController::class);
 
