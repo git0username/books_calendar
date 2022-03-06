@@ -303,7 +303,7 @@ export default {
     //貸出日をpostする    
     const doAction_確定 = () => {     
        //new_reserve_arrを成形 
-       if(!data.new_reserve_arr){        
+       if(data.new_reserve_arr){ //data.new_reserve_arr(新しい予約)の中身があったらif内の処理       
         const value_arr =[];
         data.new_reserve_arr.forEach((value)=>
         {  
@@ -314,8 +314,7 @@ export default {
               booktypeId: data.booktypeId,
               studentNo: data.studentNo
               });        
-        });
-        data.new_reserve_arr.push('value_arr');
+        });        
         data.new_reserve_arr.push(value_arr);
        }
        console.log(data.new_reserve_arr); //onloanDate_arr消せる？

@@ -34054,7 +34054,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var doAction_確定 = function doAction_確定() {
       //new_reserve_arrを成形 
-      if (!data.new_reserve_arr) {
+      if (data.new_reserve_arr) {
+        //data.new_reserve_arr(新しい予約)の中身があったらif内の処理       
         var value_arr = [];
         data.new_reserve_arr.forEach(function (value) {
           value_arr.push({
@@ -34064,7 +34065,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             studentNo: data.studentNo
           });
         });
-        data.new_reserve_arr.push('value_arr');
         data.new_reserve_arr.push(value_arr);
       }
 
