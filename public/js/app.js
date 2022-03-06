@@ -34058,12 +34058,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var value_arr = [];
         data.new_reserve_arr.forEach(function (value) {
           value_arr.push({
-            start: value[0],
-            end: value[value.length - 1],
+            start: value['start'],
+            end: value['end'],
             booktypeId: data.booktypeId,
             studentNo: data.studentNo
           });
         });
+        data.new_reserve_arr.push('value_arr');
         data.new_reserve_arr.push(value_arr);
       }
 

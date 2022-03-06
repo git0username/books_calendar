@@ -309,12 +309,13 @@ export default {
         {  
           value_arr.push(
             {
-              start: value[0],
-              end: value[value.length-1],
+              start: value['start'],
+              end: value['end'],
               booktypeId: data.booktypeId,
               studentNo: data.studentNo
               });        
         });
+        data.new_reserve_arr.push('value_arr');
         data.new_reserve_arr.push(value_arr);
        }
        console.log(data.new_reserve_arr); //onloanDate_arr消せる？
