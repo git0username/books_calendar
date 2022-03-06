@@ -51,8 +51,8 @@ class CalendarController extends Controller
        //DBを更新
        if(!empty($request->edit)){
        foreach($request->edit as $value){
-            $BookOnloan = BookOnloan::find($value['id']);
-            unset($value['id']);
+            $BookOnloan = BookOnloan::find($value['貸出Id']);
+            unset($value['貸出Id']);
             $BookOnloan->fill($value)->save();
          }       
        }; 
