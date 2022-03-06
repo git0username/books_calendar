@@ -35102,7 +35102,7 @@ var _withScopeId = function _withScopeId(n) {
 var _hoisted_1 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-primary"
-  }, "login form1", -1
+  }, "login form", -1
   /* HOISTED */
   );
 });
@@ -35131,7 +35131,7 @@ var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
 var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "password"
-  }, "パスワード1", -1
+  }, "パスワード", -1
   /* HOISTED */
   );
 });
