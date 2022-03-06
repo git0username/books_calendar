@@ -21,14 +21,14 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+//sanctum 認証ガードを指定
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 // 認証済みでないと許可しない
-Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;etag']], function () {
+Route::group(["middleware" => ['cache.headers:private;no_store;etag']], function () {//"auth:sanctum"
 // Route::group(["middleware" => ["auth:sanctum"]], function () {
-
 
     // Route::apiResource('/books',BookController::class);
 
