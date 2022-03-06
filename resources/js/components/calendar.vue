@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, watch,} from "vue";
+import { reactive, onMounted, watch, onBeforeMount} from "vue";
 import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -39,20 +39,24 @@ export default {
   
   setup(){
     const router = useRouter();
-    const store_calendar = store.state.calendar.calendar; 
+    const store_calendar = store.state.calendar.calendar;
     
     const data = reactive({    
       booktypeId: store_calendar.booktypeId,
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number, //本の全数
+      calendarInfo: {},
       new_reserve_arr: [], //DBに渡す用add_arr
       onloanDate_delete_arr: [], //DBに渡す用delete_arr
       onloanDate_edit_arr:[], //DBに渡す用edit_arr 
       fullBooked_arr:[], //全数借りられている日
-      bookedday_own_arr:[], //自分が借りてる日      
+      bookedday_own_arr:[], //自分が借りてる日
+      aaa:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}],    
     });
-    
+
+    console.log(data.aaa);
+    console.log(data.calendarInfo);//先に読込んでから次に進みたい
   //calendar情報--------------------------------------------------------------------------------------------  
     const calendar = reactive({      
       //calendar情報
@@ -63,16 +67,20 @@ export default {
         weekends: true,
         editable: false,
         navLinks: false,
-        // contentHeight:'auto', //全量表示の設定         
-        events:{
-          url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
-          // color: 'yellow',   // an option!
-          // textColor: 'black', // an option!
-          // allDay: true,
-          // allDayDefault:true,
-         },
+        // contentHeight:'auto', //全量表示の設定
+
+        events:data.calendarInfo,        
+              
+        // events:{
+        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
+          
+        //   // color: 'yellow',   // an option!
+        //   // textColor: 'black', // an option!
+        //   // allDay: true,
+        //   // allDayDefault:true,
+        //  },
          
-        eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
+        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
@@ -353,10 +361,32 @@ export default {
       data.fullBooked_arr = result.data.fullBooked.sort();
       data.bookedday_own_arr =  result.data.bookedday_own.sort();
     }; //catch処理必要
+
+    // axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
+    // .then(response => {
+    //   data.calendarInfo = response.data;
+    //   console.log('data.calendarInfo');
+    //   console.log(typeof(data.calendarInfo));
+    //   console.log(data.calendarInfo);
+    // }).catch(error => {
+    //         console.log(error);            
+    //   });
+
+    const asd = async () => {
+      const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
+      data.calendarInfo = aaaa.data;
+      console.log('data.calendarInfo');
+      console.log(typeof(data.calendarInfo));
+      console.log(data.calendarInfo);
+    };
      
      onMounted(() => {
-       getfullBooked_own_date();
+       getfullBooked_own_date();      
      });
+
+     onBeforeMount(()=>{
+        asd();
+     })
 
      //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
@@ -384,7 +414,7 @@ export default {
       // console.log(length);
       //--------------------------------------------------------------------------------------------------
     
-    return{ data, calendar, onMounted, watch, doAction_確定 };
+    return{ data, calendar, onMounted, watch, doAction_確定, onBeforeMount };
   }
   
 };

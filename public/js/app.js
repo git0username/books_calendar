@@ -33740,6 +33740,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 /* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -33774,6 +33776,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       studentNo: _store_js__WEBPACK_IMPORTED_MODULE_9__.store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number,
       //本の全数
+      calendarInfo: {},
       new_reserve_arr: [],
       //DBに渡す用add_arr
       onloanDate_delete_arr: [],
@@ -33782,9 +33785,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       //DBに渡す用edit_arr 
       fullBooked_arr: [],
       //全数借りられている日
-      bookedday_own_arr: [] //自分が借りてる日      
-
-    }); //calendar情報--------------------------------------------------------------------------------------------  
+      bookedday_own_arr: [],
+      //自分が借りてる日
+      aaa: [{
+        title: 123,
+        start: '2022-03-07'
+      }, {
+        title: 456,
+        start: '2022-03-09'
+      }]
+    });
+    console.log(data.aaa);
+    console.log(data.calendarInfo); //先に読込んでから次に進みたい
+    //calendar情報--------------------------------------------------------------------------------------------  
 
     var calendar = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       //calendar情報
@@ -33795,15 +33808,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         weekends: true,
         editable: false,
         navLinks: false,
-        // contentHeight:'auto', //全量表示の設定         
-        events: {
-          url: '/api/calendar/' + data.booktypeId + '/' + data.studentNo // color: 'yellow',   // an option!
-          // textColor: 'black', // an option!
-          // allDay: true,
-          // allDayDefault:true,
-
-        },
-        eventSources: ['https://holidays-jp.github.io/api/v1/datetime.json'],
+        // contentHeight:'auto', //全量表示の設定
+        events: data.calendarInfo,
+        // events:{
+        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
+        //   // color: 'yellow',   // an option!
+        //   // textColor: 'black', // an option!
+        //   // allDay: true,
+        //   // allDayDefault:true,
+        //  },
+        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
         select: function select(select_item) {
@@ -34133,10 +34147,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _ref.apply(this, arguments);
       };
     }(); //catch処理必要
+    // axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
+    // .then(response => {
+    //   data.calendarInfo = response.data;
+    //   console.log('data.calendarInfo');
+    //   console.log(typeof(data.calendarInfo));
+    //   console.log(data.calendarInfo);
+    // }).catch(error => {
+    //         console.log(error);            
+    //   });
 
+
+    var asd = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var aaaa;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/calendar/' + data.booktypeId + '/' + data.studentNo);
+
+              case 2:
+                aaaa = _context2.sent;
+                data.calendarInfo = aaaa.data;
+                console.log('data.calendarInfo');
+                console.log(_typeof(data.calendarInfo));
+                console.log(data.calendarInfo);
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function asd() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getfullBooked_own_date();
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onBeforeMount)(function () {
+      asd();
     }); //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
 
@@ -34174,7 +34230,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       calendar: calendar,
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted,
       watch: vue__WEBPACK_IMPORTED_MODULE_1__.watch,
-      doAction_確定: doAction_確定
+      doAction_確定: doAction_確定,
+      onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_1__.onBeforeMount
     };
   }
 }); //getEvents()のデータの取り方参考
