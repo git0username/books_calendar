@@ -34137,8 +34137,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getfullBooked_own_date();
-    }); //  getfullBooked_own_date();
-    //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+    }); //nextMonthならsessionstorageに編集中データを格納
+    //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
+
+    var el = document.querySelector("button[title='Next month']");
+    el.addEventListener('click', function () {
+      console.log("aaaa");
+    }); //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
     // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
     // const sosen = child.parentElement; // 祖先要素を取得
     // const sosen2 = sosen.parentElement;
