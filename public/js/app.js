@@ -34562,7 +34562,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
 
     var doAction = function doAction() {
-      var url = "http://books-calendar.herokuapp.com/api/login"; //このページがAPI入出力の窓口として機能している      
+      var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
       // axios.get("sanctum/csrf-cookie");
 
       axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {

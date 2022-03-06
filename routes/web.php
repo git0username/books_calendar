@@ -24,7 +24,7 @@ Route::middleware('cache.headers:private;no_store;etag')->group(function () {
        
 });
 
-// Route::post('/login',[LoginController::class, 'authenticate']);
+Route::post('/login',[LoginController::class, 'authenticate']);
 
 Route::get('/logout',  [LoginController::class, 'logout']);  
 
