@@ -31,6 +31,9 @@ Route::get('/logout',  [LoginController::class, 'logout']);
 
 //認証済みでないと許可しない
 Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;etag']], function () {
+
+    Route::get('/books', [BookController::class, 'index']);
+
     Route::get('/{any}', function () {
         return view('welcome'); //welcome.blade.php を返す
     })->where('any','.*'); //whereメソッドでパラメータを指定する where('パラメータ名', '正規表現')

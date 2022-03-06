@@ -33492,7 +33492,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo //使ってない？            
 
     });
-    var url = "api/books";
+    var url = "/books";
 
     var getAPI_books = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
