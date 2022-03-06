@@ -304,28 +304,29 @@ export default {
     const doAction_確定 = () => {     
        //new_reserve_arrを成形 
        if(data.new_reserve_arr){ //data.new_reserve_arr(新しい予約)の中身があったらif内の処理       
-        const value_arr =[];
+        // const value_arr =[];
+        let count = 0;
         data.new_reserve_arr.forEach((value)=>
         {  
-          value_arr.push(
+          data.new_reserve_arr[count]=
             {
               start: value['start'],
               end: value['end'],
               booktypeId: data.booktypeId,
               studentNo: data.studentNo
-              });        
-        });        
-        data.new_reserve_arr.push(value_arr);
+            };
+          count++;        
+        }); 
        }
        console.log(data.new_reserve_arr); //onloanDate_arr消せる？
 
        const param = {add: data.new_reserve_arr,
                       delete: data.onloanDate_delete_arr,
-                      edit: data.onloanDate_edit_arr}
+                      edit: data.bookedday_own_arr}
            
-      if(!data.new_reserve_arr.length && !data.onloanDate_delete_arr.length && !data.onloanDate_edit_arr.length){ //各arrが空だった場合
+      if(!data.new_reserve_arr.length && !data.onloanDate_delete_arr.length && !data.bookedday_own_arr.length){ //各arrが空だった場合
         alert("貸出日を指定してください。")
-      }else{
+      }else{//arrに中身がある場合
         if(confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")){      
           const url = "api/calendar/"; //このページがAPI入出力の窓口として機能している 
           axios.post(url, param)
