@@ -1,16 +1,13 @@
 <template>
   <div>
     <h3 class="text-primary">login form</h3>
-    <div class="form-group" style="padding:30px">
-      <!-- <form method="post" action="" onsubmit="return doAction()" id="form1">      -->
+    <div class="form-group" style="padding:30px">      
       <label for="studentNo">studentNo</label>
-      <input id="studentNo" type="text" pattern="^[0-9]*$" name="studentNo" v-model="data.studentNo" class="form-control" oninput="" v-on:keydown ="enter"/>
+      <input id="studentNo" type="text" name="studentNo" v-model="data.studentNo" class="form-control" v-on:keydown ="enter"/>
       <br />
       <label for="password">パスワード</label>
       <input id="password" type="text" name="password" v-model="data.password" class="form-control" v-on:keydown ="enter"/>      
-      <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button> 
-      <!-- <input type="submit" value="送信"> -->
-      <!-- </form>      -->
+      <button class="btn- btn-info text-white mt-2" v-on:click="doAction">送信</button>       
     </div>
   </div>
 </template>
@@ -18,10 +15,8 @@
 <script>
 import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
-import dayjs from "dayjs";
 import { useRouter } from "vue-router"; //リダイレクト用
 import { store } from "./store.js";
-
 
 export default {
   name: "login",
@@ -34,32 +29,31 @@ export default {
     });  
     
       //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
+      //でも公式docに書かれているので下記の処理をする。初期化のためなのかな？
       const getToken = async () => {
       const result = await axios.get("sanctum/csrf-cookie");
-      // data.token = result.data;       
       console.log("csrf-cookie=");
       console.log(result); 
     };
     
     onMounted(() => {
-      getToken();
-      // sessionStorage.clear();   
+      getToken();      
     });
     
     watch(data, () => {
       //
     });
-
     
-
+    //送信ボタン押された処理
     const doAction = () => {
-      //入力値チェック
-      if(data.studentNo == "" || data.password == ""){
+      //フォームの入力値チェック 未入力、半角数字以外をはじく
+      if(data.studentNo == "" || data.password == ""){ //未入力はじく
         alert("入力してください。")
-      }else{
-        if(/^[0-9]*$/.test(data.studentNo) && /^[0-9]*$/.test(data.password)){ //入力値が半角数字になってたら、post処理
-          const url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
-          // axios.get("sanctum/csrf-cookie");
+      }else{ //入力されてる場合
+        if(!/^[0-9]*$/.test(data.studentNo) && !/^[0-9]*$/.test(data.password)){ //半角数字以外をはじく
+          alert("入力値は半角数字のみです。\n 半角数字を入力してください。")
+        }else{ //入力値が半角数字になってたら、post処理に進む
+          const url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している 
           axios.post(url, {
             studentNo: data.studentNo,
             password: data.password,           
@@ -80,29 +74,18 @@ export default {
           })
           .catch(error => {
             console.log(error);
-            alert("入力して下さい。");
+            alert("認証エラー");
           });
-        }else{
-          alert("入力値は半角数字のみです。")
         }
       }      
     };
 
-    //form input でEnterkey押されたときの動作(送信させる)
+    //form input でEnterkey押されたときの動作(送信処理させるdoActionに飛ばす)
     const enter = (event) =>{      
       if( event.key == 'Enter' ){
         doAction();
       }
     };
-
-   //cookieの挙動を確認 よく分からない
-    // console.log('document.cookie');    
-    // console.log(document.cookie);
-    // document.cookie = "XSRF-TOKEN=; max-age=0";
-    // document.cookie = "laravel_session=; max-age=0";
-    // console.log('document.cookie.delete');
-    // console.log(document.cookie);
-    
 
     return { data, doAction ,enter, onMounted};
   },  
@@ -110,6 +93,7 @@ export default {
 };
 
 //このコンポーネント以外のブラウザバック動作にも反応する なぜ？
+    //→addEventListenerはブラウザ全体の処理になるのでコンポーネントを越える
 // addEventListener("popstate", () => {
 //       history.pushState(null, null, "/login");
 //       this.$router.push("/login");

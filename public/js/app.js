@@ -34504,16 +34504,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 
 
 
@@ -34523,11 +34520,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "login",
   setup: function setup() {
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
+    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       studentNo: "",
       password: ""
     }); //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
+    //でも公式docに書かれているので下記の処理をする。初期化のためなのかな？
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -34541,7 +34539,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 result = _context.sent;
-                // data.token = result.data;       
                 console.log("csrf-cookie=");
                 console.log(result);
 
@@ -34559,20 +34556,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }();
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      getToken(); // sessionStorage.clear();   
+      getToken();
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(data, function () {//
-    });
+    }); //送信ボタン押された処理
 
     var doAction = function doAction() {
-      //入力値チェック
+      //フォームの入力値チェック 未入力、半角数字以外をはじく
       if (data.studentNo == "" || data.password == "") {
+        //未入力はじく
         alert("入力してください。");
       } else {
-        if (/^[0-9]*$/.test(data.studentNo) && /^[0-9]*$/.test(data.password)) {
-          //入力値が半角数字になってたら、post処理
-          var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
-          // axios.get("sanctum/csrf-cookie");
+        //入力されてる場合
+        if (!/^[0-9]*$/.test(data.studentNo) && !/^[0-9]*$/.test(data.password)) {
+          //半角数字以外をはじく
+          alert("入力値は半角数字のみです。\n 半角数字を入力してください。");
+        } else {
+          //入力値が半角数字になってたら、post処理に進む
+          var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している 
 
           axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
             studentNo: data.studentNo,
@@ -34585,7 +34586,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               console.log("success");
               console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
 
-              _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
+              _store_js__WEBPACK_IMPORTED_MODULE_3__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
 
               router.push("/");
             } else {
@@ -34593,27 +34594,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           })["catch"](function (error) {
             console.log(error);
-            alert("入力して下さい。");
+            alert("認証エラー");
           });
-        } else {
-          alert("入力値は半角数字のみです。");
         }
       }
-    }; //form input でEnterkey押されたときの動作(送信させる)
+    }; //form input でEnterkey押されたときの動作(送信処理させるdoActionに飛ばす)
 
 
     var enter = function enter(event) {
       if (event.key == 'Enter') {
         doAction();
       }
-    }; //cookieの挙動を確認 よく分からない
-    // console.log('document.cookie');    
-    // console.log(document.cookie);
-    // document.cookie = "XSRF-TOKEN=; max-age=0";
-    // document.cookie = "laravel_session=; max-age=0";
-    // console.log('document.cookie.delete');
-    // console.log(document.cookie);
-
+    };
 
     return {
       data: data,
@@ -34623,6 +34615,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   }
 }); //このコンポーネント以外のブラウザバック動作にも反応する なぜ？
+//→addEventListenerはブラウザ全体の処理になるのでコンポーネントを越える
 // addEventListener("popstate", () => {
 //       history.pushState(null, null, "/login");
 //       this.$router.push("/login");
@@ -35147,16 +35140,14 @@ var _hoisted_5 = /*#__PURE__*/_withScopeId(function () {
 });
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form method=\"post\" action=\"\" onsubmit=\"return doAction()\" id=\"form1\">      "), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "studentNo",
     type: "text",
-    pattern: "^[0-9]*$",
     name: "studentNo",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.data.studentNo = $event;
     }),
     "class": "form-control",
-    oninput: "",
     onKeydown: _cache[1] || (_cache[1] = function () {
       return $setup.enter && $setup.enter.apply($setup, arguments);
     })
@@ -35180,7 +35171,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[4] || (_cache[4] = function () {
       return $setup.doAction && $setup.doAction.apply($setup, arguments);
     })
-  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <input type=\"submit\" value=\"送信\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </form>      ")])]);
+  }, "送信")])]);
 }
 
 /***/ }),
