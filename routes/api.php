@@ -41,6 +41,8 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
     Route::get('/calendar/{booktypeId}/{studentNo}', [CalendarController::class, 'show']);
 
     Route::get('/index', function () { return view('welcome');}); //これはweb.phpに記載されてるのでいらない？
+
+    Route::post('/login',[LoginController::class, 'authenticate']);
     
 });
     
@@ -48,6 +50,6 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
 // Laravel8から書き方が変更された
 // apiに対応したrestfulにしておく
 
-Route::group(['middleware' => ['web', ]], function () { //"auth:sanctum"
-Route::post('/login',[LoginController::class, 'authenticate']);
-});
+// Route::group(['middleware' => ['web', ]], function () { //"auth:sanctum"
+// Route::post('/login',[LoginController::class, 'authenticate']);
+// });
