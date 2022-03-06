@@ -72,7 +72,7 @@ export default {
           // allDayDefault:true,
          },
          
-        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
+        eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
         
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
@@ -360,7 +360,16 @@ export default {
 
      //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-    
+     document.addEventListener("DOMContentLoaded", function(){
+        var nextMonth = document.querySelector("[title='Next month']");
+        if (!nextMonth){ return false;}
+        nextMonth.addEventListener('click', function() {
+              console.log("aaaa");
+              //今のevent状況にする
+              store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
+            });
+      });
+
       //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
       // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
       // const sosen = child.parentElement; // 祖先要素を取得
@@ -379,12 +388,6 @@ export default {
   }
   
 };
- var el = document.querySelector("button[title='Next month']");
-     el.addEventListener('click', function() {
-       console.log("aaaa");
-     });
-
-
  //getEvents()のデータの取り方参考
     // const a = this.getEvents();
     // console.log(a[0].extendedProps.edit);      

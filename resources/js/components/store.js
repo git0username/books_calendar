@@ -16,7 +16,7 @@ const studentInfo = {
     clearStudentInfo (state) {
       state.studentInfo = null;
       // Object.assign(state, getDefaultState());
-      console.log("storeデータは初期化されました。");
+      console.log("store_studentInfoデータは初期化されました。");
       console.log(state.studentInfo);
     }
   },
@@ -42,7 +42,7 @@ const calendar = {
     clearCalendar (state) {
       state.calendar = null;
       // Object.assign(state, getDefaultState());
-      console.log("storeデータは初期化されました。");
+      console.log("store_calendarデータは初期化されました。");
       console.log(state.calendar);
     }
   },
@@ -54,10 +54,39 @@ const calendar = {
   },  
 }
 
+//calendar編集中のデータ
+const calendarEdit_data = {
+  state: () => ({
+    calendarEdit_data: null,
+    }),
+  mutations: {
+    setCalendarEdit_data (state, payload) {
+      state.calendarEdit_data = payload;
+      console.log("store.calendarEdit_data=");
+      console.log(state.calendarEdit_data);
+    },
+    // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
+    clearCalendarEdit_data (state) {
+      state.calendarEdit_data = null;
+      // Object.assign(state, getDefaultState());
+      console.log("store_calendarEdit_dataデータは初期化されました。");
+      console.log(state.studentInfo);
+    }
+  },
+  actions: {
+    //
+  },
+  getters: {
+    //
+  }, 
+  
+}
+
 export const store = createStore({
   modules: {
     studentInfo: studentInfo,
-    calendar: calendar, 
+    calendar: calendar,
+    calendarEdit_data: calendarEdit_data, 
   },
   plugins: [createPersistedState({storage: window.sessionStorage, key:'books'})]
 })

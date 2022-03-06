@@ -33803,7 +33803,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           // allDayDefault:true,
 
         },
-        // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'],        
+        eventSources: ['https://holidays-jp.github.io/api/v1/datetime.json'],
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
         select: function select(select_item) {
@@ -34139,7 +34139,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       getfullBooked_own_date();
     }); //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-    //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var nextMonth = document.querySelector("[title='Next month']");
+
+      if (!nextMonth) {
+        return false;
+      }
+
+      nextMonth.addEventListener('click', function () {
+        console.log("aaaa"); //今のevent状況にする
+
+        _store_js__WEBPACK_IMPORTED_MODULE_9__.store.commit('setCalendarEdit_data', {
+          "delete": data.onloanDate_delete_arr,
+          edit: data.bookedday_own_arr
+        });
+      });
+    }); //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
     // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
     // const sosen = child.parentElement; // 祖先要素を取得
     // const sosen2 = sosen.parentElement;
@@ -34161,10 +34177,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       doAction_確定: doAction_確定
     };
   }
-});
-var el = document.querySelector("button[title='Next month']");
-el.addEventListener('click', function () {
-  console.log("aaaa");
 }); //getEvents()のデータの取り方参考
 // const a = this.getEvents();
 // console.log(a[0].extendedProps.edit);
@@ -34578,7 +34590,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           alert("入力値は半角数字のみです。\n 半角数字を入力してください。");
         } else {
           //入力値が半角数字になってたら、post処理に進む
-          var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している 
+          var url = "/login"; //このページがAPI入出力の窓口として機能している 
 
           axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
             studentNo: data.studentNo,
@@ -35238,7 +35250,7 @@ var studentInfo = {
     clearStudentInfo: function clearStudentInfo(state) {
       state.studentInfo = null; // Object.assign(state, getDefaultState());
 
-      console.log("storeデータは初期化されました。");
+      console.log("store_studentInfoデータは初期化されました。");
       console.log(state.studentInfo);
     }
   },
@@ -35263,8 +35275,34 @@ var calendar = {
     clearCalendar: function clearCalendar(state) {
       state.calendar = null; // Object.assign(state, getDefaultState());
 
-      console.log("storeデータは初期化されました。");
+      console.log("store_calendarデータは初期化されました。");
       console.log(state.calendar);
+    }
+  },
+  actions: {//
+  },
+  getters: {//
+  }
+}; //calendar編集中のデータ
+
+var calendarEdit_data = {
+  state: function state() {
+    return {
+      calendarEdit_data: null
+    };
+  },
+  mutations: {
+    setCalendarEdit_data: function setCalendarEdit_data(state, payload) {
+      state.calendarEdit_data = payload;
+      console.log("store.calendarEdit_data=");
+      console.log(state.calendarEdit_data);
+    },
+    // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
+    clearCalendarEdit_data: function clearCalendarEdit_data(state) {
+      state.calendarEdit_data = null; // Object.assign(state, getDefaultState());
+
+      console.log("store_calendarEdit_dataデータは初期化されました。");
+      console.log(state.studentInfo);
     }
   },
   actions: {//
@@ -35275,7 +35313,8 @@ var calendar = {
 var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
   modules: {
     studentInfo: studentInfo,
-    calendar: calendar
+    calendar: calendar,
+    calendarEdit_data: calendarEdit_data
   },
   plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_0__["default"])({
     storage: window.sessionStorage,

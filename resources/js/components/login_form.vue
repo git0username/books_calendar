@@ -53,7 +53,7 @@ export default {
         if(!/^[0-9]*$/.test(data.studentNo) && !/^[0-9]*$/.test(data.password)){ //半角数字以外をはじく
           alert("入力値は半角数字のみです。\n 半角数字を入力してください。")
         }else{ //入力値が半角数字になってたら、post処理に進む
-          const url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している 
+          const url = "/login"; //このページがAPI入出力の窓口として機能している 
           axios.post(url, {
             studentNo: data.studentNo,
             password: data.password,           
