@@ -34565,30 +34565,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
 
     var doAction = function doAction() {
-      var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
-      // axios.get("sanctum/csrf-cookie");
+      //入力値チェック
+      if (data.studentNo == "" || data.password == "") {
+        alert("入力してください。");
+      } else {
+        if (/^[0-9]*$/.test(data.studentNo) && /^[0-9]*$/.test(data.password)) {
+          //入力値が半角数字になってたら、post処理
+          var url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
+          // axios.get("sanctum/csrf-cookie");
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
-        studentNo: data.studentNo,
-        password: data.password
-      }).then(function (response) {
-        console.log("postレスポンス返ってきたよ");
-        console.log(response.data);
+          axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
+            studentNo: data.studentNo,
+            password: data.password
+          }).then(function (response) {
+            console.log("postレスポンス返ってきたよ");
+            console.log(response.data);
 
-        if (response.data["result"] == 'success') {
-          console.log("success");
-          console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
+            if (response.data["result"] == 'success') {
+              console.log("success");
+              console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
 
-          _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
+              _store_js__WEBPACK_IMPORTED_MODULE_4__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
 
-          router.push("/");
+              router.push("/");
+            } else {
+              alert("ログイン出来ませんでした。\n再入力してください");
+            }
+          })["catch"](function (error) {
+            console.log(error);
+            alert("入力して下さい。");
+          });
         } else {
-          alert("ログイン出来ませんでした。\n再入力してください");
+          alert("入力値は半角数字のみです。");
         }
-      })["catch"](function (error) {
-        console.log(error);
-        alert("入力して下さい。");
-      });
+      }
     }; //form input でEnterkey押されたときの動作(送信させる)
 
 

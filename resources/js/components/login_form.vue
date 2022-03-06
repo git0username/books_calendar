@@ -53,30 +53,39 @@ export default {
     
 
     const doAction = () => {
-      const url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
-        // axios.get("sanctum/csrf-cookie");
-        axios.post(url, {
-          studentNo: data.studentNo,
-          password: data.password,           
-        })
-        .then(response => {
-           console.log("postレスポンス返ってきたよ");
-          console.log(response.data);
-          if(response.data["result"] == 'success'){ 
-                 console.log("success");
-                 console.log(response.data["studentInfo"]);
-            //storeにlogin情報(studentInfo)を保存
-            store.commit('setStudentInfo', response.data["studentInfo"]);
-            //indexへリダイレクト
-            router.push("/");
-          }else{
-            alert("ログイン出来ませんでした。\n再入力してください");
-          }         
-        })
-        .catch(error => {
-          console.log(error);
-          alert("入力して下さい。");
-        });
+      //入力値チェック
+      if(data.studentNo == "" || data.password == ""){
+        alert("入力してください。")
+      }else{
+        if(/^[0-9]*$/.test(data.studentNo) && /^[0-9]*$/.test(data.password)){ //入力値が半角数字になってたら、post処理
+          const url = "http://books-calendar.herokuapp.com/login"; //このページがAPI入出力の窓口として機能している      
+          // axios.get("sanctum/csrf-cookie");
+          axios.post(url, {
+            studentNo: data.studentNo,
+            password: data.password,           
+          })
+          .then(response => {
+            console.log("postレスポンス返ってきたよ");
+            console.log(response.data);
+            if(response.data["result"] == 'success'){ 
+                  console.log("success");
+                  console.log(response.data["studentInfo"]);
+              //storeにlogin情報(studentInfo)を保存
+              store.commit('setStudentInfo', response.data["studentInfo"]);
+              //indexへリダイレクト
+              router.push("/");
+            }else{
+              alert("ログイン出来ませんでした。\n再入力してください");
+            }         
+          })
+          .catch(error => {
+            console.log(error);
+            alert("入力して下さい。");
+          });
+        }else{
+          alert("入力値は半角数字のみです。")
+        }
+      }      
     };
 
     //form input でEnterkey押されたときの動作(送信させる)
