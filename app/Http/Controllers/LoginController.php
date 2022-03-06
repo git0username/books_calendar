@@ -11,12 +11,14 @@ class LoginController extends Controller
 {
     public function authenticate(Request $request)
     {
+        var_dump("logincontroller");
         $credentials = $request->validate([
             'studentNo' => ['required'],
             'password' => ['required'],
         ]);
 
         if (Auth::attempt($credentials)) {
+            var_dump("logincontroller_if");
             $request->session()->regenerate();
             //adminかどうかcheck
             $studentInfo_pre = User::where('studentNo', $request->studentNo)->get(['studentNo','name'])->toArray();  //セキュリティ上全部のデータを持たせたくないのでいる分だけ精査
