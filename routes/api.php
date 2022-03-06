@@ -48,6 +48,6 @@ Route::group(["middleware" => ["auth:sanctum",'cache.headers:private;no_store;et
 // Laravel8から書き方が変更された
 // apiに対応したrestfulにしておく
 
-Route::group(['middleware' => ['web', "auth:sanctum"]], function () {
+Route::group(['middleware' => ['web', ]], function () { //"auth:sanctum"
 Route::post('/login',[LoginController::class, 'authenticate']);
 });
