@@ -169,9 +169,7 @@ export default {
 
        //イベントクリックした時の挙動▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
         eventClick: function(click_item) {
-          //入力した貸出日を削除する
-          console.log(click_item.event);
-          click_item.event.setProp("color","black");
+          //入力した貸出日を削除する          
           const itemEve = click_item.event;
           const itemExt = click_item.event.extendedProps;         
 

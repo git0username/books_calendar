@@ -33901,9 +33901,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // 日付をクリック、または範囲を選択したイベントの挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 
         //イベントクリックした時の挙動▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
         eventClick: function eventClick(click_item) {
-          //入力した貸出日を削除する
-          console.log(click_item.event);
-          click_item.event.setProp("color", "black");
+          //入力した貸出日を削除する          
           var itemEve = click_item.event;
           var itemExt = click_item.event.extendedProps; //別のstudentNoまたは今日以前endのeventは編集不可
 
