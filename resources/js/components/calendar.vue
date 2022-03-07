@@ -64,7 +64,8 @@ export default {
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定
 
-        events:data.calendarInfo,        
+        // events:data.calendarInfo,
+        events:[],          
               
         // events:{
         //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         

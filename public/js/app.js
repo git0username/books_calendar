@@ -33797,7 +33797,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         editable: false,
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定
-        events: data.calendarInfo,
+        // events:data.calendarInfo,
+        events: [],
         // events:{
         //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
         //   // color: 'yellow',   // an option!
