@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // 500エラー　session store not set on request 対策
+            // 500エラー session store not set on request 対策
             // \App\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',

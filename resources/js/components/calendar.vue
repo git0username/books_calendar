@@ -39,8 +39,8 @@ export default {
   
   setup(){
     const router = useRouter();
-    const store_calendar = store.state.calendar.calendar;
-    
+    const store_calendar = store.state.calendar.calendar; 
+
     const data = reactive({    
       booktypeId: store_calendar.booktypeId,
       title: store_calendar.title,
@@ -55,10 +55,11 @@ export default {
       aaa:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}],    
     });
 
-    console.log(data.aaa);
+   const log = (e)=>{console.log(e)};
+   console.log(data.aaa);
     console.log(data.calendarInfo);//先に読込んでから次に進みたい
   //calendar情報--------------------------------------------------------------------------------------------  
-    const calendar = reactive({      
+    const calendar = reactive({
       //calendar情報
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],         
@@ -72,13 +73,40 @@ export default {
         events:data.calendarInfo,        
               
         // events:{
-        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,
+        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
           
         //   // color: 'yellow',   // an option!
         //   // textColor: 'black', // an option!
         //   // allDay: true,
         //   // allDayDefault:true,
         //  },
+
+        //  eventSources:[
+        //    {events:data.aaa},
+        //    log('test1')
+
+        //   //  {
+        //   //    events:data.aaa,
+        //   //    function(info, successCallback, failureCallback){
+        //   //      console.log("eventsources")            
+        //   //    },
+        //   // }
+
+        //     //  {
+        //     //  events:function(info, successCallback, failureCallback){
+        //     //    console.log("eventsources") 
+        //     //  },
+        //     // }
+          
+
+        //     //  events:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}]
+             
+
+        //     //  function(info, successCallback, failureCallback){
+        //     //    console.log("eventsources")            
+        //   // }
+          
+        //  ],
          
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         
@@ -175,6 +203,8 @@ export default {
        //イベントクリックした時の挙動▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
         eventClick: function(click_item) {
           //入力した貸出日を削除する
+          console.log(click_item.event);
+          click_item.event.setProp("color","black");
           const itemEve = click_item.event;
           const itemExt = click_item.event.extendedProps;         
 
@@ -304,8 +334,6 @@ export default {
       },
       //カレンダー情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
     });
-
-    
   //calendar情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲     
 
     //貸出日をpostする    
@@ -362,33 +390,39 @@ export default {
       data.bookedday_own_arr =  result.data.bookedday_own.sort();
     }; //catch処理必要
 
-    // axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
-    // .then(response => {
-    //   data.calendarInfo = response.data;
-    //   console.log('data.calendarInfo');
-    //   console.log(typeof(data.calendarInfo));
-    //   console.log(data.calendarInfo);
-    // }).catch(error => {
-    //         console.log(error);            
-    //   });
-
-    const asd = async () => {
-      const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
-      data.calendarInfo = aaaa.data;
-      calendar.events = data.calendarInfo;
-      console.log('data.calendarInfo');     
+    axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
+    .then(response => {
+      data.calendarInfo = response.data;
+      console.log('data.calendarInfo');
+      console.log(typeof(data.calendarInfo));
       console.log(data.calendarInfo);
-      console.log('calendar.events');     
-      console.log(calendar.events);
-    };
+      console.log(FullCalendar.calendar.currentData.eventSources);      
+      // FullCalendar.render();
+      
+      // FullCalendar.calendar.currentData.eventSources[10].meta.push(data.calendarInfo);
+      console.log(FullCalendar.calendar.addEventSource(data.calendarInfo));
+      // FullCalendar.calendar.refetchEvents();
+      // FullCalendar.calendar.currentData.eventSources.refetchEvents();
+    }).then(
+      // FullCalendar.calendar.render()
+    )
+    .catch(error => {
+            console.log(error);            
+      });
+
+    // const asd = async () => {
+    //   const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
+    //   data.calendarInfo = aaaa.data;
+    //   calendar.events = data.calendarInfo;
+    //   console.log('data.calendarInfo');     
+    //   console.log(data.calendarInfo);
+    //   console.log('calendar.events');     
+    //   console.log(calendar.events);
+    // };
      
      onMounted(() => {
-       getfullBooked_own_date();      
+       getfullBooked_own_date();        
      });
-
-     onBeforeMount(()=>{
-        asd();
-     })
 
      //nextMonthならsessionstorageに編集中データを格納
     //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
@@ -416,9 +450,8 @@ export default {
       // console.log(length);
       //--------------------------------------------------------------------------------------------------
     
-    return{ data, calendar, onMounted, watch, doAction_確定, onBeforeMount };
+    return{ data, calendar, onMounted, watch, doAction_確定, onBeforeMount };    
   }
-  
 };
  //getEvents()のデータの取り方参考
     // const a = this.getEvents();
