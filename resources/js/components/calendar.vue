@@ -8,8 +8,6 @@
   <FullCalendar :options="calendar.calendarOptions" />
 <button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction_確定()">確定</button>
 <p>カレンダー上でドラッグすると日付を選べます。</p><br>
-<!-- <p>変更したイベントオレンジ</p> 
-<button class="btn- btn-info text-white mt-2 flag" v-on:click="doAction_リセット()">変更リセット</button> -->
  
 </div>
 </div>
@@ -51,13 +49,9 @@ export default {
       onloanDate_delete_arr: [], //DBに渡す用delete_arr
       onloanDate_edit_arr:[], //DBに渡す用edit_arr 
       fullBooked_arr:[], //全数借りられている日
-      bookedday_own_arr:[], //自分が借りてる日
-      aaa:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}],    
+      bookedday_own_arr:[], //自分が借りてる日        
     });
-
-   const log = (e)=>{console.log(e)};
-   console.log(data.aaa);
-    console.log(data.calendarInfo);//先に読込んでから次に進みたい
+  
   //calendar情報--------------------------------------------------------------------------------------------  
     const calendar = reactive({
       //calendar情報
@@ -81,33 +75,6 @@ export default {
         //   // allDayDefault:true,
         //  },
 
-        //  eventSources:[
-        //    {events:data.aaa},
-        //    log('test1')
-
-        //   //  {
-        //   //    events:data.aaa,
-        //   //    function(info, successCallback, failureCallback){
-        //   //      console.log("eventsources")            
-        //   //    },
-        //   // }
-
-        //     //  {
-        //     //  events:function(info, successCallback, failureCallback){
-        //     //    console.log("eventsources") 
-        //     //  },
-        //     // }
-          
-
-        //     //  events:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}]
-             
-
-        //     //  function(info, successCallback, failureCallback){
-        //     //    console.log("eventsources")            
-        //   // }
-          
-        //  ],
-         
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
@@ -393,48 +360,25 @@ export default {
     axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
     .then(response => {
       data.calendarInfo = response.data;
-      console.log('data.calendarInfo');
-      console.log(typeof(data.calendarInfo));
-      console.log(data.calendarInfo);
-      console.log(FullCalendar.calendar.currentData.eventSources);      
-      // FullCalendar.render();
-      
-      // FullCalendar.calendar.currentData.eventSources[10].meta.push(data.calendarInfo);
       console.log(FullCalendar.calendar.addEventSource(data.calendarInfo));
-      // FullCalendar.calendar.refetchEvents();
-      // FullCalendar.calendar.currentData.eventSources.refetchEvents();
-    }).then(
-      // FullCalendar.calendar.render()
-    )
+    })
     .catch(error => {
             console.log(error);            
-      });
+     });
 
-    // const asd = async () => {
-    //   const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
-    //   data.calendarInfo = aaaa.data;
-    //   calendar.events = data.calendarInfo;
-    //   console.log('data.calendarInfo');     
-    //   console.log(data.calendarInfo);
-    //   console.log('calendar.events');     
-    //   console.log(calendar.events);
-    // };
-     
      onMounted(() => {
        getfullBooked_own_date();        
      });
 
-     //nextMonthならsessionstorageに編集中データを格納
-    //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-     document.addEventListener("DOMContentLoaded", function(){
-        var nextMonth = document.querySelector("[title='Next month']");
-        if (!nextMonth){ return false;}
-        nextMonth.addEventListener('click', function() {
-              console.log("aaaa");
-              //今のevent状況にする
-              store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
-            });
-      });
+     //nextMonthならsessionstorageに編集中データを格納    
+    //  document.addEventListener("DOMContentLoaded", function(){
+    //     var nextMonth = document.querySelector("[title='Next month']");
+    //     if (!nextMonth){ return false;}
+    //     nextMonth.addEventListener('click', function() {
+    //           //今のevent状況にする
+    //           store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
+    //         });
+    //   });
 
       //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
       // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入

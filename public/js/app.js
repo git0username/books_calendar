@@ -33740,8 +33740,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 /* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -33785,24 +33783,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       //DBに渡す用edit_arr 
       fullBooked_arr: [],
       //全数借りられている日
-      bookedday_own_arr: [],
-      //自分が借りてる日
-      aaa: [{
-        title: 123,
-        start: '2022-03-07'
-      }, {
-        title: 456,
-        start: '2022-03-09'
-      }]
-    });
+      bookedday_own_arr: [] //自分が借りてる日        
 
-    var log = function log(e) {
-      console.log(e);
-    };
-
-    console.log(data.aaa);
-    console.log(data.calendarInfo); //先に読込んでから次に進みたい
-    //calendar情報--------------------------------------------------------------------------------------------  
+    }); //calendar情報--------------------------------------------------------------------------------------------  
 
     var calendar = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       //calendar情報
@@ -33822,25 +33805,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         //   // allDay: true,
         //   // allDayDefault:true,
         //  },
-        //  eventSources:[
-        //    {events:data.aaa},
-        //    log('test1')
-        //   //  {
-        //   //    events:data.aaa,
-        //   //    function(info, successCallback, failureCallback){
-        //   //      console.log("eventsources")            
-        //   //    },
-        //   // }
-        //     //  {
-        //     //  events:function(info, successCallback, failureCallback){
-        //     //    console.log("eventsources") 
-        //     //  },
-        //     // }
-        //     //  events:[{title:123, start:'2022-03-07'},{title:456, start:'2022-03-09'}]
-        //     //  function(info, successCallback, failureCallback){
-        //     //    console.log("eventsources")            
-        //   // }
-        //  ],
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
@@ -34177,47 +34141,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/calendar/' + data.booktypeId + '/' + data.studentNo).then(function (response) {
       data.calendarInfo = response.data;
-      console.log('data.calendarInfo');
-      console.log(_typeof(data.calendarInfo));
-      console.log(data.calendarInfo);
-      console.log(_fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.currentData.eventSources); // FullCalendar.render();
-      // FullCalendar.calendar.currentData.eventSources[10].meta.push(data.calendarInfo);
-
-      console.log(_fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.addEventSource(data.calendarInfo)); // FullCalendar.calendar.refetchEvents();
-      // FullCalendar.calendar.currentData.eventSources.refetchEvents();
-    }).then()["catch"](function (error) {
+      console.log(_fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.addEventSource(data.calendarInfo));
+    })["catch"](function (error) {
       console.log(error);
-    }); // const asd = async () => {
-    //   const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
-    //   data.calendarInfo = aaaa.data;
-    //   calendar.events = data.calendarInfo;
-    //   console.log('data.calendarInfo');     
-    //   console.log(data.calendarInfo);
-    //   console.log('calendar.events');     
-    //   console.log(calendar.events);
-    // };
-
+    });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getfullBooked_own_date();
-    }); //nextMonthならsessionstorageに編集中データを格納
-    //  const nextMonth = document.getElementsByTagName("p").getAttribute(title);
-
-    document.addEventListener("DOMContentLoaded", function () {
-      var nextMonth = document.querySelector("[title='Next month']");
-
-      if (!nextMonth) {
-        return false;
-      }
-
-      nextMonth.addEventListener('click', function () {
-        console.log("aaaa"); //今のevent状況にする
-
-        _store_js__WEBPACK_IMPORTED_MODULE_9__.store.commit('setCalendarEdit_data', {
-          "delete": data.onloanDate_delete_arr,
-          edit: data.bookedday_own_arr
-        });
-      });
-    }); //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+    }); //nextMonthならsessionstorageに編集中データを格納    
+    //  document.addEventListener("DOMContentLoaded", function(){
+    //     var nextMonth = document.querySelector("[title='Next month']");
+    //     if (!nextMonth){ return false;}
+    //     nextMonth.addEventListener('click', function() {
+    //           //今のevent状況にする
+    //           store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
+    //         });
+    //   });
+    //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
     // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
     // const sosen = child.parentElement; // 祖先要素を取得
     // const sosen2 = sosen.parentElement;
@@ -34975,7 +34914,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.doAction_確定();
     })
-  }, "確定"), _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p>変更したイベントオレンジ</p> \n<button class=\"btn- btn-info text-white mt-2 flag\" v-on:click=\"doAction_リセット()\">変更リセット</button> ")])]);
+  }, "確定"), _hoisted_5, _hoisted_6])]);
 }
 
 /***/ }),
