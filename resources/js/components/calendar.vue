@@ -46,7 +46,7 @@ export default {
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number, //本の全数
-      calendarInfo: {},
+      calendarInfo: [],
       new_reserve_arr: [], //DBに渡す用add_arr
       onloanDate_delete_arr: [], //DBに渡す用delete_arr
       onloanDate_edit_arr:[], //DBに渡す用edit_arr 
@@ -375,9 +375,11 @@ export default {
     const asd = async () => {
       const aaaa = await axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo);    
       data.calendarInfo = aaaa.data;
-      console.log('data.calendarInfo');
-      console.log(typeof(data.calendarInfo));
+      calendar.events = data.calendarInfo;
+      console.log('data.calendarInfo');     
       console.log(data.calendarInfo);
+      console.log('calendar.events');     
+      console.log(calendar.events);
     };
      
      onMounted(() => {
