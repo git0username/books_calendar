@@ -29,7 +29,7 @@ class CalendarController extends Controller
      * @param  \Illuminate\Http\Request  $request_arr
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)//予約の変更、削除、登録をする
     {   
        //DBに登録
        if(!empty($request->add)){
@@ -58,7 +58,7 @@ class CalendarController extends Controller
        }; 
     }
 
-    public function NumberPerDay(Request $request, $booktypeId)
+    public function NumberPerDay(Request $request, $booktypeId)//全冊借りられている日、自分が予約した日の配列を返す
     {
         //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
         $start_end_arr = BookOnloan::where('booktypeId',$booktypeId)->get(['id','studentNo','start','end'])->toArray(); //[0=>["start"=>"2022-02-22","end"=>"2022-02-24"],1=>["start"...],...] 

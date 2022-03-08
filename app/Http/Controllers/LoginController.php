@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 
 class LoginController extends Controller
@@ -38,6 +39,20 @@ class LoginController extends Controller
         return redirect('/login')->withHeaders([
             'Cache-Control' => 'no-store',
         ]);
+    }
+
+    public function userRegister(Request $request)
+    {
+        if(User::where('studentNo',$request->studentNo)->exists()){
+            return response(["result" => "exist"] ,200);
+        }else{
+            $userInfo = $request->toArray();
+            $userInfo['password'] =Hash::make($request->password);
+            // dd($userInfo);
+            $User = new User;
+            $User->fill($userInfo)->save();
+            return response(["result" => "success"] ,200);
+        }
     }
 
 }

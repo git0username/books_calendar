@@ -4,7 +4,7 @@ import checkoutForm from './components/checkoutForm'
 import bookingList from './components/bookingList'
 import calendar from './components/calendar'
 import calendar_test2 from './components/calendar_test2'
-import login from './components/login_form'
+import login_form from './components/login_form'
 
 
 export const router = createRouter({
@@ -56,8 +56,8 @@ export const router = createRouter({
         },
         {
             path:'/login',
-            name: 'login',
-            component:login,
+            name: 'login_form',
+            component:login_form,
             props:true        
         },        
         
