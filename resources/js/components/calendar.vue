@@ -81,7 +81,7 @@ export default {
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
         select: function(select_item) {                       
-          dayjs.extend(isBetween);
+          dayjs.extend(isBetween);//isBetween機能を使えるようにするコード
           const today =  dayjs().format('YYYY-MM-DD');          
 
           //DBに渡せる形にする
@@ -149,7 +149,11 @@ export default {
 
           //上のcheck処理をpassしたら
           //貸出の確認alert
-          if(confirm("指定した日で貸出しますか？")){            
+          if(confirm("指定した日で貸出しますか？")){
+            if(store.state.studentInfo.studentInfo.name == 'admin'){//adminだった場合studentNoを入力させる
+              const No = prompt("予約する方のstudentNoを入力してください。");
+              data.studentNo = No;
+            }            
             this.addEvent({ //this = Calendar
               title: "studentNo" + data.studentNo,
               start: select_item.startStr,
@@ -162,7 +166,8 @@ export default {
             });
                
            //自分が借りる日の配列を新しく作る( data.new_reserve_arr)
-           data.new_reserve_arr.push({start: startStr, end: endStr});
+           data.new_reserve_arr.push({start: startStr, end: endStr, booktypeId: data.booktypeId,
+              studentNo: data.studentNo});          
           }          
         },
        // 日付をクリック、または範囲を選択したイベントの挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 
@@ -246,13 +251,16 @@ export default {
                 }
                 count++;
               });
-              if(flag){//bookedday_own_arrに貸出Idが存在しない場合は、新規で情報push ←これはありえんのでは イベントリサイズできるということはbookedday_own_arrにあるはず
-                data.bookedday_own_arr.push({id: 貸出Id, end: endStr_resize });
+              if(flag){//bookedday_own_arrに貸出Idが存在しない(adminで入っている)場合は、新規で情報push ←これはありえんのでは イベントリサイズできるということはbookedday_own_arrにあるはず
+                data.bookedday_own_arr.push({貸出Id: 貸出Id, end: endStr_resize });
               }
               //編集したイベントを黄色にする
               resize_item.event.setProp("color","#FFA500");
             }
           }
+          console.log( 'data.bookedday_own_arr');
+          console.log( data.bookedday_own_arr);
+
         },
         //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
@@ -287,9 +295,9 @@ export default {
                 }
                 count++;
               })
-              //onloanDate_edit_arrに貸出Idが存在しない場合は、新規で情報push
+              //onloanDate_edit_arrに貸出Idが存在しない(adminで入っている)場合は、新規で情報push
               if(flag){
-                data.bookedday_own_arr.push({id: 貸出Id, start: startStr_drop, end: endStr_drop }); 
+                data.bookedday_own_arr.push({貸出Id: 貸出Id, start: startStr_drop, end: endStr_drop }); 
               }
               //編集したイベントを黄色にする
               drop_item.event.setProp("color","#FFA500");
@@ -303,29 +311,10 @@ export default {
   //calendar情報ここまで▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲     
 
     //貸出日をpostする    
-    const doAction_確定 = () => {     
-       //new_reserve_arrを成形 
-       if(data.new_reserve_arr){ //data.new_reserve_arr(新しい予約)の中身があったらif内の処理       
-        // const value_arr =[];
-        let count = 0;
-        data.new_reserve_arr.forEach((value)=>
-        {  
-          data.new_reserve_arr[count]=
-            {
-              start: value['start'],
-              end: value['end'],
-              booktypeId: data.booktypeId,
-              studentNo: data.studentNo
-            };
-          count++;        
-        }); 
-       }
-       console.log(data.new_reserve_arr); //onloanDate_arr消せる？
-
+    const doAction_確定 = () => {   
        const param = {add: data.new_reserve_arr,
                       delete: data.onloanDate_delete_arr,
-                      edit: data.bookedday_own_arr}
-           
+                      edit: data.bookedday_own_arr};
       if(!data.new_reserve_arr.length && !data.onloanDate_delete_arr.length && !data.bookedday_own_arr.length){ //各arrが空だった場合
         alert("貸出日を指定してください。")
       }else{//arrに中身がある場合
@@ -359,6 +348,8 @@ export default {
     axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
     .then(response => {
       data.calendarInfo = response.data;
+      console.log('data.calendarInfo');
+      console.log(data.calendarInfo);
       console.log(FullCalendar.calendar.addEventSource(data.calendarInfo));
     })
     .catch(error => {
