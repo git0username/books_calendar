@@ -2,6 +2,7 @@
   <div>
     <Login />
     <UserRegister />
+    <Admin />
   </div>
 </template>
 
@@ -10,10 +11,11 @@ import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
 import Login from "./login.vue";
 import UserRegister from "./userRegister.vue";
+import Admin from "./admin_form.vue";
 
 export default {
   name: "Login_form",
-  components: { Login, UserRegister },
+  components: { Login, UserRegister, Admin },
   setup() {
     const data = reactive({
       //
@@ -39,3 +41,6 @@ export default {
   
 };
 </script>
+<!--
+passwordリセットシステム未導入
+-->

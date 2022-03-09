@@ -67,14 +67,19 @@ export default {
             .then(response => {
               console.log("postレスポンス返ってきたよ");
               console.log(response.data);
-              if(response.data["result"] == 'exist'){ 
-                    console.log("exist");
+              if(response.data["result"] == 'success'){ 
+                    console.log("success");
+                    data.name = "";
+                    data.studentNo = "";
+                    data.password = "";
+                    alert("登録完了。\nログインフォームに入力し、ログインしてください。")
+              }else if(response.data["result"] == 'exist'){
+                console.log("exist");
                     console.log(response.data["studentInfo"]);
                     alert("入力されたstudentNoはすでに登録されています。");
-                    // alert("ログインフォームに入力し、ログインしてください。")
               }else{
                 alert("登録エラー。\n再入力してください");
-              }         
+              }      
             })
             .catch(error => {
               console.log(error);

@@ -51,13 +51,13 @@ class CalendarController extends Controller
        //DBを更新
        if(!empty($request->edit)){
        foreach($request->edit as $value){
+        //    dd($value);
             $BookOnloan = BookOnloan::find($value['貸出Id']);
             unset($value['貸出Id']);
             $BookOnloan->fill($value)->save();
          }       
        }; 
     }
-
     public function NumberPerDay(Request $request, $booktypeId)//全冊借りられている日、自分が予約した日の配列を返す
     {
         //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
@@ -117,7 +117,10 @@ class CalendarController extends Controller
                 $book['end'] = $end->addDays(1)->format('Y-m-d'); //fullcalendarで1日ずれるので調整
                 
                 //今日以降の自分の貸出予約を編集可にするflagを付ける
-                if($book['studentNo'] == $studentNo && $book['start'] >= new Carbon('today')){ 
+                if($studentNo == 100){//管理者だったら全て編集可にする 
+                    $book['edit'] = "yes";
+                    $book['editable'] = true;
+                }elseif($book['studentNo'] == $studentNo && $book['start'] >= new Carbon('today')){
                     $book['edit'] = "yes";
                     $book['editable'] = true;
                 }else{
