@@ -33931,7 +33931,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
         select: function select(select_item) {
-          dayjs__WEBPACK_IMPORTED_MODULE_7___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8___default()));
+          dayjs__WEBPACK_IMPORTED_MODULE_7___default().extend((dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_8___default())); //isBetween機能を使えるようにするコード
+
           var today = dayjs__WEBPACK_IMPORTED_MODULE_7___default()().format('YYYY-MM-DD'); //DBに渡せる形にする
 
           var endStr = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(select_item.endStr).add(-1, 'd').format("YYYY-MM-DD"); //fullcalendarのendは1日ずれるので調整
@@ -34002,6 +34003,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
           if (confirm("指定した日で貸出しますか？")) {
+            if (_store_js__WEBPACK_IMPORTED_MODULE_9__.store.state.studentInfo.studentInfo.name == 'admin') {
+              //adminだった場合studentNoを入力させる
+              var No = prompt("予約する方のstudentNoを入力してください。");
+              data.studentNo = No;
+            }
+
             this.addEvent({
               //this = Calendar
               title: "studentNo" + data.studentNo,
@@ -34016,7 +34023,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             data.new_reserve_arr.push({
               start: startStr,
-              end: endStr
+              end: endStr,
+              booktypeId: data.booktypeId,
+              studentNo: data.studentNo
             });
           }
         },
@@ -34109,9 +34118,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
 
               if (flag) {
-                //bookedday_own_arrに貸出Idが存在しない場合は、新規で情報push ←これはありえんのでは イベントリサイズできるということはbookedday_own_arrにあるはず
+                //bookedday_own_arrに貸出Idが存在しない(adminで入っている)場合は、新規で情報push ←これはありえんのでは イベントリサイズできるということはbookedday_own_arrにあるはず
                 data.bookedday_own_arr.push({
-                  id: 貸出Id,
+                  貸出Id: 貸出Id,
                   end: endStr_resize
                 });
               } //編集したイベントを黄色にする
@@ -34120,6 +34129,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               resize_item.event.setProp("color", "#FFA500");
             }
           }
+
+          console.log('data.bookedday_own_arr');
+          console.log(data.bookedday_own_arr);
         },
         //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
@@ -34154,11 +34166,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _count3++;
-              }); //onloanDate_edit_arrに貸出Idが存在しない場合は、新規で情報push
+              }); //onloanDate_edit_arrに貸出Idが存在しない(adminで入っている)場合は、新規で情報push
 
               if (flag) {
                 data.bookedday_own_arr.push({
-                  id: 貸出Id,
+                  貸出Id: 貸出Id,
                   start: startStr_drop,
                   end: endStr_drop
                 });
@@ -34176,24 +34188,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     //貸出日をpostする    
 
     var doAction_確定 = function doAction_確定() {
-      //new_reserve_arrを成形 
-      if (data.new_reserve_arr) {
-        //data.new_reserve_arr(新しい予約)の中身があったらif内の処理       
-        // const value_arr =[];
-        var count = 0;
-        data.new_reserve_arr.forEach(function (value) {
-          data.new_reserve_arr[count] = {
-            start: value['start'],
-            end: value['end'],
-            booktypeId: data.booktypeId,
-            studentNo: data.studentNo
-          };
-          count++;
-        });
-      }
-
-      console.log(data.new_reserve_arr); //onloanDate_arr消せる？
-
       var param = {
         add: data.new_reserve_arr,
         "delete": data.onloanDate_delete_arr,
@@ -34260,6 +34254,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/calendar/' + data.booktypeId + '/' + data.studentNo).then(function (response) {
       data.calendarInfo = response.data;
+      console.log('data.calendarInfo');
+      console.log(data.calendarInfo);
       console.log(_fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.addEventSource(data.calendarInfo));
     })["catch"](function (error) {
       console.log(error);
