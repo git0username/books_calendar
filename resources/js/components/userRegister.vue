@@ -3,7 +3,7 @@
     <div class="form-group" style="padding:30px">
       <h4 class="text-success">新規登録</h4> 
       <label for="name">お名前</label>
-      <input id="name" type="text" name="name" v-model="data.name" class="form-control" v-on:keydown ="enter"/><!-- value="{{ old('name') }}" -->
+      <input id="name" type="text" name="name" v-model="data.name" class="form-control" v-on:keydown ="enter"/>
       <br />     
       <label for="studentNo">studentNo</label>
       <input id="studentNo" type="text" name="studentNo" v-model="data.studentNo" class="form-control" v-on:keydown ="enter"/>
@@ -53,7 +53,7 @@ export default {
           alert("お名前以外の入力値は半角数字のみです。\n 半角数字を入力してください。")
           }else{ //入力値が半角数字になってたら、post処理に進む
             const url = "/userRegister";
-            axios.post(url, {
+            axios.post(url, {  //LoginController@userRegisterにpost
               name: data.name,
               studentNo: data.studentNo,
               password: data.password,           

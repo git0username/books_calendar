@@ -9,15 +9,12 @@ const studentInfo = {
   mutations: {
     setStudentInfo (state, payload) {
       state.studentInfo = payload;
-      console.log("store.state.studentInfo=");
-      console.log(state.studentInfo);
     },
     // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
     clearStudentInfo (state) {
       state.studentInfo = null;
       // Object.assign(state, getDefaultState());
       console.log("store_studentInfoデータは初期化されました。");
-      console.log(state.studentInfo);
     }
   },
   actions: {
@@ -36,14 +33,11 @@ const calendar = {
   mutations: {
     setCalendar (state, payload) {
       state.calendar = payload;
-      console.log("store.state.calendar=");
-      console.log(state.calendar);
     },
     clearCalendar (state) {
       state.calendar = null;
       // Object.assign(state, getDefaultState());
       console.log("store_calendarデータは初期化されました。");
-      console.log(state.calendar);
     }
   },
   actions: {
@@ -62,15 +56,12 @@ const calendarEdit_data = {
   mutations: {
     setCalendarEdit_data (state, payload) {
       state.calendarEdit_data = payload;
-      console.log("store.calendarEdit_data=");
-      console.log(state.calendarEdit_data);
     },
     // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
     clearCalendarEdit_data (state) {
       state.calendarEdit_data = null;
       // Object.assign(state, getDefaultState());
       console.log("store_calendarEdit_dataデータは初期化されました。");
-      console.log(state.studentInfo);
     }
   },
   actions: {
@@ -91,36 +82,35 @@ export const store = createStore({
   plugins: [createPersistedState({storage: window.sessionStorage, key:'books'})]
 })
 
-// export const store = createStore({
-//   // state:  getDefaultState(),
+/*書き方参考
+export const store = createStore({
+  // state:  getDefaultState(),
 
-//     state(){
-//       return{
-//       studentInfo : null,
+    state(){
+      return{
+      studentInfo : null,
+      }
+    },
 
-//       }
-//     },
-    
-  
+    mutations: {
+      setStudentInfo (state, payload) {
+        state.studentInfo = payload;
+        console.log("store.state.studentInfo=");
+        console.log(state.studentInfo);
+      },
 
-//     mutations: {
-//       setStudentInfo (state, payload) {
-//         state.studentInfo = payload;
-//         console.log("store.state.studentInfo=");
-//         console.log(state.studentInfo);
-//       },
+      // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
+      clearStudentInfo (state) {
+        state.studentInfo = null;
+        // Object.assign(state, getDefaultState());
+        console.log("storeデータは初期化されました。");
+        console.log(state.studentInfo);
+      }
+    },    
 
-//       // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
-//       clearStudentInfo (state) {
-//         state.studentInfo = null;
-//         // Object.assign(state, getDefaultState());
-//         console.log("storeデータは初期化されました。");
-//         console.log(state.studentInfo);
-//       }
-//     },    
-
-//     actions: {},
-//     getters: {},
-//     plugins: [createPersistedState({storage: window.sessionStorage, key:'studentInfo'})] 
-// });
+    actions: {},
+    getters: {},
+    plugins: [createPersistedState({storage: window.sessionStorage, key:'studentInfo'})] 
+});
+*/
 

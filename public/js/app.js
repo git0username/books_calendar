@@ -33467,13 +33467,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Index_ch_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Index_ch.vue */ "./resources/js/components/Index_ch.vue");
 /* harmony import */ var _header_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./header.vue */ "./resources/js/components/header.vue");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 
 
 
@@ -33487,10 +33485,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
-      result: "",
-      title: "書籍一覧 / 貸出し予約 のぺージ",
-      studentInfo: _store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo //使ってない？            
-
+      result: ""
     });
     var url = "api/books";
 
@@ -33657,6 +33652,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         //post処理に進む
         var url = "/login";
         axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
+          //LoginController@authenticate に飛んで認証処理される
           name: data.name,
           studentNo: data.studentNo,
           password: data.password
@@ -33735,7 +33731,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   setup: function setup() {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
-      title: "貸出し履歴一覧のページ",
       table_obj: {},
       studentNo: _store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo.studentNo
     });
@@ -33747,17 +33742,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = "api/bookonloan/" + data.studentNo; //このページがAPI入出力の窓口として機能している
+                url = "api/bookonloan/" + data.studentNo; //このページがAPI入出力の窓口として機能している(BookOnloanController@show へ飛ぶ)
 
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get(url);
 
               case 3:
                 response = _context.sent;
-                console.log(response.data);
                 data.table_obj = response.data;
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -33803,8 +33797,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup(props) {
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      title: "貸出し履歴",
-      response: "",
       table_obj: props.item
     });
 
@@ -34129,9 +34121,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               resize_item.event.setProp("color", "#FFA500");
             }
           }
-
-          console.log('data.bookedday_own_arr');
-          console.log(data.bookedday_own_arr);
         },
         //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
@@ -34200,7 +34189,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         //arrに中身がある場合
         if (confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")) {
-          var url = "api/calendar/"; //このページがAPI入出力の窓口として機能している 
+          var url = "api/calendar/"; //CalendarController@storeに飛ぶ 
 
           axios__WEBPACK_IMPORTED_MODULE_6___default().post(url, param).then(function (response) {
             console.log(response);
@@ -34235,6 +34224,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
                 result = _context.sent;
+                //CalendarController@NumberPerDayに飛ぶ
                 data.fullBooked_arr = result.data.fullBooked.sort();
                 data.bookedday_own_arr = result.data.bookedday_own.sort();
 
@@ -34250,15 +34240,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _ref.apply(this, arguments);
       };
     }(); //catch処理必要
+    //event情報を取得
 
 
-    axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/calendar/' + data.booktypeId + '/' + data.studentNo).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_6___default().get('/api/calendar/' + data.booktypeId + '/' + data.studentNo) //CalendarController@showに飛ぶ
+    .then(function (response) {
       data.calendarInfo = response.data;
-      console.log('data.calendarInfo');
-      console.log(data.calendarInfo);
-      console.log(_fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.addEventSource(data.calendarInfo));
+      _fullcalendar_vue3__WEBPACK_IMPORTED_MODULE_3__["default"].calendar.addEventSource(data.calendarInfo);
     })["catch"](function (error) {
       console.log(error);
+      alert("event情報の取得に失敗しました。");
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getfullBooked_own_date();
@@ -34431,6 +34422,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           //入力値が半角数字になってたら、post処理に進む
           var url = "/login";
           axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
+            //LoginController@authenticate に飛んで認証処理される
             studentNo: data.studentNo,
             password: data.password
           }).then(function (response) {
@@ -34639,6 +34631,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           //入力値が半角数字になってたら、post処理に進む
           var url = "/userRegister";
           axios__WEBPACK_IMPORTED_MODULE_2___default().post(url, {
+            //LoginController@userRegisterにpost
             name: data.name,
             studentNo: data.studentNo,
             password: data.password
@@ -34739,9 +34732,13 @@ var _hoisted_2 = {
     "margin": "10px"
   }
 };
-var _hoisted_3 = {
-  "class": "h5 a"
-};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "h5"
+}, "書籍一覧 / 貸出し予約 のぺージ", -1
+/* HOISTED */
+);
+
 var _hoisted_4 = {
   "class": "table table-light table-striped",
   style: {
@@ -34764,9 +34761,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Index_ch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Index_ch");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.result, function (item, key) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.result, function (item, key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Index_ch, {
       key: key,
       item: item
@@ -34915,9 +34910,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "h5"
-};
+}, "貸出し履歴一覧のページ", -1
+/* HOISTED */
+);
+
 var _hoisted_2 = {
   "class": "table table-light table-striped",
   style: {
@@ -34936,9 +34935,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_bookingList_ch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookingList_ch");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tbody class=\"text-left align-middle\" id=\"tbodyID\">     "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.table_obj, function (item, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Header), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <tbody class=\"text-left align-middle\" id=\"tbodyID\">     "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.data.table_obj, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_bookingList_ch, {
       key: index,
       item: item
@@ -35313,7 +35310,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.name]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" value=\"{{ old('name') }}\" "), _hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.name]]), _hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "studentNo",
     type: "text",
     name: "studentNo",
@@ -35399,15 +35396,12 @@ var studentInfo = {
   mutations: {
     setStudentInfo: function setStudentInfo(state, payload) {
       state.studentInfo = payload;
-      console.log("store.state.studentInfo=");
-      console.log(state.studentInfo);
     },
     // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
     clearStudentInfo: function clearStudentInfo(state) {
       state.studentInfo = null; // Object.assign(state, getDefaultState());
 
       console.log("store_studentInfoデータは初期化されました。");
-      console.log(state.studentInfo);
     }
   },
   actions: {//
@@ -35425,14 +35419,11 @@ var calendar = {
   mutations: {
     setCalendar: function setCalendar(state, payload) {
       state.calendar = payload;
-      console.log("store.state.calendar=");
-      console.log(state.calendar);
     },
     clearCalendar: function clearCalendar(state) {
       state.calendar = null; // Object.assign(state, getDefaultState());
 
       console.log("store_calendarデータは初期化されました。");
-      console.log(state.calendar);
     }
   },
   actions: {//
@@ -35450,15 +35441,12 @@ var calendarEdit_data = {
   mutations: {
     setCalendarEdit_data: function setCalendarEdit_data(state, payload) {
       state.calendarEdit_data = payload;
-      console.log("store.calendarEdit_data=");
-      console.log(state.calendarEdit_data);
     },
     // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
     clearCalendarEdit_data: function clearCalendarEdit_data(state) {
       state.calendarEdit_data = null; // Object.assign(state, getDefaultState());
 
       console.log("store_calendarEdit_dataデータは初期化されました。");
-      console.log(state.studentInfo);
     }
   },
   actions: {//
@@ -35476,31 +35464,38 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
     storage: window.sessionStorage,
     key: 'books'
   })]
-}); // export const store = createStore({
-//   // state:  getDefaultState(),
-//     state(){
-//       return{
-//       studentInfo : null,
-//       }
-//     },
-//     mutations: {
-//       setStudentInfo (state, payload) {
-//         state.studentInfo = payload;
-//         console.log("store.state.studentInfo=");
-//         console.log(state.studentInfo);
-//       },
-//       // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
-//       clearStudentInfo (state) {
-//         state.studentInfo = null;
-//         // Object.assign(state, getDefaultState());
-//         console.log("storeデータは初期化されました。");
-//         console.log(state.studentInfo);
-//       }
-//     },    
-//     actions: {},
-//     getters: {},
-//     plugins: [createPersistedState({storage: window.sessionStorage, key:'studentInfo'})] 
-// });
+});
+/*書き方参考
+export const store = createStore({
+  // state:  getDefaultState(),
+
+    state(){
+      return{
+      studentInfo : null,
+      }
+    },
+
+    mutations: {
+      setStudentInfo (state, payload) {
+        state.studentInfo = payload;
+        console.log("store.state.studentInfo=");
+        console.log(state.studentInfo);
+      },
+
+      // stateを初期化するmutationを定義 https://qiita.com/AtsushiEsashika/items/de5c925f0a5107a5d294
+      clearStudentInfo (state) {
+        state.studentInfo = null;
+        // Object.assign(state, getDefaultState());
+        console.log("storeデータは初期化されました。");
+        console.log(state.studentInfo);
+      }
+    },    
+
+    actions: {},
+    getters: {},
+    plugins: [createPersistedState({storage: window.sessionStorage, key:'studentInfo'})] 
+});
+*/
 
 /***/ }),
 
@@ -35516,20 +35511,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "router": () => (/* binding */ router),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _components_Index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Index.vue */ "./resources/js/components/Index.vue");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/checkoutForm'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var _components_bookingList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/bookingList */ "./resources/js/components/bookingList.vue");
-/* harmony import */ var _components_calendar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/calendar */ "./resources/js/components/calendar.vue");
-/* harmony import */ var _components_login_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/login_form */ "./resources/js/components/login_form.vue");
+/* harmony import */ var _components_bookingList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/bookingList */ "./resources/js/components/bookingList.vue");
+/* harmony import */ var _components_calendar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/calendar */ "./resources/js/components/calendar.vue");
+/* harmony import */ var _components_login_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/login_form */ "./resources/js/components/login_form.vue");
 
 
 
 
 
-
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.createWebHistory)(),
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createWebHistory)(),
   routes: [// {
   //     path: '/',
   //     name: 'index',
@@ -35548,24 +35541,19 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.createRouter)({
     component: _components_Index_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     props: true
   }, {
-    path: '/checkoutform',
-    name: 'checkoutform',
-    component: Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/checkoutForm'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
-    props: true
-  }, {
     path: '/bookingList',
     name: 'bookingList',
-    component: _components_bookingList__WEBPACK_IMPORTED_MODULE_2__["default"],
+    component: _components_bookingList__WEBPACK_IMPORTED_MODULE_1__["default"],
     props: true
   }, {
     path: '/calendar',
     name: 'calendar',
-    component: _components_calendar__WEBPACK_IMPORTED_MODULE_3__["default"],
+    component: _components_calendar__WEBPACK_IMPORTED_MODULE_2__["default"],
     props: true
   }, {
     path: '/login',
     name: 'login_form',
-    component: _components_login_form__WEBPACK_IMPORTED_MODULE_4__["default"],
+    component: _components_login_form__WEBPACK_IMPORTED_MODULE_3__["default"],
     props: true
   }]
 });

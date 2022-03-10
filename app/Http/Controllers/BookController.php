@@ -15,7 +15,6 @@ class BookController extends Controller
      */
     public function index()
     {
-        
         //booksテーブルの中身を変数に定義(コレクションのインスタンスとして取得される)
         $book_all = Book::all();       
         
@@ -49,9 +48,9 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $books = Book::where('id',$id)->get();
+        // $books = Book::where('id',$id)->get();
         
-        return $books;
+        // return $books;
     }
 
     /**

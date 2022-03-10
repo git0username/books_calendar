@@ -18,11 +18,4 @@ class BookOnloan extends Model
     {
         return $this->belongsTo(Book::class,'booktypeId', 'booktypeId');
     }
-
-    public function calendarEvent($bookId){
-        $books = BookOnloan::where('bookId',$bookId)->get();
-        return $books;
-}
-
-    
 }

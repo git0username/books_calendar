@@ -51,7 +51,7 @@ export default {
         alert("入力してください。")
       }else{ //post処理に進む
             const url = "/login";
-            axios.post(url, {
+            axios.post(url, { //LoginController@authenticate に飛んで認証処理される
               name: data.name,
               studentNo: data.studentNo,
               password: data.password,           

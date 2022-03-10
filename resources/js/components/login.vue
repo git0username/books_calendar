@@ -53,7 +53,7 @@ export default {
           alert("入力値は半角数字のみです。\n 半角数字を入力してください。")
         }else{ //入力値が半角数字になってたら、post処理に進む
           const url = "/login"; 
-          axios.post(url, {
+          axios.post(url, { //LoginController@authenticate に飛んで認証処理される
             studentNo: data.studentNo,
             password: data.password,           
           })

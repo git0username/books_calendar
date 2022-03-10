@@ -264,9 +264,6 @@ export default {
               resize_item.event.setProp("color","#FFA500");
             }
           }
-          console.log( 'data.bookedday_own_arr');
-          console.log( data.bookedday_own_arr);
-
         },
         //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
@@ -324,7 +321,7 @@ export default {
         alert("貸出日を指定してください。")
       }else{//arrに中身がある場合
         if(confirm("赤色の日は予約、\nオレンジ色の日は変更、\n緑色の日は予約削除されます。")){      
-          const url = "api/calendar/"; //このページがAPI入出力の窓口として機能している 
+          const url = "api/calendar/"; //CalendarController@storeに飛ぶ 
           axios.post(url, param)
             .then(response => {
               console.log(response);
@@ -345,20 +342,20 @@ export default {
      //フルレンタルされてる日と自分が借りてる日の配列をそれぞれapiで取得
      const getfullBooked_own_date = async () => {
       const result = await axios.post("api/calendar/"+ data.booktypeId ,
-      { studentNo: data.studentNo, number: data.number}); 
+      { studentNo: data.studentNo, number: data.number}); //CalendarController@NumberPerDayに飛ぶ
       data.fullBooked_arr = result.data.fullBooked.sort();
       data.bookedday_own_arr =  result.data.bookedday_own.sort();
     }; //catch処理必要
 
-    axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo)
+    //event情報を取得
+    axios.get('/api/calendar/'+ data.booktypeId + '/' + data.studentNo) //CalendarController@showに飛ぶ
     .then(response => {
-      data.calendarInfo = response.data;
-      console.log('data.calendarInfo');
-      console.log(data.calendarInfo);
-      console.log(FullCalendar.calendar.addEventSource(data.calendarInfo));
+      data.calendarInfo = response.data;      
+      FullCalendar.calendar.addEventSource(data.calendarInfo);
     })
     .catch(error => {
-            console.log(error);            
+            console.log(error);
+            alert("event情報の取得に失敗しました。")
      });
 
      onMounted(() => {

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from './components/Index.vue'
-import checkoutForm from './components/checkoutForm'
 import bookingList from './components/bookingList'
 import calendar from './components/calendar'
 import login_form from './components/login_form'
@@ -28,13 +27,7 @@ export const router = createRouter({
             name: 'index',
             component:Index,
             props:true
-        },
-        {
-            path:'/checkoutform',
-            name: 'checkoutform',
-            component:checkoutForm,
-            props:true        
-        },        
+        },    
         {
             path:'/bookingList',
             name: 'bookingList',

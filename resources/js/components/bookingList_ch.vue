@@ -21,8 +21,6 @@ export default {
 
   setup(props) {
     const data = reactive({
-      title: "貸出し履歴",
-      response: "",
       table_obj: props.item
     });
 
@@ -33,6 +31,7 @@ export default {
     onMounted(() => {
       getAction();
     });
+
     return { data, getAction };
   }
 };

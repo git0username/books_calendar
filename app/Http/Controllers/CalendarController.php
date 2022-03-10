@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
 use App\Models\BookOnloan;
-use PHPUnit\Framework\MockObject\Rule\Parameters;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
@@ -19,8 +17,7 @@ class CalendarController extends Controller
      */
     public function index()
     {
-        $books = BookOnloan::all();
-        return $books;
+      //
     }
 
     /**
@@ -58,6 +55,7 @@ class CalendarController extends Controller
          }       
        }; 
     }
+    
     public function NumberPerDay(Request $request, $booktypeId)//全冊借りられている日、自分が予約した日の配列を返す
     {
         //本の種類(booktypeId)が一致するものの'start'と'end'カラムだけを取得
@@ -77,14 +75,9 @@ class CalendarController extends Controller
                 foreach ($periods as $period) {  // $periodを日付だけの配列にする [2022.02.22, 2022.02.23, 2022.02.24]
                     $date = $period->format('Y-m-d');                            
                     $date_arr[] = $date;
-                    
-                    // if($start_end['studentNo']==$request->studentNo){ //自分が借りてる日付の配列を作る 重複レンタルの防止
-                    //     $bookedday_own[] = $date;                       
-                    // };                    
                 };                         
             };                              
-        };           
-        
+        }; 
         $countDate_arr = array_count_values($date_arr); //各日が何個あるかcountして配列を取得 ["日付"=>"count数","日付"=>"count数",]    
         $number = $request->number; //clientから来たpram(本の全数)を格納
         $fullBooked = array_keys($countDate_arr, $number); //count数が全数と同じ日付を取得し配列にする なかったら空が返る       
@@ -103,9 +96,11 @@ class CalendarController extends Controller
     {
         $books = BookOnloan::where('booktypeId',$booktypeId)->get()->toArray();
 
-        //bookIdを管理しない仕様にしたので不要になった下
-        // $bookId_arr = Book::where('booktypeId',$booktypeId)->pluck('id')->toArray(); //id だけの配列ができる              
-        // $books = BookOnloan::whereIn('bookId',$bookId_arr)->get()->toArray(); //BookOnloanテーブル、bookIdカラム内から上のid（配列）に一致するものを取得
+        /*
+        bookIdを管理しない仕様にしたので不要になった↓
+        $bookId_arr = Book::where('booktypeId',$booktypeId)->pluck('id')->toArray(); //id だけの配列ができる              
+        $books = BookOnloan::whereIn('bookId',$bookId_arr)->get()->toArray(); //BookOnloanテーブル、bookIdカラム内から上のid（配列）に一致するものを取得
+        */
        
         if (!Empty($books)){ 
             foreach ($books as $book){
@@ -134,20 +129,21 @@ class CalendarController extends Controller
             $book_onloan[]= ["title"=> "", "start"=> "", "end"=> ""];
         };
 
-        //祝日を入れる カレンダーが見にくくなるので要検討-----------------------------
-        // $url = 'https://holidays-jp.github.io/api/v1/date.json';
-        // $json = mb_convert_encoding(file_get_contents($url), 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN'); //urlからjsonを取得してエンコード処理
-        // $holidaysData_arr = json_decode($json,true); //JSONを連想配列にする [日付=>祝日の名前, ..., ..]
-        // foreach($holidaysData_arr as $key => $value){
-        //     $holiday =[
-        //         "title"=> $value,
-        //         "start"=>  $key,
-        //         "classNames"=> "holiday",
-        //         "holiday"=>  $key,
-        //     ];           
-        //     $book_onloan[] = $holiday;            
-        // }
-
+        /*
+        祝日を入れる カレンダーが見にくくなるので要検討-----------------------------
+        $url = 'https://holidays-jp.github.io/api/v1/date.json';
+        $json = mb_convert_encoding(file_get_contents($url), 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN'); //urlからjsonを取得してエンコード処理
+        $holidaysData_arr = json_decode($json,true); //JSONを連想配列にする [日付=>祝日の名前, ..., ..]
+        foreach($holidaysData_arr as $key => $value){
+            $holiday =[
+                "title"=> $value,
+                "start"=>  $key,
+                "classNames"=> "holiday",
+                "holiday"=>  $key,
+            ];           
+            $book_onloan[] = $holiday;            
+        }
+        */
         return $book_onloan;
         }
     

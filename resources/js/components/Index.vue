@@ -3,7 +3,7 @@
     <Header />     
     <div style="display: flex">
       <div style="width:300px; margin:10px;">
-        <p class="h5 a">{{data.title}}</p>
+        <p class="h5">書籍一覧 / 貸出し予約 のぺージ</p>
         <table class="table table-light table-striped" style="width:600px">
           <thead class="table-text-center">
             <tr>
@@ -28,7 +28,7 @@ import { reactive, onMounted, } from "vue";
 import axios from "axios";
 import Index_ch from "./Index_ch.vue";
 import Header from "./header.vue";
-import { store } from "./store.js";
+
 
 
 export default {
@@ -38,8 +38,6 @@ export default {
   setup() {
     const data = reactive({
       result:"",
-      title: "書籍一覧 / 貸出し予約 のぺージ",
-      studentInfo:store.state.studentInfo.studentInfo, //使ってない？            
     });
 
     const url = "api/books";
@@ -47,7 +45,7 @@ export default {
       const result = await axios.get(url);
       data.result = result.data;
     }
-    
+
     onMounted(() => {
     getAPI_books();
     });
