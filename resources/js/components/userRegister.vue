@@ -18,14 +18,10 @@
 <script>
 import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router"; //リダイレクト用
-import { store } from "./store.js";
 
 export default {
   name: "UserRegister",
   setup() {
-    const router = useRouter();
-
     const data = reactive({
       name:"",
       studentNo:"",
@@ -36,9 +32,7 @@ export default {
       //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
       //でも公式docに書かれているので下記の処理をする。初期化のためなのかな？
       const getToken = async () => {
-      const result = await axios.get("sanctum/csrf-cookie");
-      console.log("csrf-cookie=");
-      console.log(result); 
+     await axios.get("sanctum/csrf-cookie");
     };
     
     onMounted(() => {
@@ -74,8 +68,7 @@ export default {
                     data.password = "";
                     alert("登録完了。\nログインフォームに入力し、ログインしてください。")
               }else if(response.data["result"] == 'exist'){
-                console.log("exist");
-                    console.log(response.data["studentInfo"]);
+                    console.log("exist");
                     alert("入力されたstudentNoはすでに登録されています。");
               }else{
                 alert("登録エラー。\n再入力してください");

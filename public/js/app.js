@@ -33507,13 +33507,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 result = _context.sent;
                 data.result = result.data;
-                console.log("index.result.data="); // console.log(result.data); 
 
-                console.log(_store_js__WEBPACK_IMPORTED_MODULE_5__.store.state.studentInfo.studentInfo);
-                console.log("index.data.studentinfo.studentNo");
-                console.log(data.studentInfo.studentNo); // data.studentInfo = store.state.studentInfo;
-
-              case 8:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -33556,8 +33551,6 @@ __webpack_require__.r(__webpack_exports__);
 
  //リダイレクト用
 
- // import Router from 'Router.vue'
-// import { Calendar } from '@fullcalendar/core';
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Index_ch",
@@ -33629,7 +33622,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var result;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -33638,11 +33630,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get("sanctum/csrf-cookie");
 
               case 2:
-                result = _context.sent;
-                console.log("csrf-cookie=");
-                console.log(result);
-
-              case 5:
               case "end":
                 return _context.stop();
             }
@@ -33675,11 +33662,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           password: data.password
         }).then(function (response) {
           console.log("postレスポンス返ってきたよ");
-          console.log(response.data);
 
           if (response.data["result"] == 'success') {
-            console.log("success");
-            console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
+            console.log("success"); //storeにlogin情報(studentInfo)を保存
 
             _store_js__WEBPACK_IMPORTED_MODULE_3__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
 
@@ -33770,7 +33755,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context.sent;
                 console.log(response.data);
-                data.table_obj = response.data; //  console.log(store.state.studentInfo.studentInfo);
+                data.table_obj = response.data;
 
               case 6:
               case "end":
@@ -33901,6 +33886,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       number: store_calendar.number,
       //本の全数
       calendarInfo: [],
+      //api取得後addEventSource()でeventsに設定するための配列
       new_reserve_arr: [],
       //DBに渡す用add_arr
       onloanDate_delete_arr: [],
@@ -33923,15 +33909,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         editable: false,
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定
-        // events:data.calendarInfo,
+
+        /*
+        events:data.calendarInfo,
+        ↑ここで配列読込ませるとaxios.getが間に合わずdata.calendarInfoは空のまま読込まれる。→空のdata.calendarInfoを持ってfullcalendarインスタンスが生成されるので、生成後にdata.calendarInfoにデータをいくらpushしても反映されない。なのでapiを取得してdata.calendarInfoにデータを格納してから、eventaddする。
+        */
         events: [],
-        // events:{
-        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
-        //   // color: 'yellow',   // an option!
-        //   // textColor: 'black', // an option!
-        //   // allDay: true,
-        //   // allDayDefault:true,
-        //  },
+        //ここで配列を読込ませない。上記の理由と、編集中eventを次月でもキープするため。
+
+        /*
+        events:{
+          url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
+          
+          // color: 'yellow',   // an option!
+          // textColor: 'black', // an option!
+          // allDay: true,
+          // allDayDefault:true,
+         },
+         */
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         // 日付をクリック、または範囲を選択したイベントの挙動▼▼▼▼▼▼▼▼▼▼
         selectable: true,
@@ -34129,7 +34124,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         //イベントリサイズした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         eventDrop: function eventDrop(drop_item) {
-          console.log(drop_item.event.extendedProps);
           var startStr_drop = drop_item.event.startStr; //fullcalendarのendは1日ずれるので調整
 
           var endStr_drop = dayjs__WEBPACK_IMPORTED_MODULE_7___default()(drop_item.event.endStr).add(-1, 'd').format("YYYY-MM-DD"); //新しく作成したイベント(赤色イベント)を移動した場合、data.new_reserve_arrのstart日とend日を入れ替える
@@ -34272,28 +34266,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       getfullBooked_own_date();
-    }); //nextMonthならsessionstorageに編集中データを格納    
-    //  document.addEventListener("DOMContentLoaded", function(){
-    //     var nextMonth = document.querySelector("[title='Next month']");
-    //     if (!nextMonth){ return false;}
-    //     nextMonth.addEventListener('click', function() {
-    //           //今のevent状況にする
-    //           store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
-    //         });
-    //   });
-    //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
-    // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
-    // const sosen = child.parentElement; // 祖先要素を取得
-    // const sosen2 = sosen.parentElement;
-    // console.log("child");
-    // console.log(sosen2); 
-    // const child1 =document.getElementsByClassName('holiday');
-    // const length = child1.length;
-    // console.log("child");
-    // console.log(child1);
-    // console.log(child1[0]);//htmlcoleectionからなぜか値を取得できない
-    // console.log(length);
-    //--------------------------------------------------------------------------------------------------
+    });
+    /*
+    編集中データをキープするため、nextMonthボタンをクリックした時sessionstorageにeventの編集中データを格納
+    →不要になった。
+    →理由：カレンダー読込み時はevents空、axios.getでapi取得後、addEventSource()でdata.calendarInfo配列をeventsに入れることによって新規イベントとしてDOMにイベントが追加される。
+    そのため、次月ボタンを押してもeventsが再読込みされず編集中データがDOMにキープされる。
+    よって、編集中データをsessionstorageに仮保存しなくてよくなった。
+     document.addEventListener("DOMContentLoaded", function(){
+       var nextMonth = document.querySelector("[title='Next month']");
+       if (!nextMonth){ return false;}
+       nextMonth.addEventListener('click', function() {
+             //今のevent状況にする
+             store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
+           });
+     });
+     */
+
+    /*
+    祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+    const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
+    const sosen = child.parentElement; // 祖先要素を取得
+    const sosen2 = sosen.parentElement;
+    console.log("child");
+    console.log(sosen2); 
+    const child1 =document.getElementsByClassName('holiday');
+    const length = child1.length;
+    console.log("child");
+    console.log(child1);
+    console.log(child1[0]);//htmlcoleectionからなぜか値を取得できない
+    console.log(length);
+    --------------------------------------------------------------------------------------------------
+    */
 
     return {
       data: data,
@@ -34304,103 +34308,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       onBeforeMount: vue__WEBPACK_IMPORTED_MODULE_1__.onBeforeMount
     };
   }
-}); //getEvents()のデータの取り方参考
+}); //fullcalendarのgetEvents()のデータの取り方参考
 // const a = this.getEvents();
 // console.log(a[0].extendedProps.edit);
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=script&lang=js":
-/*!******************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=script&lang=js ***!
-  \******************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-
-
-
- //リダイレクト用
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "checkoutForm",
-  setup: function setup() {
-    var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      title: "貸出し予約フォーム",
-      book_title: "こころ",
-      checkoutDate: "",
-      returnDate: "",
-      userId: 2
-    });
-
-    var returnDate = function returnDate() {
-      // const checkoutDay = dayjs().format("YYYY-MM-DD");
-      // document.getElementById("date").setAttribute("min", checkoutDay);
-      //return日に条件を付ける場合add()の第一引数(7日)を変更
-      var returnDay_max = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(7, "d").format("YYYY-MM-DD"); //return_min日はcheckout日の翌日から
-
-      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(data.checkoutDate).add(1, "d").format("YYYY-MM-DD");
-      document.getElementById("date1").setAttribute("max", returnDay_max);
-      document.getElementById("date1").setAttribute("min", returnDay_min);
-      console.log("日=" + returnDay_max);
-      console.log(typeof returnDay === "undefined" ? "undefined" : _typeof(returnDay));
-    };
-
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(data, function () {
-      returnDate();
-    });
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
-
-    var doAction = function doAction() {
-      var url = "http://127.0.0.1:8000/api/bookonloan"; //このページがAPI入出力の窓口として機能している
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post(url, {
-        book_title: data.book_title,
-        checkoutDate: data.checkoutDate,
-        returnDate: data.returnDate,
-        userId: data.userId
-      }).then(function (response) {
-        console.log(response);
-
-        if (confirm("続けて貸出し予約をしますか？")) {
-          data.book_title = "";
-          data.checkoutDate = "";
-          data.returnDate = ""; //「キャンセル」ボタンをクリックした時
-        } else {
-          router.push("/");
-        }
-      })["catch"](function (error) {
-        console.log(error);
-        alert("ご入力された本はありません。\n再入力してください。");
-      });
-    }; //ページ読込み時に貸出日のminを今日、返却日のminを明日にする。
-
-
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      var checkoutDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()().format("YYYY-MM-DD");
-      document.getElementById("date").setAttribute("min", checkoutDay_min);
-      var returnDay_min = dayjs__WEBPACK_IMPORTED_MODULE_2___default()(checkoutDay_min).add(1, "d").format("YYYY-MM-DD");
-      document.getElementById("date1").setAttribute("min", returnDay_min);
-    });
-    return {
-      data: data,
-      doAction: doAction,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted
-    };
-  }
-});
 
 /***/ }),
 
@@ -34485,7 +34395,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var result;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -34494,11 +34403,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get("sanctum/csrf-cookie");
 
               case 2:
-                result = _context.sent;
-                console.log("csrf-cookie=");
-                console.log(result);
-
-              case 5:
               case "end":
                 return _context.stop();
             }
@@ -34535,11 +34439,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             password: data.password
           }).then(function (response) {
             console.log("postレスポンス返ってきたよ");
-            console.log(response.data);
 
             if (response.data["result"] == 'success') {
-              console.log("success");
-              console.log(response.data["studentInfo"]); //storeにlogin情報(studentInfo)を保存
+              console.log("success"); //storeにlogin情報(studentInfo)を保存
 
               _store_js__WEBPACK_IMPORTED_MODULE_3__.store.commit('setStudentInfo', response.data["studentInfo"]); //indexへリダイレクト
 
@@ -34569,14 +34471,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       onMounted: vue__WEBPACK_IMPORTED_MODULE_1__.onMounted
     };
   }
-}); //このコンポーネント以外のブラウザバック動作にも反応する なぜ？
-//→addEventListenerはブラウザ全体の処理になるのでコンポーネントを越える
-// addEventListener("popstate", () => {
-//       history.pushState(null, null, "/login");
-//       this.$router.push("/login");
-// router.go(1);
-// router.go(0);
-// });
+});
+/*
+↓不要コード 参考のため記載↓------------------------------
+このコンポーネント以外のブラウザバック動作にも反応する なぜ？
+    →addEventListenerはブラウザ全体の処理になるのでコンポーネントを越える
+
+    addEventListener("popstate", () => {
+      history.pushState(null, null, "/login");
+      this.$router.push("/login");
+      router.go(1);
+      router.go(0);
+    });
+------------------------------------------------------------    
+*/
 
 /***/ }),
 
@@ -34624,7 +34532,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var result;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -34633,11 +34540,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get("sanctum/csrf-cookie");
 
               case 2:
-                result = _context.sent;
-                console.log("csrf-cookie=");
-                console.log(result);
-
-              case 5:
               case "end":
                 return _context.stop();
             }
@@ -34680,8 +34582,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store.js */ "./resources/js/components/store.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -34690,13 +34590,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
- //リダイレクト用
-
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "UserRegister",
   setup: function setup() {
-    var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.useRouter)();
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       name: "",
       studentNo: "",
@@ -34707,7 +34603,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var getToken = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var result;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -34716,11 +34611,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default().get("sanctum/csrf-cookie");
 
               case 2:
-                result = _context.sent;
-                console.log("csrf-cookie=");
-                console.log(result);
-
-              case 5:
               case "end":
                 return _context.stop();
             }
@@ -34768,7 +34658,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               alert("登録完了。\nログインフォームに入力し、ログインしてください。");
             } else if (response.data["result"] == 'exist') {
               console.log("exist");
-              console.log(response.data["studentInfo"]);
               alert("入力されたstudentNoはすでに登録されています。");
             } else {
               alert("登録エラー。\n再入力してください");
@@ -35162,103 +35051,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $setup.doAction_確定();
     })
   }, "確定"), _hoisted_5, _hoisted_6])]);
-}
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5 ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-var _hoisted_1 = {
-  "class": "form-group",
-  style: {
-    "padding": "30px"
-  }
-};
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "date"
-}, "本のタイトル：", -1
-/* HOISTED */
-);
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "date"
-}, "貸出し日：", -1
-/* HOISTED */
-);
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "date"
-}, "返却日：", -1
-/* HOISTED */
-);
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-  type: "hidden",
-  name: "userId",
-  value: "1"
-}, null, -1
-/* HOISTED */
-);
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.data.title), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form action=\"/api/check\" method=\"post\"> "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
-    placeholder: "本のタイトルを入力",
-    name: "book_title",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $setup.data.book_title = $event;
-    }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.book_title]]), _hoisted_3, _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "date",
-    id: "date",
-    name: "checkoutDate",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $setup.data.checkoutDate = $event;
-    }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.checkoutDate]]), _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "date",
-    id: "date1",
-    name: "returnDate",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $setup.data.returnDate = $event;
-    }),
-    "class": "form-control"
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.data.returnDate]]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn- btn-info text-white mt-2",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $setup.doAction && $setup.doAction.apply($setup, arguments);
-    })
-  }, "送信"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <router-link to=\"index\">AA</router-link>  ")])]);
 }
 
 /***/ }),
@@ -35730,7 +35522,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _components_Index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Index.vue */ "./resources/js/components/Index.vue");
-/* harmony import */ var _components_checkoutForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/checkoutForm */ "./resources/js/components/checkoutForm.vue");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/checkoutForm'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var _components_bookingList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/bookingList */ "./resources/js/components/bookingList.vue");
 /* harmony import */ var _components_calendar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/calendar */ "./resources/js/components/calendar.vue");
 /* harmony import */ var _components_login_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/login_form */ "./resources/js/components/login_form.vue");
@@ -35762,7 +35554,7 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_5__.createRouter)({
   }, {
     path: '/checkoutform',
     name: 'checkoutform',
-    component: _components_checkoutForm__WEBPACK_IMPORTED_MODULE_1__["default"],
+    component: Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/checkoutForm'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()),
     props: true
   }, {
     path: '/bookingList',
@@ -38400,34 +38192,6 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/components/checkoutForm.vue":
-/*!**************************************************!*\
-  !*** ./resources/js/components/checkoutForm.vue ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./checkoutForm.vue?vue&type=template&id=6dd245f5 */ "./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5");
-/* harmony import */ var _checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./checkoutForm.vue?vue&type=script&lang=js */ "./resources/js/components/checkoutForm.vue?vue&type=script&lang=js");
-/* harmony import */ var _home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-const __exports__ = /*#__PURE__*/(0,_home_itsys_Books_calendar_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/checkoutForm.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
 /***/ "./resources/js/components/header.vue":
 /*!********************************************!*\
   !*** ./resources/js/components/header.vue ***!
@@ -38661,22 +38425,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/checkoutForm.vue?vue&type=script&lang=js":
-/*!**************************************************************************!*\
-  !*** ./resources/js/components/checkoutForm.vue?vue&type=script&lang=js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_checkoutForm_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./checkoutForm.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
 /***/ "./resources/js/components/header.vue?vue&type=script&lang=js":
 /*!********************************************************************!*\
   !*** ./resources/js/components/header.vue?vue&type=script&lang=js ***!
@@ -38849,22 +38597,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_calendar_vue_vue_type_template_id_094224ee__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./calendar.vue?vue&type=template&id=094224ee */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/calendar.vue?vue&type=template&id=094224ee");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5":
-/*!********************************************************************************!*\
-  !*** ./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5 ***!
-  \********************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_checkoutForm_vue_vue_type_template_id_6dd245f5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./checkoutForm.vue?vue&type=template&id=6dd245f5 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/checkoutForm.vue?vue&type=template&id=6dd245f5");
 
 
 /***/ }),

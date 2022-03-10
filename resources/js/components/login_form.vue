@@ -24,9 +24,7 @@ export default {
     //なくても正常動作する。index直打ちしてもloginに飛ばされるのでmiddleware認証が機能している。
       //でも公式docに書かれているので下記の処理をする。初期化のためなのかな？
       const getToken = async () => {
-      const result = await axios.get("sanctum/csrf-cookie");
-      console.log("csrf-cookie=");
-      console.log(result); 
+      await axios.get("sanctum/csrf-cookie");
     };
     
     onMounted(() => {

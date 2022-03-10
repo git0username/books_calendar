@@ -45,14 +45,9 @@ export default {
     const url = "api/books";
     const getAPI_books = async () => {
       const result = await axios.get(url);
-      data.result = result.data;       
-      console.log("index.result.data=");
-      // console.log(result.data); 
-      console.log(store.state.studentInfo.studentInfo);
-      console.log("index.data.studentinfo.studentNo");
-      console.log(data.studentInfo.studentNo);
-      // data.studentInfo = store.state.studentInfo;
+      data.result = result.data;
     }
+    
     onMounted(() => {
     getAPI_books();
     });

@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     public function authenticate(Request $request)
-    {        
+    {    
+        if(array_key_exists('name', $request->toArray()) && !($request->name == 'admin')){//nameが'admin'と一致しない場合
+            return response(["result" => "admin_fail"] ,200); //認証はじく
+        }
+
         $credentials = $request->validate([
             'studentNo' => ['required'],
             'password' => ['required'],

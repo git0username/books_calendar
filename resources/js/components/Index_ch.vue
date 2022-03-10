@@ -12,9 +12,6 @@
 import { reactive, onMounted } from "vue";
 import { useRouter } from 'vue-router'; //リダイレクト用
 import { store } from "./store.js";
-// import Router from 'Router.vue'
-// import { Calendar } from '@fullcalendar/core';
-
 
 export default {
   name: "Index_ch",

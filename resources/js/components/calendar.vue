@@ -44,7 +44,7 @@ export default {
       title: store_calendar.title,
       studentNo: store.state.studentInfo.studentInfo.studentNo,
       number: store_calendar.number, //本の全数
-      calendarInfo: [],
+      calendarInfo: [], //api取得後addEventSource()でeventsに設定するための配列
       new_reserve_arr: [], //DBに渡す用add_arr
       onloanDate_delete_arr: [], //DBに渡す用delete_arr
       onloanDate_edit_arr:[], //DBに渡す用edit_arr 
@@ -64,17 +64,23 @@ export default {
         navLinks: false,
         // contentHeight:'auto', //全量表示の設定
 
-        // events:data.calendarInfo,
-        events:[],          
+        /*
+        events:data.calendarInfo,
+        ↑ここで配列読込ませるとaxios.getが間に合わずdata.calendarInfoは空のまま読込まれる。→空のdata.calendarInfoを持ってfullcalendarインスタンスが生成されるので、生成後にdata.calendarInfoにデータをいくらpushしても反映されない。なのでapiを取得してdata.calendarInfoにデータを格納してから、eventaddする。
+        */
+
+        events:[], //ここで配列を読込ませない。上記の理由と、編集中eventを次月でもキープするため。
               
-        // events:{
-        //   url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
+        /*
+        events:{
+          url:  '/api/calendar/'+ data.booktypeId + '/' + data.studentNo,         
           
-        //   // color: 'yellow',   // an option!
-        //   // textColor: 'black', // an option!
-        //   // allDay: true,
-        //   // allDayDefault:true,
-        //  },
+          // color: 'yellow',   // an option!
+          // textColor: 'black', // an option!
+          // allDay: true,
+          // allDayDefault:true,
+         },
+         */
 
         // eventSources:['https://holidays-jp.github.io/api/v1/datetime.json'], 
         
@@ -258,7 +264,6 @@ export default {
 
         //イベントドロップした時の挙動▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
         eventDrop: function(drop_item){
-          console.log(drop_item.event.extendedProps);
           const startStr_drop = drop_item.event.startStr;
           //fullcalendarのendは1日ずれるので調整
           const endStr_drop = dayjs(drop_item.event.endStr).add(-1, 'd').format("YYYY-MM-DD");
@@ -369,34 +374,43 @@ export default {
        getfullBooked_own_date();        
      });
 
-     //nextMonthならsessionstorageに編集中データを格納    
-    //  document.addEventListener("DOMContentLoaded", function(){
-    //     var nextMonth = document.querySelector("[title='Next month']");
-    //     if (!nextMonth){ return false;}
-    //     nextMonth.addEventListener('click', function() {
-    //           //今のevent状況にする
-    //           store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
-    //         });
-    //   });
+     /*
+     編集中データをキープするため、nextMonthボタンをクリックした時sessionstorageにeventの編集中データを格納
+     →不要になった。
+     →理由：カレンダー読込み時はevents空、axios.getでapi取得後、addEventSource()でdata.calendarInfo配列をeventsに入れることによって新規イベントとしてDOMにイベントが追加される。
+     そのため、次月ボタンを押してもeventsが再読込みされず編集中データがDOMにキープされる。
+     よって、編集中データをsessionstorageに仮保存しなくてよくなった。
 
-      //祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
-      // const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
-      // const sosen = child.parentElement; // 祖先要素を取得
-      // const sosen2 = sosen.parentElement;
-      // console.log("child");
-      // console.log(sosen2); 
-      // const child1 =document.getElementsByClassName('holiday');
-      // const length = child1.length;
-      // console.log("child");
-      // console.log(child1);
-      // console.log(child1[0]);//htmlcoleectionからなぜか値を取得できない
-      // console.log(length);
-      //--------------------------------------------------------------------------------------------------
+     document.addEventListener("DOMContentLoaded", function(){
+        var nextMonth = document.querySelector("[title='Next month']");
+        if (!nextMonth){ return false;}
+        nextMonth.addEventListener('click', function() {
+              //今のevent状況にする
+              store.commit('setCalendarEdit_data', {delete: data.onloanDate_delete_arr, edit: data.bookedday_own_arr});
+            });
+      });
+      */
+
+      /*
+      祝日の背景色を変えたかった 途中 完成したらonMountedに入れる----------------------------------------
+      const child =document.getElementsByClassName('ko')[0]; // 子要素を変数に代入
+      const sosen = child.parentElement; // 祖先要素を取得
+      const sosen2 = sosen.parentElement;
+      console.log("child");
+      console.log(sosen2); 
+      const child1 =document.getElementsByClassName('holiday');
+      const length = child1.length;
+      console.log("child");
+      console.log(child1);
+      console.log(child1[0]);//htmlcoleectionからなぜか値を取得できない
+      console.log(length);
+      --------------------------------------------------------------------------------------------------
+      */
     
     return{ data, calendar, onMounted, watch, doAction_確定, onBeforeMount };    
   }
 };
- //getEvents()のデータの取り方参考
+ //fullcalendarのgetEvents()のデータの取り方参考
     // const a = this.getEvents();
     // console.log(a[0].extendedProps.edit);      
 </script>

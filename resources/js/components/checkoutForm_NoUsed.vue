@@ -1,4 +1,4 @@
-<template>
+<template> <!-- これは不要なコンポーネント 参考に置いてます -->
   <div>
     <h3>{{ data.title }}</h3>
     <div class="form-group" style="padding:30px">

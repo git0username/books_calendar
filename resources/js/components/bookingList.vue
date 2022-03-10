@@ -44,15 +44,13 @@ export default {
       const url = "api/bookonloan/" + data.studentNo ; //このページがAPI入出力の窓口として機能している
       const response = await axios.get(url);
       console.log(response.data);
-      data.table_obj = response.data;  
-      //  console.log(store.state.studentInfo.studentInfo);
+      data.table_obj = response.data; 
     };
 
     onMounted(() => {
       getAction();
     });
-
-
+    
     return { data, getAction };
   }
 };
