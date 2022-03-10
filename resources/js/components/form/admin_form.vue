@@ -16,7 +16,7 @@
 import { reactive, onMounted, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router"; //リダイレクト用
-import { store } from "./store.js";
+import { store } from "../store/store";
 
 export default {
   name: "Admin",

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Index from './components/Index.vue'
-import bookingList from './components/bookingList'
+import Index from './components/index/Index.vue'
+import bookingList from './components/bookingList/bookingList'
 import calendar from './components/calendar'
-import login_form from './components/login_form'
+import login_form from './components/form/login_form'
 
 
 export const router = createRouter({

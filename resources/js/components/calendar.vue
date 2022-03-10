@@ -23,7 +23,7 @@ import { useRouter } from 'vue-router';
 import axios from "axios";
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { store } from "./store.js";
+import { store } from "./store/store.js";
 import Header from "./header.vue";
 
 
@@ -95,7 +95,7 @@ export default {
           const startStr = dayjs(select_item.start).format("YYYY-MM-DD")
 
           //今日以前は選択できない。
-          if(select_item.startStr < today){ //選択した日が今日以前なら
+          if(!store.state.studentInfo.studentInfo.name == 'admin' && select_item.startStr < today){ //選択した日が今日以前なら
             alert("今日以前は選択できません。\n必要な場合は管理者情報を入力してください");
             return;
           }      
@@ -403,9 +403,11 @@ export default {
     // console.log(a[0].extendedProps.edit);      
 </script>
 
-<!--<style src="../css/calendar.css" scoped>
+<!--↓の書き方だとscopedが利かなかった
+<style src="../css/calendar.css" scoped>
 /* @import "../css/calendar.css"; */
-</style>-->
+</style>
+-->
 
 <style >
 /* .fc-daygrid-day-frame {

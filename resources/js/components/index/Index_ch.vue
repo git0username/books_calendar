@@ -11,7 +11,7 @@
 <script>
 import { reactive, onMounted } from "vue";
 import { useRouter } from 'vue-router'; //リダイレクト用
-import { store } from "./store.js";
+import { store } from "../store/store.js";
 
 export default {
   name: "Index_ch",

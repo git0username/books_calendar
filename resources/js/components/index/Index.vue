@@ -27,7 +27,7 @@
 import { reactive, onMounted, } from "vue";
 import axios from "axios";
 import Index_ch from "./Index_ch.vue";
-import Header from "./header.vue";
+import Header from "../header.vue";
 
 
 

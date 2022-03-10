@@ -10,14 +10,12 @@
           <th>貸出日</th>
           <th>返却日</th>
         </tr>
-      </thead>
-       <!-- <tbody class="text-left align-middle" id="tbodyID">     -->
+      </thead>      
       <bookingList_ch
         v-for="(item, index) in data.table_obj"
         v-bind:key="index"
         v-bind:item="item"
-      />
-       <!-- </tbody> -->
+      />       
     </table>
   </div>
 </template>
@@ -26,8 +24,8 @@
 import { reactive, onMounted } from "vue";
 import axios from "axios";
 import bookingList_ch from "./bookingList_ch.vue";
-import Header from "./header.vue";
-import { store } from "./store.js";
+import Header from "../header.vue";
+import { store } from "../store/store.js";
 
 export default {
   name: "bookingList",
